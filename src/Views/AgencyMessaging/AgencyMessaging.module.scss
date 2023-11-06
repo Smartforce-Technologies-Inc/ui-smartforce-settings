@@ -1,0 +1,24 @@
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.agencyMessaging {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 16px 16px;
+
+  .footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 12px;
+  }
+
+  @media screen and (min-width: $sf-media-sm-width) {
+    padding: 0;
+
+    .footer {
+      margin-top: 0;
+    }
+  }
+}

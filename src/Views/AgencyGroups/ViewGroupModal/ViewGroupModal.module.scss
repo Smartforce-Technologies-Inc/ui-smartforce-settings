@@ -1,0 +1,30 @@
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.viewGroupModal {
+  .drawerContent {
+    padding-right: 0;
+  }
+
+  .dialogContainer {
+    box-sizing: border-box;
+  }
+
+  .dialogContent {
+    padding-right: 0;
+  }
+
+  .spinner {
+    padding: 36px 36px 36px 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 24px;
+  }
+}

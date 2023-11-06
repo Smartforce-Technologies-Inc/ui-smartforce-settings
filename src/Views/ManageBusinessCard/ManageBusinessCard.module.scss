@@ -1,0 +1,95 @@
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.manageBusinessCard {
+  display: grid;
+
+  .scrollableContainer {
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+
+      .textContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        .title {
+          margin: 0;
+          line-height: 28px;
+        }
+
+        .description {
+          font-weight: 400;
+          color: $sf-grey-600;
+          margin: 0;
+        }
+      }
+    }
+
+    .businessCard {
+      padding: 12px;
+      background-color: $sf-background-light;
+      display: none;
+      flex-direction: column;
+      width: fit-content;
+
+      .businessCardContainer {
+        padding: 12px;
+      }
+    }
+
+    .footer {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
+
+:global(.nightMode) {
+  .manageBusinessCard {
+    .scrollableContainer {
+      .content {
+        .textContainer {
+          .description {
+            color: $sf-grey-400;
+          }
+        }
+      }
+
+      .businessCard {
+        background-color: $sf-background-dark;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-sm-width) {
+  .manageBusinessCard {
+    padding: 0;
+
+    .scrollableContainer {
+      .content {
+        padding-right: 12px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-xl-width) {
+  .manageBusinessCard {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+    grid-template-rows: 100%;
+    overflow: auto;
+
+    .scrollableContainer {
+      height: 100%;
+
+      .businessCard {
+        display: flex;
+      }
+    }
+  }
+}

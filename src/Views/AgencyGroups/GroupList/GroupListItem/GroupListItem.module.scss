@@ -1,0 +1,41 @@
+.groupListItem {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 12px;
+  padding: 20px 25px 20px 13px;
+  box-sizing: border-box;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgba(204, 204, 204, 0.3);
+    }
+  }
+
+  &:active {
+    background-color: rgba(204, 204, 204, 0.5);
+  }
+}
+
+.optionsMenu {
+  li {
+    min-height: unset;
+  }
+}
+
+:global(.nightMode) {
+  .groupListItem {
+    @media (hover: hover) {
+      &:hover {
+        background-color: rgba(128, 128, 128, 0.3);
+      }
+    }
+
+    &:active {
+      background-color: rgba(128, 128, 128, 0.5);
+    }
+  }
+}

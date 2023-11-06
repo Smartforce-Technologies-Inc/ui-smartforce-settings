@@ -1,0 +1,15 @@
+.agencyMembersForm {
+  .emails {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    &.emptyList {
+      [class*='MuiFormControl-root'] {
+        div:last-child {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}

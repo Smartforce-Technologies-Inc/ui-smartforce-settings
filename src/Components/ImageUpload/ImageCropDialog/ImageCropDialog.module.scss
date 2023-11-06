@@ -1,0 +1,120 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.uploadImgDialog {
+  box-sizing: border-box;
+  grid-template-rows: 50px 1fr 74px;
+  display: grid;
+
+  header {
+    display: flex;
+    align-items: center;
+    height: 50px;
+
+    h4 {
+      margin: 0;
+      flex: 1;
+      text-align: center;
+      margin-right: -42px;
+    }
+  }
+
+  .dialogContent {
+    background-color: $sf-background-light;
+    margin: 12px 16px 8px 16px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .scrollable {
+      height: unset;
+    }
+  }
+
+  footer {
+    margin-top: auto;
+    padding: 16px;
+  }
+
+  canvas {
+    display: none;
+  }
+}
+
+:global(.nightMode) {
+  .uploadImgDialog {
+    .dialogContent {
+      background-color: $sf-background-dark;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-sm-width) {
+  .uploadImgDialog {
+    grid-template-rows: 28px minmax(0px, 1fr) 42px;
+    max-width: unset;
+    width: 534px;
+    padding: 36px;
+    gap: 24px;
+    margin: 0;
+
+    header {
+      height: 28px;
+      align-items: flex-start;
+
+      h4 {
+        text-align: left;
+        flex: unset;
+        font-size: 24px;
+        line-height: 28px;
+      }
+
+      button {
+        display: none;
+      }
+    }
+
+    .dialogContent {
+      margin: 0;
+    }
+
+    footer {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-md-width) {
+  .uploadImgDialog {
+    width: 476px;
+
+    .dialogContent {
+      .scrollable {
+        height: 100%;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-lg-width) {
+  .uploadImgDialog {
+    width: 604px;
+  }
+}
+
+@media screen and (min-width: $sf-media-xl-width) {
+  .uploadImgDialog {
+    width: 764px;
+  }
+}
+
+@media screen and (min-width: $sf-media-xxl-width) {
+  .uploadImgDialog {
+    width: 924px;
+  }
+}

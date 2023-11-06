@@ -1,0 +1,31 @@
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+@mixin settingsContainer() {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: 1fr 74px;
+
+  @media screen and (min-width: $sf-media-sm-width) {
+    grid-template-rows: 1fr 58px;
+  }
+}
+
+.scrollable {
+  min-height: 0;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: $sf-media-sm-width) {
+  .footer {
+    padding: 24px 0 0 0;
+  }
+}

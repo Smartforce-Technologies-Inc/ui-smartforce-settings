@@ -1,0 +1,28 @@
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.groupInfoMembers {
+  padding-right: 16px;
+
+  .emptyMsg {
+    text-align: center;
+    padding: 31px 0;
+  }
+
+  .addMember {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 36px;
+    box-sizing: border-box;
+  }
+
+  .search {
+    padding: 0 13px 20px;
+  }
+}
+
+@media screen and (min-width: $sf-media-sm-width) {
+  .groupInfoMembers {
+    padding-right: 36px;
+  }
+}

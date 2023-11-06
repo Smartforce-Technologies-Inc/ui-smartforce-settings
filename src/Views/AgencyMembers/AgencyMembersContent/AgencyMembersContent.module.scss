@@ -1,0 +1,28 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.agencyMembersContent {
+  .searchUser {
+    margin: 36px 13px 0;
+  }
+
+  > hr {
+    padding-top: 20px;
+  }
+
+  .seeMore {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0 8px 0;
+    box-sizing: border-box;
+  }
+}
+
+:global(.nightMode) {
+  .agencyMembersContent {
+    .noMembersResult {
+      .description {
+        color: $sf-grey-400;
+      }
+    }
+  }
+}

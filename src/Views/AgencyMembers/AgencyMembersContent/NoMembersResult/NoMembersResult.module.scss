@@ -1,0 +1,31 @@
+@import '~sfui/dist/Styles/SFTypography/SFTypography.module.scss';
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.noMembersResult {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding-top: 30px;
+  box-sizing: border-box;
+
+  p {
+    margin: 0;
+    @include component-1;
+  }
+
+  .description {
+    color: $sf-grey-600;
+  }
+
+  .value {
+    font-weight: 500;
+  }
+}
+
+:global(.nightMode) {
+  .noMembersResult {
+    .description {
+      color: $sf-grey-400;
+    }
+  }
+}

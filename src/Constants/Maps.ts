@@ -1,0 +1,1 @@
+export const DEFAULT_SQUARE_DIAG_KM_DISTANCE = 0.7;

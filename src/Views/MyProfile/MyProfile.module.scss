@@ -1,0 +1,24 @@
+@import '../SettingsContentRender.module.scss';
+
+.myProfile {
+  @include settingsContainer();
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+
+    .role {
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+
+      .chipGroups {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+    }
+  }
+}
