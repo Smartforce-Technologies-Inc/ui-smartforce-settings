@@ -7,7 +7,10 @@ import {
   ANNUALLY_FEE_ENGAGE,
   ANNUALLY_FEE_ANALYTICS,
   MONTHLY_FEE_ENGAGE,
-  MONTHLY_FEE_ANALYTICS
+  MONTHLY_FEE_ANALYTICS,
+  PLAN_SCHEDULE,
+  ANNUALLY_FEE_SCHEDULE,
+  MONTHLY_FEE_SCHEDULE
 } from '../Constants';
 import { BillingCycleType, Customer, Subscription } from '../Models';
 import { upperFirstChar } from './format';
@@ -23,6 +26,10 @@ export function isPlanEngage(plan?: string): boolean {
 
 export function isPlanAnalytics(plan?: string): boolean {
   return plan === PLAN_ANALYTICS;
+}
+
+export function isPlanSchedule(plan?: string): boolean {
+  return plan === PLAN_SCHEDULE;
 }
 
 export function getPlanLabel(plan: string): string {
@@ -50,6 +57,14 @@ export function getInvoiceAmmount(
   seats: number
 ): number {
   if (plan === PLAN_CONNECT) return 0;
+
+  if (plan === PLAN_SCHEDULE) {
+    if (billCycle === 'annually') {
+      return ANNUALLY_FEE_SCHEDULE * seats;
+    }
+
+    return MONTHLY_FEE_SCHEDULE * seats;
+  }
 
   if (isColorado) {
     if (plan === PLAN_ENGAGE) return 0;
