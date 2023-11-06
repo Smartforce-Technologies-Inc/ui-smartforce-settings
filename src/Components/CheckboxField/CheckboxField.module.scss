@@ -1,0 +1,25 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.field {
+  .fieldLabel {
+    color: $sf-grey-600;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0px;
+  }
+
+  .options {
+    display: grid;
+    margin: 6px 0 0 0;
+  }
+}
+
+:global(.nightMode) {
+  .field {
+    .fieldLabel {
+      color: $sf-grey-400;
+    }
+  }
+}

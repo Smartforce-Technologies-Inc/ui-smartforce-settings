@@ -1,0 +1,15 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.actionInfo {
+  .name {
+    color: $sf-blue-main-light;
+  }
+}
+
+:global(.nightMode) {
+  .actionInfo {
+    .name {
+      color: $sf-blue-main-dark;
+    }
+  }
+}

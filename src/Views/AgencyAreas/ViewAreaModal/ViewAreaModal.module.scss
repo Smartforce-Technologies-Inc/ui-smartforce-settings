@@ -1,0 +1,50 @@
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.viewAreaModal {
+  .drawerContent {
+    padding-bottom: 16px;
+  }
+
+  .dialogPaper {
+    box-sizing: border-box;
+    margin: 24px;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .dialogContainer {
+    height: 100%;
+  }
+  .container {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr);
+    gap: 24px;
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (min-width: $sf-media-md-width) {
+  .viewAreaModal {
+    .dialogPaper {
+      width: 642px;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-xl-width) {
+  .viewAreaModal {
+    .dialogPaper {
+      width: 764px;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-xxl-width) {
+  .viewAreaModal {
+    .dialogPaper {
+      width: 924px;
+    }
+  }
+}

@@ -1,0 +1,106 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.memberListItem {
+  &:last-child {
+    .itemWrapper {
+      border-bottom: none;
+    }
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      cursor: pointer;
+      background-color: rgba($sf-grey-a100, 0.3);
+    }
+  }
+
+  &:active {
+    background-color: rgba($sf-grey-a100, 0.5);
+  }
+
+  .itemWrapper {
+    padding: 20px 12px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 42px;
+    border-bottom: 1px solid $sf-grey-100;
+
+    .content {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 20px;
+      padding-right: 20px;
+      align-items: center;
+      box-sizing: border-box;
+
+      .memberInfo {
+        overflow: auto;
+        font-size: 14px;
+        line-height: 20px;
+
+        > p {
+          margin: 0;
+        }
+
+        .textNeutral {
+          color: $sf-grey-600;
+        }
+
+        .nameWrapper {
+          display: grid;
+          grid-template-columns: auto 1fr;
+          gap: 4px;
+
+          .name {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+          }
+        }
+
+        .email {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .chips {
+          display: flex;
+          gap: 2px;
+          padding-top: 8px;
+        }
+      }
+    }
+
+    .menu {
+      > button {
+        transform: rotate(-90deg);
+      }
+    }
+  }
+}
+
+:global(.nightMode) {
+  .memberListItem {
+    @media (hover: hover) {
+      &:hover {
+        background-color: rgba($sf-grey-500, 0.3);
+      }
+    }
+
+    &:active {
+      background-color: rgba($sf-grey-500, 0.5);
+    }
+
+    .itemWrapper {
+      border-color: $sf-grey-700;
+
+      .content {
+        .memberInfo {
+          .textNeutral {
+            color: $sf-grey-400;
+          }
+        }
+      }
+    }
+  }
+}

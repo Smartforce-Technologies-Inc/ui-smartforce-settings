@@ -1,0 +1,34 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.googleMap {
+  height: 100%;
+  position: relative;
+
+  [class='sfMapLegend'] {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 12px;
+    font-size: 10px;
+    line-height: 12px;
+    color: $sf-grey-400;
+    background-color: $sf-surface-light;
+    border-radius: 2px;
+    border: 1px solid $sf-grey-50;
+    z-index: 10;
+  }
+}
+
+:global(.gm-style-cc) {
+  display: none;
+}
+
+:global(.nightMode) {
+  .googleMap {
+    [class='sfMapLegend'] {
+      color: $sf-grey-50;
+      background-color: $sf-surface-dark;
+      border-color: $sf-grey-900;
+    }
+  }
+}

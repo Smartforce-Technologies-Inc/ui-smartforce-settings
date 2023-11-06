@@ -1,0 +1,15 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.agencyForm {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  [class*='MuiAlert-standardError'] {
+    a {
+      color: $sf-red-900;
+      font-weight: 500;
+    }
+  }
+}

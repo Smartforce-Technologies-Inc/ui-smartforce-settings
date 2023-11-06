@@ -1,0 +1,23 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.loader {
+  height: 100%;
+  // background-color: $sf-background-light;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: transparent;
+}
+
+// :global(.nightMode) {
+//   .loader {
+//     background-color: $sf-background-dark;
+//   }
+// }

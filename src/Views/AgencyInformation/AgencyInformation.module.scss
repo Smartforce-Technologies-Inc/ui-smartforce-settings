@@ -1,0 +1,5 @@
+@import '../SettingsContentRender.module.scss';
+
+.agencyInformation {
+  @include settingsContainer();
+}

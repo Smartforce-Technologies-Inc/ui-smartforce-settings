@@ -1,0 +1,50 @@
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.agencyAreasModal {
+  .drawerContent > div {
+    overflow: unset;
+  }
+
+  .dialogPaper {
+    box-sizing: border-box;
+    margin: 24px;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .dialogContainer {
+    height: 100%;
+  }
+
+  .areaForm {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 12px;
+  }
+}
+
+@media screen and (min-width: $sf-media-md-width) {
+  .agencyAreasModal {
+    .dialogPaper {
+      width: 642px;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-xl-width) {
+  .agencyAreasModal {
+    .dialogPaper {
+      width: 764px;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-xxl-width) {
+  .agencyAreasModal {
+    .dialogPaper {
+      width: 924px;
+    }
+  }
+}

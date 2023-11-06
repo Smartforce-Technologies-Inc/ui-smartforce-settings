@@ -1,0 +1,100 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.settings {
+  height: 100%;
+
+  .settingsCards {
+    box-sizing: border-box;
+    padding: 0 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .title {
+    padding: 23px 16px;
+    margin: 0;
+  }
+
+  .container {
+    gap: 36px;
+    display: grid;
+    grid-template-columns: 1fr;
+
+    .scrollable {
+      min-height: 0;
+    }
+
+    .sectionMenu {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+}
+
+:global(.isSafari) {
+  .settings {
+    .container {
+      grid-template-rows: 100%;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-sm-width) {
+  .settings {
+    padding: 0 24px 24px;
+    box-sizing: border-box;
+
+    .title {
+      padding: 24px;
+    }
+
+    .container {
+      grid-template-columns: 220px 1fr;
+      padding: 36px 0 36px 36px;
+      box-sizing: border-box;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-md-width) {
+  .settings {
+    .container {
+      grid-template-columns: 208px 1fr;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-lg-width) {
+  .settings {
+    padding: 0 48px 48px;
+
+    .title {
+      padding: 27px 48px;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-xl-width) {
+  .settings {
+    .container {
+      grid-template-columns: 274px 1fr;
+
+      .scrollable {
+        .isBusinessCard {
+          overflow: unset;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-xxl-width) {
+  .settings {
+    .container {
+      grid-template-columns: 341px 1fr;
+    }
+  }
+}

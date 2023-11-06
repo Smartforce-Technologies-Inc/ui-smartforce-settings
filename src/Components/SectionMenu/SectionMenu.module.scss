@@ -1,0 +1,28 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.sectionMenu {
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0;
+  font-weight: 500;
+  color: $sf-grey-600;
+
+  &.selected {
+    font-weight: 700;
+    color: $sf-grey-900;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+:global(.nightMode) {
+  .sectionMenu {
+    color: $sf-grey-400;
+
+    &.selected {
+      color: $sf-grey-50;
+    }
+  }
+}
