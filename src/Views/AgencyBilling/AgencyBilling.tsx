@@ -55,7 +55,9 @@ export const AgencyBilling = ({
             Additional Seats
           </SFText>
           <SFText type="component-title-number">
-            {total_seats_billed - total_seats_used}
+            {total_seats_billed === -1
+              ? 0
+              : total_seats_billed - total_seats_used}
           </SFText>
         </div>
       </div>
