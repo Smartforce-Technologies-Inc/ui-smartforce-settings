@@ -19,10 +19,10 @@ const CC_QA_URL: string = 'https://qa.citizencontact.app/';
 const CC_DEMO_URL: string = 'https://demo.citizencontact.app/';
 
 // Shift Urls
-const SHIFT_PROD_URL: string = 'http://shifts.smartforce.com/';
+const SHIFT_PROD_URL: string = 'https://shifts.smartforce.com/';
 const SHIFT_DEV_URL: string = 'http://localhost:3001/';
-const SHIFT_QA_URL: string = 'http://shifts-qa.smartforce.com/';
-const SHIFT_DEMO_URL: string = 'http://shifts-demo.smartforce.com/';
+const SHIFT_QA_URL: string = 'https://shifts-qa.smartforce.com/';
+const SHIFT_DEMO_URL: string = 'https://shifts-demo.smartforce.com/';
 
 // Api Urls
 export const API_PROD_URL: string = 'https://hub.smartforce.com/api';
