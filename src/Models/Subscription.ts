@@ -15,7 +15,7 @@ export interface SubscriptionPayment {
   card: SubscriptionPaymentCard | null;
 }
 
-export type SubscriptionPlan = 'basic' | 'connect' | 'analytics';
+export type SubscriptionPlan = 'basic' | 'connect' | 'analytics' | 'schedule';
 export type SubscriptionStatus =
   | 'Active'
   | 'Incomplete'
