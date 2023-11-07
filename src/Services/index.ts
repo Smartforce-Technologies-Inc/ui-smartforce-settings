@@ -2,7 +2,6 @@ export * from './AreasService';
 export * from './AuthService';
 export * from './CustomerService';
 export * from './NotificationsService';
-export * from './EmailService';
 export * from './GroupService';
 export * from './MemberService';
 export * from './SubscriptionService';

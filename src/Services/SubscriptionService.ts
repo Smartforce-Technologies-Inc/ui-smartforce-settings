@@ -1,13 +1,11 @@
 import { apiGet } from '../Helpers';
 import {
   ApplicationProduct,
-  ContactSalesValue,
   Subscription,
   SubscriptionPaymentCard,
   SubscriptionValue
 } from '../Models';
 import { getUserSession } from './AuthService';
-import { sendEmail } from './EmailService';
 
 export const getSubscriptions = (baseUrl: string): Promise<Subscription[]> => {
   const url: string = `${baseUrl}/subscriptions/me`;
@@ -130,13 +128,6 @@ export const updateSubscription = async (
   } catch (e) {
     return Promise.reject(e);
   }
-};
-
-export const contactSales = async (
-  baseUrl: string,
-  data: ContactSalesValue
-): Promise<void> => {
-  return sendEmail(baseUrl, 'cc_payments_contact_sales', { ...data });
 };
 
 export const updateCreditCard = async (
