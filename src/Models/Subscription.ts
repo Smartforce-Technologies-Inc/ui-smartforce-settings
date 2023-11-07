@@ -1,6 +1,7 @@
 import { ApplicationProduct } from './Apps';
 
 export type BillingCycleType = 'monthly' | 'annually';
+export type PaymentMethod = 'card' | 'wire' | 'check';
 
 export interface SubscriptionPaymentCard {
   name: string;
@@ -46,25 +47,18 @@ export interface BillingDetailsValue {
 }
 
 export interface ContactDetailsValue {
-  owner_name: string;
-  owner_email: string;
+  full_name: string;
   phone: string;
-  agency_name: string;
+  email: string;
 }
 
 export interface SubscriptionValue {
-  plan?: string;
-  card_token: string;
-  additional_seats: number;
-  billing_cycle: BillingCycleType;
-  billing_details: BillingDetailsValue;
-  product: ApplicationProduct;
-}
-
-export interface ContactSalesValue
-  extends Omit<ContactDetailsValue, 'agency_name'> {
   plan: string;
   product: ApplicationProduct;
-  payment_method: string;
-  additional_seats: number;
+  card_token?: string;
+  payment_method: PaymentMethod;
+  additional_seats?: number;
+  billing_cycle?: BillingCycleType;
+  billing_details?: BillingDetailsValue;
+  contact_details?: ContactDetailsValue;
 }
