@@ -50,6 +50,7 @@ export interface ContactDetailsValue {
   full_name: string;
   phone: string;
   email: string;
+  agency_name: string;
 }
 
 export interface SubscriptionValue {
