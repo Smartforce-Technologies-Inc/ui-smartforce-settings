@@ -1,7 +1,7 @@
 import { ApplicationProduct } from './Apps';
 
 export type BillingCycleType = 'monthly' | 'annually';
-export type PaymentMethod = 'card' | 'wire' | 'check';
+export type PaymentMethod = 'card' | 'wire_transfer' | 'check';
 
 export interface SubscriptionPaymentCard {
   name: string;
@@ -50,6 +50,7 @@ export interface ContactDetailsValue {
   full_name: string;
   phone: string;
   email: string;
+  agency_name: string;
 }
 
 export interface SubscriptionValue {
