@@ -17,7 +17,7 @@ export const createSubscription = async (
   subscription: SubscriptionValue
 ): Promise<Subscription> => {
   try {
-    const url: string = `${baseUrl}/subscriptions`;
+    const url: string = `${baseUrl}/subscriptions/`;
 
     const fetchResp = await fetch(url, {
       method: 'POST',
