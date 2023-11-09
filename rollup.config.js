@@ -43,7 +43,7 @@ export default defineConfig([
       peerDepsExternal(),
       resolve(),
       commonjs({ sourceMap: !isProduction }),
-      typescript({ sourceMap: !isProduction }),
+      typescript({ sourceMap: !isProduction, exclude: ['./dev/**/*'] }),
       styles({
         plugins: [autoprefixer()],
         sourceMap: true,
