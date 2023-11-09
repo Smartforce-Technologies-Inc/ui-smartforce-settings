@@ -39,6 +39,7 @@ const onGetStarted = (env: AppEnv, product: ApplicationProduct) => {
 };
 
 export interface SFSettingsProps {
+  className?: string;
   stripeApiKey: string;
   selectedSectionName?: string;
   enviroment: AppEnv;
@@ -63,6 +64,7 @@ export interface SectionCardValue {
 }
 
 export const SFSettings = ({
+  className,
   stripeApiKey,
   selectedSectionName,
   enviroment,
@@ -359,7 +361,7 @@ export const SFSettings = ({
 
   return (
     <ApiContext.Provider value={getApiBaseUrl(enviroment)}>
-      <div className={styles.settings}>
+      <div className={`${styles.settings} ${className || ''}`}>
         {isPhone && (
           <Fragment>
             <SFScrollable containerClassName={styles.settingsCards}>
