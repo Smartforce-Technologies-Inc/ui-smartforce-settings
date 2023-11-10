@@ -8,16 +8,12 @@ import { Divider } from '../../../Components/Divider/Divider';
 
 export interface AgencyEventsListProps {
   events: AgencyEvent[];
-  onView: (event: AgencyEvent) => void;
   onDelete: (event: AgencyEvent) => void;
-  onEdit: (event: AgencyEvent) => void;
 }
 
 export const AgencyEventsList = ({
   events,
-  onView,
-  onDelete,
-  onEdit
+  onDelete
 }: AgencyEventsListProps): React.ReactElement<AgencyEventsListProps> => {
   return (
     <div className={styles.agencyAreasList}>
@@ -26,8 +22,6 @@ export const AgencyEventsList = ({
           <SFCollapse key={event.name} timeout={480}>
             <AgencyEventsListItem
               event={event}
-              onClick={() => onView(event)}
-              onEdit={() => onEdit(event)}
               onDelete={() => onDelete(event)}
             />
             {index < events.length - 1 && <Divider />}
