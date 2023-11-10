@@ -1,6 +1,7 @@
 import {
   API_DEMO_URL,
   API_DEV_URL,
+  API_LOCAL_URL,
   API_PROD_URL,
   API_QA_URL,
   SF_APPS_URLS_DICT
@@ -22,7 +23,9 @@ export const getApiBaseUrl = (env: AppEnv): string => {
       return API_QA_URL;
     case 'demo':
       return API_DEMO_URL;
-    default:
+    case 'development':
       return API_DEV_URL;
+    default:
+      return API_LOCAL_URL;
   }
 };

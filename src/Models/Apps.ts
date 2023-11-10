@@ -1,4 +1,4 @@
-export type AppEnv = 'qa' | 'demo' | 'development' | 'production';
+export type AppEnv = 'local' | 'development' | 'qa' | 'demo' | 'production';
 
 export type ApplicationProduct = 'cc' | 'shift';
 
