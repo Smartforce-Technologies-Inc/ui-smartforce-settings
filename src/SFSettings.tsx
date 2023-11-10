@@ -36,6 +36,7 @@ import {
 } from './Constants';
 import { AppEnv, ApplicationProduct } from './Models/Apps';
 import { getApiBaseUrl, getAppBaseUrl } from './Helpers/application';
+import { AgencyShifts } from './Views/AgencyShifts/AgencyShifts';
 
 export const ApiContext = createContext<string>('');
 
@@ -304,8 +305,7 @@ export const SFSettings = ({
             name: 'shifts',
             viewTitle: 'Manage Shifts',
             description: "Add and manage your agency's shifts.",
-            //TODO
-            component: <div></div>
+            component: <AgencyShifts onError={onError} onClose={onPanelDone} />
           }
         ]
       }

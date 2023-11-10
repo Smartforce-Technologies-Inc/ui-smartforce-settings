@@ -4,6 +4,7 @@ export * from './CustomerService';
 export * from './NotificationsService';
 export * from './GroupService';
 export * from './MemberService';
+export * from './ShiftsService';
 export * from './SubscriptionService';
 export * from './StripeService';
 export * from './UserService';
