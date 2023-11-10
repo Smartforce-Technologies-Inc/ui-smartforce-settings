@@ -2,7 +2,6 @@ import React from 'react';
 import { SettingsContentRender } from '../SettingsContentRender';
 import { SettingsError } from '../../Models/Error';
 import { AgencyEvent } from '../../Models/AgencyEvents';
-import { AgencyEventsContext } from '../../Context';
 import { ListManagment } from '../../Components/ListManagment/ListManagment';
 import { AgencyEventsList } from './AgencyEventsList/AgencyEventsList';
 
@@ -11,23 +10,28 @@ export interface AgencyEventsProps {
   onError: (e: SettingsError) => void;
 }
 
+const getFilteredValues = (
+  list: AgencyEvent[],
+  filter: string
+): AgencyEvent[] => {
+  return list.filter((l) =>
+    l.name.toLowerCase().includes(filter.toLowerCase())
+  );
+};
+
 export const AgencyEvents = ({
   onClose,
   onError
 }: AgencyEventsProps): React.ReactElement<AgencyEventsProps> => {
-  const { events } = React.useContext(AgencyEventsContext);
+  const [events, setEvents] = React.useState<AgencyEvent[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-  const onEdit = (event: AgencyEvent) => {
-    // TODO
-  };
-
   const onDelete = (event: AgencyEvent) => {
-    // TODO
+    // TODO add event deletion logic
   };
 
-  const onView = (event: AgencyEvent) => {
-    // TODO
+  const onCreate = () => {
+    // TODO add event creation logic
   };
 
   const onFinish = async () => {
@@ -42,14 +46,9 @@ export const AgencyEvents = ({
     }
   };
 
-  const getFilteredValues = (
-    list: AgencyEvent[],
-    filter: string
-  ): AgencyEvent[] => {
-    return list.filter((l) =>
-      l.name.toLowerCase().includes(filter.toLowerCase())
-    );
-  };
+  React.useEffect(() => {
+    // TODO add get events
+  }, []);
 
   return (
     <div>
@@ -63,12 +62,7 @@ export const AgencyEvents = ({
             filter={getFilteredValues}
             onCreate={onFinish}
             renderList={(list: AgencyEvent[]) => (
-              <AgencyEventsList
-                events={list}
-                onView={onView}
-                onDelete={onDelete}
-                onEdit={onEdit}
-              />
+              <AgencyEventsList events={list} onDelete={onDelete} />
             )}
           />
         )}
