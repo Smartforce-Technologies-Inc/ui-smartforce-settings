@@ -37,6 +37,8 @@ import {
 import { AppEnv, ApplicationProduct } from './Models/Apps';
 import { getApiBaseUrl, getAppBaseUrl } from './Helpers/application';
 import { AgencyShifts } from './Views/AgencyShifts/AgencyShifts';
+import { useSubscription } from './Hooks';
+import { AgencyEvents } from './Views/AgencyEvents/AgencyEvents';
 
 export const ApiContext = createContext<string>('');
 
@@ -284,6 +286,25 @@ export const SFSettings = ({
             description:
               'Create, invite active members, and manage the groups.',
             component: <AgencyGroups onError={onError} onClose={onPanelDone} />
+          }
+        ]
+      }
+    ];
+  }
+
+  if (!isRoleOfficer(user?.role.id) && useSubscription('shift')) {
+    sectionCards = [
+      ...sectionCards,
+      {
+        title: 'Agency Events',
+        name: 'events',
+        items: [
+          {
+            cardTitle: 'Manage Event Types',
+            name: 'types',
+            viewTitle: 'Manage Event Types',
+            description: 'Add and manage event types for your agency.',
+            component: <AgencyEvents onError={onError} onClose={onPanelDone} />
           }
         ]
       }
