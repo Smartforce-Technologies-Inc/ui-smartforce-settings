@@ -1,0 +1,12 @@
+.noResults {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+  padding: 31px 0;
+  box-sizing: border-box;
+
+  .filter {
+    font-weight: 500;
+  }
+}
