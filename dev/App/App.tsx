@@ -15,8 +15,10 @@ import {
   SubscriptionProvider,
   ThemeTypeContext,
   UserProvider,
+  getUser,
   isLogin,
-  login
+  login,
+  logout
 } from '../../src';
 import { Login, LoginFormValue } from './Login/Login';
 import { Main } from './Main/Main';
@@ -30,10 +32,19 @@ export const App = () => {
   const [isLogged, setIsLogged] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    if (isLogin()) {
-      setIsLogged(true);
-      setIsLoading(false);
-    }
+    const init = async () => {
+      if (isLogin()) {
+        try {
+          await getUser(BASE_URL);
+        } catch (e) {
+          logout();
+        }
+        setIsLogged(true);
+        setIsLoading(false);
+      }
+    };
+
+    init();
   }, []);
 
   const onLogin = async (formValue: LoginFormValue) => {
