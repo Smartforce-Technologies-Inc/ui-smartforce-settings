@@ -68,7 +68,7 @@ export const Main = (): React.ReactElement<{}> => {
       {!isLoading && (
         <SFSettings
           className={styles.settings}
-          enviroment="development"
+          enviroment="local"
           stripeApiKey={
             'pk_test_51MEZItJHbTAgxqXa6dzvaI4SubteHn7zemB9uj6hXqltKSoEAPKvBRlMeHvn06fR03vqKFkegkmH0QWdkPrpbuGe00CkvRGgxb'
           }
