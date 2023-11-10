@@ -5,16 +5,12 @@ import { AgencyEvent } from '../../../../Models';
 
 export interface AgencyEventsListItemProps {
   event: AgencyEvent;
-  onClick: () => void;
   onDelete: () => void;
-  onEdit: () => void;
 }
 
 export const AgencyEventsListItem = ({
   event,
-  onClick,
-  onDelete,
-  onEdit
+  onDelete
 }: AgencyEventsListItemProps): React.ReactElement<AgencyEventsListItemProps> => {
   const [menuAnchorElement, setMenuAnchorElement] = React.useState<
     HTMLButtonElement | undefined
@@ -26,18 +22,13 @@ export const AgencyEventsListItem = ({
 
   const onMenuClose = () => setMenuAnchorElement(undefined);
 
-  const onEventEdit = () => {
-    onEdit();
-    onMenuClose();
-  };
-
   const onEventDelete = () => {
     onDelete();
     onMenuClose();
   };
 
   return (
-    <div className={styles.agencyEventsListItem} onClick={onClick}>
+    <div className={styles.agencyEventsListItem}>
       <div
         className={styles.eventColor}
         style={{ backgroundColor: event.color }}
@@ -67,7 +58,6 @@ export const AgencyEventsListItem = ({
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
-          <SFMenuItem onClick={onEventEdit}>Edit Event</SFMenuItem>
           <SFMenuItem onClick={onEventDelete}>Delete Event</SFMenuItem>
         </SFMenu>
       </div>
