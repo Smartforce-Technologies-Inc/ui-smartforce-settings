@@ -16,9 +16,14 @@ import { AgencyMessaging } from './Views/AgencyMessaging/AgencyMessaging';
 import { AgencyAreas } from './Views/AgencyAreas/AgencyAreas';
 import { AgencyGroups } from './Views/AgencyGroups/AgencyGroups';
 import { ManageBusinessCard } from './Views/ManageBusinessCard/ManageBusinessCard';
-import { MediaContext, CustomerContext, UserContext } from './Context';
+import {
+  MediaContext,
+  CustomerContext,
+  UserContext,
+  SubscriptionContext
+} from './Context';
 import { SettingsError } from './Models/Error';
-import { checkPermissions } from './Helpers';
+import { checkPermissions, getAppSubscription, isRoleOfficer } from './Helpers';
 import {
   AGENCY_AREAS_CREATE,
   AGENCY_GROUPS_CREATE,
@@ -75,6 +80,7 @@ export const SFSettings = ({
   const { isPhone } = React.useContext(MediaContext);
   const { user } = React.useContext(UserContext);
   const { customer } = React.useContext(CustomerContext);
+  const { subscriptions } = React.useContext(SubscriptionContext);
   const [isPanelOpen, setIsPanelOpen] = React.useState<boolean>(false);
   const [isPanelLoading, setIsPanelLoading] = React.useState<boolean>(false);
 
@@ -277,6 +283,29 @@ export const SFSettings = ({
             description:
               'Create, invite active members, and manage the groups.',
             component: <AgencyGroups onError={onError} onClose={onPanelDone} />
+          }
+        ]
+      }
+    ];
+  }
+
+  if (
+    !isRoleOfficer(user?.role.id) &&
+    getAppSubscription(subscriptions, 'shift')
+  ) {
+    sectionCards = [
+      ...sectionCards,
+      {
+        title: 'Agency Shifts',
+        name: 'shifts',
+        items: [
+          {
+            cardTitle: 'Manage Shifts',
+            name: 'shifts',
+            viewTitle: 'Manage Shifts',
+            description: "Add and manage your agency's shifts.",
+            //TODO
+            component: <div></div>
           }
         ]
       }
