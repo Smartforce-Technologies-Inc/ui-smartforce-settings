@@ -37,7 +37,6 @@ import {
 import { AppEnv, ApplicationProduct } from './Models/Apps';
 import { getApiBaseUrl, getAppBaseUrl } from './Helpers/application';
 import { AgencyShifts } from './Views/AgencyShifts/AgencyShifts';
-import { useSubscription } from './Hooks';
 import { AgencyEvents } from './Views/AgencyEvents/AgencyEvents';
 
 export const ApiContext = createContext<string>('');
@@ -86,6 +85,10 @@ export const SFSettings = ({
   const { subscriptions } = React.useContext(SubscriptionContext);
   const [isPanelOpen, setIsPanelOpen] = React.useState<boolean>(false);
   const [isPanelLoading, setIsPanelLoading] = React.useState<boolean>(false);
+  const hasShiftSubscription: boolean = !!getAppSubscription(
+    subscriptions,
+    'shift'
+  );
 
   const onPanelLoading = () => setIsPanelLoading(true);
 
@@ -292,7 +295,7 @@ export const SFSettings = ({
     ];
   }
 
-  if (!isRoleOfficer(user?.role.id) && useSubscription('shift')) {
+  if (!isRoleOfficer(user?.role.id) && hasShiftSubscription) {
     sectionCards = [
       ...sectionCards,
       {
@@ -311,10 +314,7 @@ export const SFSettings = ({
     ];
   }
 
-  if (
-    !isRoleOfficer(user?.role.id) &&
-    getAppSubscription(subscriptions, 'shift')
-  ) {
+  if (!isRoleOfficer(user?.role.id) && hasShiftSubscription) {
     sectionCards = [
       ...sectionCards,
       {
