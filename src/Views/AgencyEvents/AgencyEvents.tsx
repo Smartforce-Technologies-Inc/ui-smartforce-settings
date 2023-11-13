@@ -60,7 +60,7 @@ export const AgencyEvents = ({
             list={events}
             isLoading={isLoading}
             filter={getFilteredValues}
-            onCreate={onFinish}
+            onCreate={onCreate}
             renderList={(list: AgencyEvent[]) => (
               <AgencyEventsList events={list} onDelete={onDelete} />
             )}
