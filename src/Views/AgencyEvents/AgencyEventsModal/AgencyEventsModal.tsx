@@ -6,20 +6,14 @@ import { Divider } from '../../../Components/Divider/Divider';
 import { ColorPicker } from './ColorPicker/ColorPicker';
 import { AgencyEvent } from '../../../Models';
 
-interface AgencyEventFormError {
-  name: boolean;
-}
-
 const isSaveDisabled = (
   isSaving: boolean,
-  defaultFormErrors: AgencyEventFormError,
   formValue?: AgencyEvent,
   value?: AgencyEvent
 ) => {
   return (
     !formValue ||
     isSaving ||
-    defaultFormErrors.name ||
     (formValue.color === value?.color && formValue.name === value?.name)
   );
 };
@@ -27,10 +21,6 @@ const isSaveDisabled = (
 const defaultFormValue: AgencyEvent = {
   name: '',
   color: ''
-};
-
-const defaultFormErrors: AgencyEventFormError = {
-  name: false
 };
 
 export interface AgencyEventsModalProps {
@@ -53,8 +43,6 @@ export const AgencyEventsModal = ({
   const [formValue, setFormValue] = React.useState<AgencyEvent>(
     value ?? defaultFormValue
   );
-  const [formErrors, setFormErrors] =
-    React.useState<AgencyEventFormError>(defaultFormErrors);
 
   const onColorChange = (color: string): void => {
     setFormValue({ ...formValue, color });
@@ -62,12 +50,6 @@ export const AgencyEventsModal = ({
 
   const onNameChange = (name: string): void => {
     setFormValue({ ...formValue, name });
-
-    if (name.length > 0 && name.length < 32) {
-      setFormErrors({ name: false });
-    } else {
-      setFormErrors({ name: true });
-    }
   };
 
   const onSave = (): void => {
@@ -97,7 +79,7 @@ export const AgencyEventsModal = ({
       actionButton={{
         label: value ? 'Save Changes' : 'Create Event Type',
         isLoading: isSaving,
-        disabled: isSaveDisabled(isSaving, defaultFormErrors, formValue, value),
+        disabled: isSaveDisabled(isSaving, formValue, value),
         onClick: onSave
       }}
     >
@@ -106,7 +88,7 @@ export const AgencyEventsModal = ({
           required
           label="Name"
           helperText="It must be between 1 and 32 characters."
-          error={formErrors.name}
+          inputProps={{ maxLength: 32 }}
           value={value?.name}
           onChange={(e) => onNameChange(e.target.value)}
         />
