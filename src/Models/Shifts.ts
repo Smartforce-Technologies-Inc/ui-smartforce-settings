@@ -3,7 +3,14 @@ export interface IdNameValue {
   name: string;
 }
 
+export interface ShiftRepeat {
+  frecuency: string;
+  every_on: number;
+  days: string[];
+}
+
 export interface Shift {
+  id: string;
   title: string;
   acronym: string;
   status: 'Active' | 'Inactive';
@@ -11,11 +18,7 @@ export interface Shift {
   area?: IdNameValue[];
   start_date: string;
   end_date: string;
-  repeat: {
-    frecuency: string;
-    every_on: number;
-    days: string[];
-  };
+  repeat: ShiftRepeat;
   minimun_staffing: number;
   members: IdNameValue[];
   supervisor?: IdNameValue;

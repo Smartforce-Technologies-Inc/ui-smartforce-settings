@@ -4,6 +4,7 @@ import { SettingsContentRender } from '../SettingsContentRender';
 import { ListManagment } from '../../Components/ListManagment/ListManagment';
 import { ApiContext } from '../../SFSettings';
 import { getShifts } from '../../Services';
+import { ShiftList } from './ShiftList/ShiftList';
 
 function sortShifts(groups: Shift[]): Shift[] {
   return groups.sort((a: Shift, b: Shift): number => {
@@ -70,6 +71,22 @@ export const AgencyShifts = ({
     };
   }, [apiBaseUrl, onError]);
 
+  const onInfo = (shift: Shift) => {
+    //TODO
+  };
+  const onDelete = (shift: Shift) => {
+    //TODO
+  };
+  const onEdit = (shift: Shift) => {
+    //TODO
+  };
+  const onRestore = (shift: Shift) => {
+    //TODO
+  };
+  const onViewHistory = (shift: Shift) => {
+    //TODO
+  };
+
   return (
     <SettingsContentRender
       renderContent={() => (
@@ -81,7 +98,16 @@ export const AgencyShifts = ({
             isLoading={isLoading}
             filter={getFilteredShifts}
             onCreate={() => setIsCreateModalOpen(true)}
-            renderList={(list: Shift[]) => <div></div>}
+            renderList={(list: Shift[]) => (
+              <ShiftList
+                shifts={list}
+                onInfo={onInfo}
+                onDelete={onDelete}
+                onEdit={onEdit}
+                onRestore={onRestore}
+                onViewHistory={onViewHistory}
+              />
+            )}
           />
         </Fragment>
       )}
