@@ -4,6 +4,7 @@ import { SettingsError } from '../../Models/Error';
 import { AgencyEvent } from '../../Models/AgencyEvents';
 import { ListManagment } from '../../Components/ListManagment/ListManagment';
 import { AgencyEventsList } from './AgencyEventsList/AgencyEventsList';
+import { AgencyEventsModal } from './AgencyEventsModal/AgencyEventsModal';
 
 export interface AgencyEventsProps {
   onClose: () => void;
@@ -25,6 +26,15 @@ export const AgencyEvents = ({
 }: AgencyEventsProps): React.ReactElement<AgencyEventsProps> => {
   const [events, setEvents] = React.useState<AgencyEvent[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [modalValue, setModalValue] = React.useState<AgencyEvent | undefined>(
+    undefined
+  );
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+
+  const onModalClose = () => {
+    setIsModalOpen(false);
+    setModalValue(undefined);
+  };
 
   const onDelete = (event: AgencyEvent) => {
     // TODO add event deletion logic
@@ -35,7 +45,7 @@ export const AgencyEvents = ({
   };
 
   const onCreate = () => {
-    // TODO add event creation logic
+    setIsModalOpen(true);
   };
 
   const onFinish = async () => {
@@ -56,6 +66,16 @@ export const AgencyEvents = ({
 
   return (
     <div>
+      <AgencyEventsModal
+        value={modalValue}
+        isOpen={isModalOpen}
+        onClose={() => {
+          onClose();
+          onModalClose();
+        }}
+        onBack={onModalClose}
+        onFinish={onFinish}
+      />
       <SettingsContentRender
         renderContent={() => (
           <ListManagment
