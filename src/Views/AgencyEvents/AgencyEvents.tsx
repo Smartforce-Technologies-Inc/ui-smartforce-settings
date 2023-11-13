@@ -5,6 +5,7 @@ import { AgencyEvent } from '../../Models/AgencyEvents';
 import { ListManagment } from '../../Components/ListManagment/ListManagment';
 import { AgencyEventsList } from './AgencyEventsList/AgencyEventsList';
 import { AgencyEventsModal } from './AgencyEventsModal/AgencyEventsModal';
+import { AgencyEventsDeleteDialog } from './AgencyEventsDeleteDialog/AgencyEventsDeleteDialog';
 
 export interface AgencyEventsProps {
   onClose: () => void;
@@ -30,14 +31,22 @@ export const AgencyEvents = ({
     undefined
   );
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] =
+    React.useState<boolean>(false);
 
   const onModalClose = () => {
     setIsModalOpen(false);
     setModalValue(undefined);
   };
 
+  const onEventDelete = (event: AgencyEvent) => {
+    setIsDeleteDialogOpen(false);
+    setEvents(events.filter((e: AgencyEvent) => e.name === event.name));
+  };
+
   const onDelete = (event: AgencyEvent) => {
-    // TODO add event deletion logic
+    setModalValue(event);
+    setIsDeleteDialogOpen(true);
   };
 
   const onEdit = (event: AgencyEvent) => {
@@ -76,6 +85,14 @@ export const AgencyEvents = ({
         onBack={onModalClose}
         onFinish={onFinish}
       />
+      {modalValue && (
+        <AgencyEventsDeleteDialog
+          value={modalValue}
+          isOpen={isDeleteDialogOpen}
+          onDelete={onEventDelete}
+          onClose={() => setIsDeleteDialogOpen(false)}
+        />
+      )}
       <SettingsContentRender
         renderContent={() => (
           <ListManagment
