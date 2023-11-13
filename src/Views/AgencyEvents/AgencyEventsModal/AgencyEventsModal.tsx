@@ -60,6 +60,16 @@ export const AgencyEventsModal = ({
     }
   };
 
+  React.useEffect(() => {
+    if (isOpen) {
+      if (value) {
+        setFormValue(value);
+      } else {
+        setFormValue(defaultFormValue);
+      }
+    }
+  }, [isOpen]);
+
   return (
     <PanelModal
       title={`${value ? 'Edit' : 'Create'} Event Type`}
@@ -89,11 +99,15 @@ export const AgencyEventsModal = ({
           label="Name"
           helperText="It must be between 1 and 32 characters."
           inputProps={{ maxLength: 32 }}
-          value={value?.name}
+          value={formValue?.name}
           onChange={(e) => onNameChange(e.target.value)}
         />
         <Divider />
-        <ColorPicker title="Set color" onClick={onColorChange} />
+        <ColorPicker
+          title="Set color"
+          selected={formValue?.color}
+          onClick={onColorChange}
+        />
       </div>
     </PanelModal>
   );
