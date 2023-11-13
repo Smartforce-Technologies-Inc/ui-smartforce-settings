@@ -1,4 +1,5 @@
 export * from './Areas';
+export * from './AgencyEvents';
 export * from './Apps';
 export * from './Customer';
 export * from './Notifications';
