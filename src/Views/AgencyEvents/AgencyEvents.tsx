@@ -41,7 +41,8 @@ export const AgencyEvents = ({
   };
 
   const onEdit = (event: AgencyEvent) => {
-    // TODO add event edition logic
+    setModalValue(event);
+    setIsModalOpen(true);
   };
 
   const onCreate = () => {
