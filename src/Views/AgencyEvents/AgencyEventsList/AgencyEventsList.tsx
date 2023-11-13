@@ -9,11 +9,13 @@ import { Divider } from '../../../Components/Divider/Divider';
 export interface AgencyEventsListProps {
   events: AgencyEvent[];
   onDelete: (event: AgencyEvent) => void;
+  onEdit: (event: AgencyEvent) => void;
 }
 
 export const AgencyEventsList = ({
   events,
-  onDelete
+  onDelete,
+  onEdit
 }: AgencyEventsListProps): React.ReactElement<AgencyEventsListProps> => {
   return (
     <div className={styles.agencyAreasList}>
@@ -23,6 +25,7 @@ export const AgencyEventsList = ({
             <AgencyEventsListItem
               event={event}
               onDelete={() => onDelete(event)}
+              onEdit={() => onEdit(event)}
             />
             {index < events.length - 1 && <Divider />}
           </SFCollapse>
