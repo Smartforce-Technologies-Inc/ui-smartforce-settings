@@ -1,0 +1,18 @@
+.shiftListItem {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 12px;
+  padding: 20px 25px 20px 13px;
+  box-sizing: border-box;
+}
+
+.optionsMenu {
+  li {
+    min-height: unset;
+
+    .deleteOption {
+      display: flex;
+      gap: 12px;
+    }
+  }
+}
