@@ -30,6 +30,10 @@ export const AgencyEvents = ({
     // TODO add event deletion logic
   };
 
+  const onEdit = (event: AgencyEvent) => {
+    // TODO add event edition logic
+  };
+
   const onCreate = () => {
     // TODO add event creation logic
   };
@@ -62,7 +66,11 @@ export const AgencyEvents = ({
             filter={getFilteredValues}
             onCreate={onCreate}
             renderList={(list: AgencyEvent[]) => (
-              <AgencyEventsList events={list} onDelete={onDelete} />
+              <AgencyEventsList
+                events={list}
+                onDelete={onDelete}
+                onEdit={onEdit}
+              />
             )}
           />
         )}
