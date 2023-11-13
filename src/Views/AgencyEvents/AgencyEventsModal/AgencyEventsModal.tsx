@@ -105,7 +105,7 @@ export const AgencyEventsModal = ({
         <Divider />
         <ColorPicker
           title="Set color"
-          selected={value?.color}
+          selected={formValue?.color}
           onClick={onColorChange}
         />
       </div>
