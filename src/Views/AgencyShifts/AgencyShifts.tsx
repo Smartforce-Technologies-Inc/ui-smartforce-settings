@@ -36,6 +36,7 @@ export const AgencyShifts = ({
   const apiBaseUrl = useContext(ApiContext);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [shifts, setShifts] = useState<Shift[]>([]);
+  const [selected, setSelected] = useState<Shift | undefined>();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -69,9 +70,12 @@ export const AgencyShifts = ({
   const onDelete = (shift: Shift) => {
     //TODO
   };
+
   const onEdit = (shift: Shift) => {
-    //TODO
+    setSelected(shift);
+    setIsCreateModalOpen(true);
   };
+
   const onRestore = (shift: Shift) => {
     //TODO
   };
@@ -84,6 +88,7 @@ export const AgencyShifts = ({
       renderContent={() => (
         <Fragment>
           <ShiftFormModal
+            shift={selected}
             isOpen={isCreateModalOpen}
             onClose={() => setIsCreateModalOpen(false)}
           />
