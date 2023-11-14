@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { SFPeopleOption, SFPeoplePicker } from 'sfui';
 import { Area } from '../../Models';
+import { AreasContext } from '../../Context';
 
 const formatOptionsToPeoplePicker = (options: Area[]): SFPeopleOption[] => {
   return options.map((o: Area) => {
@@ -17,22 +18,22 @@ const getOptionSelected = (option: SFPeopleOption, value: SFPeopleOption) => {
 };
 
 export interface AreasFieldProps {
-  options: Area[];
   onChange: (value: SFPeopleOption[]) => void;
   value: SFPeopleOption[];
 }
 
 export const AreasField = ({
-  options,
   onChange,
   value
 }: AreasFieldProps): React.ReactElement<AreasFieldProps> => {
+  const areas = useContext(AreasContext).areas;
+
   return (
     <SFPeoplePicker
       label="Areas"
       isAsync={false}
       multiple={true}
-      options={formatOptionsToPeoplePicker(options)}
+      options={formatOptionsToPeoplePicker(areas)}
       value={value}
       getOptionSelected={getOptionSelected}
       onChange={onChange}

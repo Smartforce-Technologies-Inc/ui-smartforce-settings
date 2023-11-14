@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styles from './ShiftForm.module.scss';
 import { SFNumericField, SFPeopleOption, SFText, SFTextField } from 'sfui';
 import { AreasField } from '../../../../Components/AreasField/AreasField';
-import { AreasContext } from '../../../../Context';
 import { Divider } from '../../../../Components/Divider/Divider';
 import { DateTime } from './DateTime/DateTime';
 import { ShiftFormValue, ShiftRecurrence } from '../../../../Models';
@@ -19,8 +18,6 @@ export const ShiftForm = ({
   value,
   onChange
 }: ShiftFormProps): React.ReactElement<ShiftFormProps> => {
-  const areas = useContext(AreasContext).areas;
-
   return (
     <div className={styles.shiftForm}>
       <div className={styles.section}>
@@ -53,7 +50,6 @@ export const ShiftForm = ({
         />
 
         <AreasField
-          options={areas}
           value={value.areas}
           onChange={(areas) =>
             onChange({
