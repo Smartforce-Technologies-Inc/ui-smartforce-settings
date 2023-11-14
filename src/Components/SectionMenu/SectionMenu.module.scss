@@ -4,39 +4,53 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  font-size: 16px;
-  line-height: 24px;
-  margin: 0;
-  font-weight: 500;
-  color: $sf-grey-600;
 
-  &.selected {
-    font-weight: 700;
-    color: $sf-grey-900;
-  }
+  .title {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0;
+    font-weight: 500;
+    color: $sf-grey-600;
 
-  &.disabled {
-    color: $sf-grey-400;
     &:hover {
-      cursor: default;
+      cursor: pointer;
     }
   }
 
-  &:hover {
-    cursor: pointer;
+  &.selected {
+    .title {
+      font-weight: 700;
+      color: $sf-grey-900;
+    }
+  }
+
+  &.disabled {
+    .title {
+      color: $sf-grey-400;
+
+      &:hover {
+        cursor: default;
+      }
+    }
   }
 }
 
 :global(.nightMode) {
   .sectionMenu {
-    color: $sf-grey-400;
+    .title {
+      color: $sf-grey-400;
+    }
 
     &.selected {
-      color: $sf-grey-50;
+      .title {
+        color: $sf-grey-50;
+      }
     }
 
     &.disabled {
-      color: $sf-grey-600;
+      .title {
+        color: $sf-grey-600;
+      }
     }
   }
 }
