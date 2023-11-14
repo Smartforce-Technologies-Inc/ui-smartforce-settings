@@ -1,5 +1,6 @@
 import React from 'react';
-import { SFAlertDialog } from 'sfui';
+import styles from './AgencyEventsDeleteDialog.module.scss';
+import { SFAlertDialog, SFText } from 'sfui';
 import { AgencyEvent } from '../../../Models';
 
 export interface AgencyEventsDeleteDialogProps {
@@ -23,6 +24,7 @@ export const AgencyEventsDeleteDialog = ({
 
   return (
     <SFAlertDialog
+      className={styles.agencyEventsDeleteDialog}
       title="Delete Event Type"
       open={isOpen}
       leftAction={{
@@ -38,6 +40,11 @@ export const AgencyEventsDeleteDialog = ({
           disabled: isSaving
         }
       }}
-    ></SFAlertDialog>
+    >
+      <SFText type="component-1">
+        <span className={styles.textName}>{value.name}</span> will be
+        permanently deleted.
+      </SFText>
+    </SFAlertDialog>
   );
 };
