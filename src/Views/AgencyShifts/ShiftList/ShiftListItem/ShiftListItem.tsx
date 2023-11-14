@@ -83,7 +83,8 @@ export const ShiftListItem = ({
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
-          {shift.status === 'Inactive' && (
+          {/* // TODO uncomment when available */}
+          {/* {shift.status === 'Inactive' && (
             <SFMenuItem onClick={onRestore}>Restore shift</SFMenuItem>
           )}
 
@@ -103,7 +104,7 @@ export const ShiftListItem = ({
                 <SFChip sfColor="default" size="small" label="Coming Soon" />
               </div>
             </SFMenuItem>
-          )}
+          )} */}
         </SFMenu>
       </div>
     </div>
