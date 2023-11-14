@@ -41,11 +41,16 @@ export interface Shift {
   updated_by_user: string;
 }
 
+export interface ShiftFormDateTimeValue {
+  date: moment.Moment | null;
+  time: string;
+}
+
 export interface ShiftFormValue {
   name: string;
   acronym: string;
-  start: { datetime: string | null };
-  end: { datetime: string | null };
+  start: ShiftFormDateTimeValue;
+  end: ShiftFormDateTimeValue;
   recurrence: ShiftRecurrence;
   areas: SFPeopleOption[];
   members: SFPeopleOption[];
