@@ -45,6 +45,12 @@ const onGetStarted = (env: AppEnv, product: ApplicationProduct) => {
   window.open(getAppBaseUrl(env, product), '_blank');
 };
 
+const disabledViews: string[] = ['tasks', 'inventory'];
+
+const isViewDisabled = (section: string): boolean => {
+  return disabledViews.includes(section);
+};
+
 export interface SFSettingsProps {
   className?: string;
   stripeApiKey: string;
@@ -299,6 +305,42 @@ export const SFSettings = ({
     sectionCards = [
       ...sectionCards,
       {
+        title: 'Agency Shifts',
+        name: 'shifts',
+        items: [
+          {
+            cardTitle: 'Manage Shifts',
+            name: 'shifts',
+            viewTitle: 'Manage Shifts',
+            description: "Add and manage your agency's shifts.",
+            component: <AgencyShifts onError={onError} onClose={onPanelDone} />
+          }
+        ]
+      }
+    ];
+  }
+
+  sectionCards = [
+    ...sectionCards,
+    {
+      title: 'Agency Tasks',
+      name: 'tasks',
+      items: [
+        {
+          cardTitle: '',
+          name: 'tasks',
+          viewTitle: '',
+          description: '',
+          component: <></>
+        }
+      ]
+    }
+  ];
+
+  if (!isRoleOfficer(user?.role.id) && hasShiftSubscription) {
+    sectionCards = [
+      ...sectionCards,
+      {
         title: 'Agency Events',
         name: 'events',
         items: [
@@ -314,24 +356,22 @@ export const SFSettings = ({
     ];
   }
 
-  if (!isRoleOfficer(user?.role.id) && hasShiftSubscription) {
-    sectionCards = [
-      ...sectionCards,
-      {
-        title: 'Agency Shifts',
-        name: 'shifts',
-        items: [
-          {
-            cardTitle: 'Manage Shifts',
-            name: 'shifts',
-            viewTitle: 'Manage Shifts',
-            description: "Add and manage your agency's shifts.",
-            component: <AgencyShifts onError={onError} onClose={onPanelDone} />
-          }
-        ]
-      }
-    ];
-  }
+  sectionCards = [
+    ...sectionCards,
+    {
+      title: 'Agency Inventory',
+      name: 'inventory',
+      items: [
+        {
+          cardTitle: '',
+          name: 'inventory',
+          viewTitle: '',
+          description: '',
+          component: <></>
+        }
+      ]
+    }
+  ];
 
   if (
     user &&
@@ -419,6 +459,7 @@ export const SFSettings = ({
                 <SectionCard
                   key={`sectionCard-${section.name}`}
                   title={section.title}
+                  disabled={isViewDisabled(section.name)}
                 >
                   {section.items.map(
                     (item: SectionItemValue, subsectionIndex: number) => {
@@ -459,6 +500,7 @@ export const SFSettings = ({
                   key={`sectionMenu-${section.name}`}
                   title={section.title}
                   selected={section.name === selectedSection.name}
+                  disabled={isViewDisabled(section.name)}
                   onClick={() => selectCurrentSection(section)}
                 />
               ))}

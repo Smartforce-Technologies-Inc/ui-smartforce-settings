@@ -1,6 +1,9 @@
 @import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
 
 .sectionMenu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   font-size: 16px;
   line-height: 24px;
   margin: 0;
@@ -10,6 +13,13 @@
   &.selected {
     font-weight: 700;
     color: $sf-grey-900;
+  }
+
+  &.disabled {
+    color: $sf-grey-400;
+    &:hover {
+      cursor: default;
+    }
   }
 
   &:hover {
@@ -23,6 +33,10 @@
 
     &.selected {
       color: $sf-grey-50;
+    }
+
+    &.disabled {
+      color: $sf-grey-600;
     }
   }
 }
