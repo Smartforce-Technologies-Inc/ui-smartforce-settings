@@ -1,0 +1,12 @@
+.repeatForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-left: 24px;
+  }
+}
