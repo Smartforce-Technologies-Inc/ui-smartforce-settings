@@ -16,17 +16,17 @@ const SectionMenu = ({
   onClick
 }: SectionMenuProps): React.ReactElement<SectionMenuProps> => {
   return (
-    <p
+    <div
       className={`${styles.sectionMenu} ${selected ? styles.selected : ''} ${
         disabled ? styles.disabled : ''
       }`}
       onClick={!disabled ? onClick : undefined}
     >
-      {title}
+      <p className={styles.title}>{title}</p>
       {disabled && (
         <SFChip size="small" sfColor="default" label="Coming Soon" />
       )}
-    </p>
+    </div>
   );
 };
 
