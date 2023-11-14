@@ -5,6 +5,7 @@ import { ListManagment } from '../../Components/ListManagment/ListManagment';
 import { ApiContext } from '../../SFSettings';
 import { getShifts } from '../../Services';
 import { ShiftList } from './ShiftList/ShiftList';
+import { ShiftFormModal } from './ShiftFormModal/ShiftFormModal';
 
 function sortShifts(groups: Shift[]): Shift[] {
   return groups.sort((a: Shift, b: Shift): number =>
@@ -82,6 +83,11 @@ export const AgencyShifts = ({
     <SettingsContentRender
       renderContent={() => (
         <Fragment>
+          <ShiftFormModal
+            isOpen={isCreateModalOpen}
+            onClose={() => setIsCreateModalOpen(false)}
+          />
+
           <ListManagment
             label="Shift"
             labelPlural="shifts"
