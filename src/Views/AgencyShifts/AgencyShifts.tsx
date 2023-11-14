@@ -7,18 +7,9 @@ import { getShifts } from '../../Services';
 import { ShiftList } from './ShiftList/ShiftList';
 
 function sortShifts(groups: Shift[]): Shift[] {
-  return groups.sort((a: Shift, b: Shift): number => {
-    if (a.status === 'Inactive' && b.status === 'Active') {
-      return -1;
-    } else if (a.status === 'Inactive' && b.status === 'Inactive') {
-      return (
-        new Date(a.updated_at as string).getTime() -
-        new Date(b.updated_at as string).getTime()
-      );
-    } else {
-      return a.title.localeCompare(b.title);
-    }
-  });
+  return groups.sort((a: Shift, b: Shift): number =>
+    a.name.localeCompare(b.name)
+  );
 }
 
 function getFilteredShifts(shifts: Shift[], filter: string): Shift[] {
@@ -27,7 +18,7 @@ function getFilteredShifts(shifts: Shift[], filter: string): Shift[] {
   } else {
     const filterLower = filter.toLowerCase();
     return shifts.filter((s: Shift) =>
-      s.title.toLowerCase().includes(filterLower)
+      s.name.toLowerCase().includes(filterLower)
     );
   }
 }
