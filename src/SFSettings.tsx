@@ -48,7 +48,7 @@ const onGetStarted = (env: AppEnv, product: ApplicationProduct) => {
 const disabledViews: string[] = ['tasks', 'inventory'];
 
 const isViewDisabled = (section: string): boolean => {
-  return disabledViews.find((v) => v === section) !== undefined;
+  return disabledViews.includes(section);
 };
 
 export interface SFSettingsProps {
