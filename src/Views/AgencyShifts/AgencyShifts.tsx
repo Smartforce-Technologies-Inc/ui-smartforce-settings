@@ -6,6 +6,7 @@ import { ApiContext } from '../../SFSettings';
 import { getShifts } from '../../Services';
 import { ShiftList } from './ShiftList/ShiftList';
 import { ShiftFormModal } from './ShiftFormModal/ShiftFormModal';
+import { ShiftInfoModal } from './ShiftInfoModal/ShiftInfoModal';
 
 function sortShifts(groups: Shift[]): Shift[] {
   return groups.sort((a: Shift, b: Shift): number =>
@@ -38,6 +39,8 @@ export const AgencyShifts = ({
   const [shifts, setShifts] = useState<Shift[]>([]);
   const [selected, setSelected] = useState<Shift | undefined>();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
+  const [modalValue, setModalValue] = useState<Shift>();
 
   useEffect(() => {
     let isSubscribed: boolean = true;
@@ -65,7 +68,8 @@ export const AgencyShifts = ({
   }, [apiBaseUrl, onError]);
 
   const onInfo = (shift: Shift) => {
-    //TODO
+    setModalValue(shift);
+    setIsViewModalOpen(true);
   };
   const onDelete = (shift: Shift) => {
     //TODO
@@ -92,10 +96,21 @@ export const AgencyShifts = ({
             isOpen={isCreateModalOpen}
             onClose={() => setIsCreateModalOpen(false)}
           />
-
+          {modalValue && (
+            <ShiftInfoModal
+              isOpen={isViewModalOpen}
+              onClose={() => {
+                onClose();
+                setIsViewModalOpen(false);
+              }}
+              onBack={() => setIsViewModalOpen(false)}
+              shift={modalValue}
+            />
+          )}
           <ListManagment
+            actionButtonLabel="Create Shift"
+            emptyMessage="There are no shifts created yet."
             label="Shift"
-            labelPlural="shifts"
             list={shifts}
             isLoading={isLoading}
             filter={getFilteredShifts}
