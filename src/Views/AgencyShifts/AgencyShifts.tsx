@@ -6,6 +6,7 @@ import { ApiContext } from '../../Context';
 import { getShift, getShifts } from '../../Services';
 import { ShiftList } from './ShiftList/ShiftList';
 import { ShiftFormModal } from './ShiftFormModal/ShiftFormModal';
+import { ShiftInfoModal } from './ShiftInfoModal/ShiftInfoModal';
 
 function sortShifts(groups: ShiftListItem[]): ShiftListItem[] {
   return groups.sort((a: ShiftListItem, b: ShiftListItem): number =>
@@ -42,6 +43,8 @@ export const AgencyShifts = ({
   const [selected, setSelected] = useState<Shift | undefined>();
   const [isLoadingShift, setIsLoadingShift] = useState<boolean>(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
+  const [modalValue, setModalValue] = useState<Shift>();
 
   useEffect(() => {
     let isSubscribed: boolean = true;
@@ -85,8 +88,18 @@ export const AgencyShifts = ({
     setIsCreateModalOpen(true);
   };
 
-  const onInfo = (shiftPreview: ShiftListItem) => {
-    //TODO
+  const onInfo = async (shiftPreview: ShiftListItem) => {
+    try {
+      setIsLoadingShift(true);
+      setIsCreateModalOpen(true);
+      const shift = await getShift(apiBaseUrl, shiftPreview.id);
+      setModalValue(shift);
+      setIsViewModalOpen(true);
+      setIsLoadingShift(false);
+    } catch (e: any) {
+      setIsLoadingShift(false);
+      onError(e);
+    }
   };
   const onDelete = (shiftPreview: ShiftListItem) => {
     //TODO
@@ -124,10 +137,21 @@ export const AgencyShifts = ({
             onSave={onUpdate}
             onClose={() => setIsCreateModalOpen(false)}
           />
-
+          {modalValue && (
+            <ShiftInfoModal
+              isOpen={isViewModalOpen}
+              onClose={() => {
+                onClose();
+                setIsViewModalOpen(false);
+              }}
+              onBack={() => setIsViewModalOpen(false)}
+              shift={modalValue}
+            />
+          )}
           <ListManagment
+            actionButtonLabel="Create Shift"
+            emptyMessage="There are no shifts created yet."
             label="Shift"
-            labelPlural="shifts"
             list={shifts}
             isLoading={isLoading}
             filter={getFilteredShifts}
