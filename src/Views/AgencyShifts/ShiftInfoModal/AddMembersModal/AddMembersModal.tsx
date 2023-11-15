@@ -1,19 +1,10 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   PanelModal,
   PanelModalAnchor
 } from '../../../../Components/PanelModal/PanelModal';
-import { SFPeopleOption, SFPeoplePicker } from 'sfui';
-import { getUserSession } from '../../../../Services';
-import { ApiContext } from '../../../../SFSettings';
-
-const formatOption = (option: any): SFPeopleOption => {
-  return {
-    name: option.name as string,
-    avatarUrl: option.avatar_thumbnail_url as string,
-    asyncObject: option
-  };
-};
+import { SFPeopleOption } from 'sfui';
+import { MultipleMemberPicker } from '../../../../Components/MultipleMemberPicker/MultipleMemberPicker';
 
 export interface AddMembersModalProps {
   isOpen: boolean;
@@ -30,7 +21,6 @@ export const AddMembersModal = ({
   onBack,
   onClose
 }: AddMembersModalProps): React.ReactElement<AddMembersModalProps> => {
-  const apiBaseUrl = useContext(ApiContext);
   const [members, setMembers] = useState<SFPeopleOption[]>([]);
   const [anchor, setAnchor] = useState<PanelModalAnchor>('right');
 
@@ -39,21 +29,6 @@ export const AddMembersModal = ({
       setMembers([]);
     }
   }, [isOpen]);
-
-  const fetchInit: RequestInit = useMemo(
-    () => ({
-      method: 'GET',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        Authorization: `bearer ${getUserSession().access_token}`
-      })
-    }),
-    []
-  );
-
-  const getOptionSelected = (o: SFPeopleOption, v: SFPeopleOption): boolean => {
-    return o.asyncObject.id === v.asyncObject.id;
-  };
 
   return (
     <PanelModal
@@ -79,18 +54,10 @@ export const AddMembersModal = ({
         onClose();
       }}
     >
-      <SFPeoplePicker
-        multiple
+      <MultipleMemberPicker
         label="Members"
-        isAsync
-        formatUrlQuery={(value: string) =>
-          `${apiBaseUrl}/agencies/me/users?active_only=True&name=${value}`
-        }
-        formatOption={formatOption}
-        fetchInit={fetchInit}
         value={members as SFPeopleOption[]}
         onChange={(newMembers: SFPeopleOption[]) => setMembers(newMembers)}
-        getOptionSelected={getOptionSelected}
       />
     </PanelModal>
   );
