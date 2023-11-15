@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
+import styles from './ShiftFormModal.module.scss';
 import moment from 'moment';
 import { PanelModal, PanelModalAnchor } from '../../../Components';
 import {
+  SettingsError,
   Shift,
   ShiftArea,
   ShiftFormDateTimeValue,
   ShiftFormValue,
-  ShiftMember
+  ShiftMember,
+  ShiftRequest
 } from '../../../Models';
 import { ShiftForm } from './ShiftForm/ShiftForm';
 import { isEqualObject, upperFirstChar } from '../../../Helpers';
-import { SFPeopleOption } from 'sfui';
+import { SFPeopleOption, SFSpinner } from 'sfui';
+import { ApiContext } from '../../../Context';
+import { addShift, editShift } from '../../../Services';
 
 const initValue: ShiftFormValue = {
   name: '',
@@ -19,11 +24,11 @@ const initValue: ShiftFormValue = {
   start: { date: null, time: '' },
   end: { date: null, time: '' },
   recurrence: {
-    frecuency: 'Weekly',
+    frequency: 'Weekly',
     interval: 1,
     days: []
   },
-  staff_min: '',
+  min_staff: '',
   members: []
 };
 
@@ -46,9 +51,9 @@ function getShiftValue(shift: Shift): ShiftFormValue {
     end: getDateValue(shift.end.datetime),
     recurrence: {
       ...shift.recurrence,
-      frecuency: upperFirstChar(shift.recurrence.frecuency)
+      frequency: upperFirstChar(shift.recurrence.frequency)
     },
-    staff_min: shift.staff_min.toString(),
+    min_staff: shift.min_staff.toString(),
     members: shift.members.map((m: ShiftMember) => ({
       name: m.name,
       asyncObject: {
@@ -118,32 +123,81 @@ function isFormInvalid(value: ShiftFormValue, shift?: Shift): boolean {
     !value.acronym ||
     isDateTimeInvalid(value.start) ||
     isDateTimeInvalid(value.end) ||
-    !value.staff_min ||
-    value.staff_min.length === 0
+    !value.min_staff ||
+    value.min_staff.length === 0
   );
+}
+
+function getDateRequestValue(date: moment.Moment, time: string): string {
+  return `${date.format('YYYY-MM-DDT')}${time}:00`;
+}
+
+function getOptionListValue(list: SFPeopleOption[]): string[] {
+  return list.map((o: SFPeopleOption) => o.asyncObject.id);
+}
+
+function getShiftRequestValue(value: ShiftFormValue): ShiftRequest {
+  return {
+    ...value,
+    start: {
+      datetime: getDateRequestValue(
+        value.start.date as moment.Moment,
+        value.start.time
+      )
+    },
+    end: {
+      datetime: getDateRequestValue(
+        value.end.date as moment.Moment,
+        value.end.time
+      )
+    },
+    recurrence: {
+      ...value.recurrence,
+      frequency: value.recurrence.frequency.toLowerCase()
+    },
+    areas: getOptionListValue(value.areas),
+    members: getOptionListValue(value.members),
+    supervisor: value.supervisor?.asyncObject.id
+  };
 }
 
 export interface ShiftFormModalProps {
   shift?: Shift;
   isOpen: boolean;
+  isLoading: boolean;
+  onError: (e: SettingsError) => void;
   onClose: () => void;
+  onSave: () => void;
 }
 
 export const ShiftFormModal = ({
   shift,
   isOpen,
-  onClose
+  isLoading,
+  onError,
+  onClose,
+  ...props
 }: ShiftFormModalProps): React.ReactElement<ShiftFormModalProps> => {
+  const apiBaseUrl = useContext(ApiContext).shifts;
   const [value, setValue] = useState<ShiftFormValue>(initValue);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [anchor, setAnchor] = React.useState<PanelModalAnchor>('right');
 
-  const onCreate = () => {
-    setIsSaving(true);
-    // TODO BE integration
-    console.log(value);
-    setIsSaving(false);
-    onClose();
+  const onSave = async () => {
+    try {
+      setIsSaving(true);
+      if (!shift) {
+        await addShift(apiBaseUrl, getShiftRequestValue(value));
+      } else {
+        await editShift(apiBaseUrl, shift.id, getShiftRequestValue(value));
+      }
+      setIsSaving(false);
+      props.onSave();
+      onClose();
+    } catch (e: any) {
+      setIsSaving(false);
+      onError(e);
+    }
   };
 
   useEffect(() => {
@@ -169,10 +223,10 @@ export const ShiftFormModal = ({
         onClick: onClose
       }}
       actionButton={{
-        label: shift ? 'Save Changes' : 'Create Group',
+        label: shift ? 'Save Changes' : 'Create Shift',
         isLoading: isSaving,
         disabled: isFormInvalid(value, shift),
-        onClick: onCreate
+        onClick: onSave
       }}
       onBack={onClose}
       onClose={() => {
@@ -180,10 +234,20 @@ export const ShiftFormModal = ({
         onClose();
       }}
     >
-      <ShiftForm
-        value={value}
-        onChange={(value: ShiftFormValue) => setValue(value)}
-      />
+      <Fragment>
+        {isLoading && (
+          <div className={styles.spinner}>
+            <SFSpinner />
+          </div>
+        )}
+
+        {!isLoading && (
+          <ShiftForm
+            value={value}
+            onChange={(value: ShiftFormValue) => setValue(value)}
+          />
+        )}
+      </Fragment>
     </PanelModal>
   );
 };

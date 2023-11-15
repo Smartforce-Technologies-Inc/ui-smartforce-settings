@@ -11,7 +11,7 @@ import {
 } from '../../../Helpers';
 import { SettingsError, Subscription } from '../../../Models';
 import { cancelSubscription, resumeSubscription } from '../../../Services';
-import { ApiContext } from '../../../SFSettings';
+import { ApiContext } from '../../../Context';
 
 export interface CurrentPlanProps {
   canUpdate: boolean;
@@ -27,7 +27,7 @@ export const CurrentPlan = ({
   onUpgrade
 }: CurrentPlanProps): React.ReactElement<CurrentPlanProps> => {
   const { setSubscriptions } = useContext(SubscriptionContext);
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const { customer } = useContext(CustomerContext);
   const [isCancelDialogOpen, setIsCancelDialogOpen] =
     React.useState<boolean>(false);

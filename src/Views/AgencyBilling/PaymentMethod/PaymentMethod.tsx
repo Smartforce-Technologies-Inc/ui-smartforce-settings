@@ -26,7 +26,7 @@ import {
 } from '../../../Models';
 import { updateCreditCard, getStripeCardToken } from '../../../Services';
 import { useSubscription } from '../../../Hooks';
-import { ApiContext } from '../../../SFSettings';
+import { ApiContext } from '../../../Context';
 
 const getPaymentText = (payment: SubscriptionPayment): string => {
   const paymentMethod = payment.method;
@@ -54,7 +54,7 @@ export const PaymentMethod = ({
   onClose,
   onError
 }: PaymentMethodProps): React.ReactElement<PaymentMethodProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const elements = useElements();
   const stripe = useStripe();
   const { setSubscriptions } = useContext(SubscriptionContext);

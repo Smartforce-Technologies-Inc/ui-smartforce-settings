@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { DAYS_DICT } from '../Constants';
-import { Shift } from '../Models';
+import { Shift, ShiftListItem } from '../Models';
 
 export const formatDateString = (isoDate: string, format: string): string => {
   return moment(new Date(isoDate)).format(format);
@@ -41,7 +41,10 @@ export function formatArrayToString<T>(value: T[]): string {
   return value.join(', ');
 }
 
-export function getDaysLabel(shift: Shift, hasTime?: boolean): string {
+export function getDaysLabel(
+  shift: ShiftListItem | Shift,
+  hasTime?: boolean
+): string {
   let msg: string = `Every week on `;
   shift.recurrence.days.forEach((day: string, index: number) => {
     const isLast: boolean = index === shift.recurrence.days.length - 1;

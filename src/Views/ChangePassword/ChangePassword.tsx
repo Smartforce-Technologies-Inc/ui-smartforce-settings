@@ -3,7 +3,7 @@ import styles from './ChangePassword.module.scss';
 import { SFAlert, SFButton, SFTextField } from 'sfui';
 import { MediaContext } from '../../Context';
 import { SettingsContentRender } from '../SettingsContentRender';
-import { ApiContext } from '../../SFSettings';
+import { ApiContext } from '../../Context';
 import { updateUser } from '../../Services';
 import { SettingsError } from '../../Models';
 import { isPasswordValid } from '../../Helpers';
@@ -20,7 +20,7 @@ export const ChangePassword = ({
   onLoading,
   onDone
 }: ChangePasswordProps): React.ReactElement<ChangePasswordProps> => {
-  const apiBaseUrl = React.useContext(ApiContext);
+  const apiBaseUrl = React.useContext(ApiContext).settings;
   const { isPhone } = React.useContext(MediaContext);
   const [password, setPassword] = React.useState<string>('');
   const [passwordConfirm, setPasswordConfirm] = React.useState<string>('');

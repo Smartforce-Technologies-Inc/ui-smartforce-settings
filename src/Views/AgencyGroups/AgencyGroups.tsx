@@ -11,7 +11,7 @@ import { GroupHistoryModal } from './GroupHistoryModal/GroupHistoryModal';
 import { UserContext } from '../../Context';
 import { SETTINGS_CUSTOM_EVENT } from '../../Constants/Events';
 import { dispatchCustomEvent } from '../../Helpers';
-import { ApiContext } from '../../SFSettings';
+import { ApiContext } from '../../Context';
 import { ListManagment } from '../../Components/ListManagment/ListManagment';
 
 function sortGroups(groups: Group[]): Group[] {
@@ -55,7 +55,7 @@ export const AgencyGroups = ({
   onClose,
   onError
 }: AgencyGroupsProps): React.ReactElement<AgencyGroupsProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const { user, setUser } = useContext(UserContext);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);

@@ -18,7 +18,7 @@ import {
 } from '../../../Constants';
 import { AreaPolygonEdit } from './AreaPolygonEdit/AreaPolygonEdit';
 import { SettingsError } from '../../../Models/Error';
-import { ApiContext } from '../../../SFSettings';
+import { ApiContext } from '../../../Context';
 
 export interface AgencyAreasModalProps {
   isOpen: boolean;
@@ -81,7 +81,7 @@ export const AgencyAreasModal = ({
   onClose,
   onError
 }: AgencyAreasModalProps): React.ReactElement<AgencyAreasModalProps> => {
-  const apiBaseUrl = React.useContext(ApiContext);
+  const apiBaseUrl = React.useContext(ApiContext).settings;
   const [formValue, setFormValue] =
     React.useState<AreaFormValue>(defaultFormValue);
   const [formErrors, setFormErrors] =

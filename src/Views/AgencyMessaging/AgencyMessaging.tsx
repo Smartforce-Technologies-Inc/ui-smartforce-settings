@@ -14,7 +14,7 @@ import {
 import { RecipientsField } from './RecipientsField/RecipientsField';
 import { Loader } from '../../Components';
 import { SettingsError } from '../../Models';
-import { ApiContext } from '../../SFSettings';
+import { ApiContext } from '../../Context';
 
 const sortRecipients = (recipients: string[]): string[] => {
   const clonedRecipients = [...recipients.map((v) => v.toLowerCase())];
@@ -42,7 +42,7 @@ export interface AgencyMessagingProps {
 export const AgencyMessaging = ({
   onError
 }: AgencyMessagingProps): React.ReactElement<AgencyMessagingProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const { isPhone } = React.useContext(MediaContext);
   const { customer } = React.useContext(CustomerContext);
   const { user } = React.useContext(UserContext);

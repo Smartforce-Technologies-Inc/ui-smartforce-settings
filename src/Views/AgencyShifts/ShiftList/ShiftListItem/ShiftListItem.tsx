@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import styles from './ShiftListItem.module.scss';
-import { SFChip, SFIconButton, SFMenu, SFMenuItem } from 'sfui';
+import { SFIconButton, SFMenu } from 'sfui';
 import { Avatar } from '../../../../Components';
-import { Shift } from '../../../../Models';
+import { ShiftListItem as Shift } from '../../../../Models';
 import { ShiftListItemInfo } from './ShiftListItemInfo/ShiftListItemInfo';
 
 export interface ShiftListItemProps {

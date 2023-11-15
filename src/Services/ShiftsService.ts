@@ -1,12 +1,34 @@
-import { Shift } from '../Models';
+import { apiGet, apiPost, apiPut } from '../Helpers';
+import { Shift, ShiftListItem, ShiftRequest } from '../Models';
+import { getUserSession } from './AuthService';
 
-export const getShifts = (baseUrl: string): Promise<Shift[]> => {
-  // TODO BE INTEGRATION
-  // const url: string = `${baseUrl}/shifts/me`;
-  // return apiGet<Shift[]>(url, getUserSession().access_token);
-  return new Promise((resolve, _reject) => {
-    setTimeout(() => {
-      resolve([]);
-    }, 1500);
-  });
-};
+export function getShifts(baseUrl: string): Promise<ShiftListItem[]> {
+  const url: string = `${baseUrl}/shifts`;
+  return apiGet<{ data: ShiftListItem[] }>(
+    url,
+    getUserSession().access_token
+  ).then((resp) => resp.data);
+}
+
+export function getShift(baseUrl: string, id: string): Promise<Shift> {
+  const url: string = `${baseUrl}/shifts/${id}`;
+  return apiGet<Shift>(url, getUserSession().access_token);
+}
+
+export function addShift(baseUrl: string, shift: ShiftRequest): Promise<Shift> {
+  const url: string = `${baseUrl}/shifts`;
+  return apiPost<ShiftRequest, Shift>(
+    url,
+    shift,
+    getUserSession().access_token
+  );
+}
+
+export function editShift(
+  baseUrl: string,
+  id: string,
+  shift: ShiftRequest
+): Promise<Shift> {
+  const url: string = `${baseUrl}/shifts/${id}`;
+  return apiPut<ShiftRequest, Shift>(url, shift, getUserSession().access_token);
+}

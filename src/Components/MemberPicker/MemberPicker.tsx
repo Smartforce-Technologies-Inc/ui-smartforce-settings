@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import { SFPeoplePicker, SFPeopleOption } from 'sfui';
 import { getUserSession } from '../../Services';
-import { ApiContext } from '../../SFSettings';
+import { ApiContext } from '../../Context';
 
 const formatOption = (option: any): SFPeopleOption => {
   return {
@@ -26,7 +26,7 @@ export const MemberPicker = ({
   value,
   onChange
 }: MemberPickerProps): React.ReactElement<MemberPickerProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
 
   const fetchInit: RequestInit = useMemo(
     () => ({

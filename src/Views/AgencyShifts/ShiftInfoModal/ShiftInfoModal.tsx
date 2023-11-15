@@ -107,7 +107,7 @@ export const ShiftInfoModal = ({
         <Divider />
         <div>
           <ShiftInfoModalItem icon="Users" text="Minimum Staffing" />
-          <ProgressBar value={shift.members.length} peak={shift.staff_min} />
+          <ProgressBar value={shift.members.length} peak={shift.min_staff} />
         </div>
         <Divider />
         <ListManagment

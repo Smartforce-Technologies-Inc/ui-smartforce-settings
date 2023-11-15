@@ -38,8 +38,7 @@ import { AppEnv, ApplicationProduct } from './Models/Apps';
 import { getApiBaseUrl, getAppBaseUrl } from './Helpers/application';
 import { AgencyShifts } from './Views/AgencyShifts/AgencyShifts';
 import { AgencyEvents } from './Views/AgencyEvents/AgencyEvents';
-
-export const ApiContext = createContext<string>('');
+import { ApiContext } from './Context/Api';
 
 const onGetStarted = (env: AppEnv, product: ApplicationProduct) => {
   window.open(getAppBaseUrl(env, product), '_blank');
@@ -450,7 +449,12 @@ export const SFSettings = ({
     selectedSection.name === 'business_card';
 
   return (
-    <ApiContext.Provider value={getApiBaseUrl(enviroment)}>
+    <ApiContext.Provider
+      value={{
+        settings: getApiBaseUrl(enviroment),
+        shifts: `${getAppBaseUrl(enviroment, 'shift')}api`
+      }}
+    >
       <div className={`${styles.settings} ${className || ''}`}>
         {isPhone && (
           <Fragment>
