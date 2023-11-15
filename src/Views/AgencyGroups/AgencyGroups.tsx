@@ -222,8 +222,9 @@ export const AgencyGroups = ({
           />
 
           <ListManagment
+            actionButtonLabel="Create Group"
+            emptyMessage="There are no groups created yet."
             label="Group"
-            labelPlural="groups"
             list={groups}
             isLoading={isLoading}
             filter={getFilteredGroups}

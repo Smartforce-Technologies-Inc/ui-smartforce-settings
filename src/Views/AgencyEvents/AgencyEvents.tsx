@@ -97,8 +97,9 @@ export const AgencyEvents = ({
       <SettingsContentRender
         renderContent={() => (
           <ListManagment
+            actionButtonLabel="Create Event Type"
+            emptyMessage="There are no events created yet."
             label="Event Type"
-            labelPlural="events"
             list={events}
             isLoading={isLoading}
             filter={getFilteredValues}

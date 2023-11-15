@@ -1,0 +1,45 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.progressBar {
+  height: 42px;
+  position: relative;
+  margin-left: 28px;
+
+  .bar {
+    position: absolute;
+    background-color: $sf-grey-100;
+    height: 12px;
+    top: 6px;
+    width: 100%;
+    border-radius: 2px;
+
+    .progress {
+      background-color: $sf-red-700;
+      height: 12px;
+      border-radius: 2px;
+
+      &.success {
+        background-color: $sf-green-500;
+      }
+    }
+  }
+
+  .tippingPoint {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    box-sizing: border-box;
+    border-right: 1px solid $sf-grey-600;
+    height: 100%;
+
+    .peak {
+      margin: 0;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 20px;
+      color: $sf-grey-600;
+      padding-right: 2px;
+    }
+  }
+}

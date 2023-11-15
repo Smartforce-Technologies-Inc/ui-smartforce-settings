@@ -1,0 +1,11 @@
+.shiftInfoModal {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
