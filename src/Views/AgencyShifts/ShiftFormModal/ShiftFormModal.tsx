@@ -24,11 +24,11 @@ const initValue: ShiftFormValue = {
   start: { date: null, time: '' },
   end: { date: null, time: '' },
   recurrence: {
-    frecuency: 'Weekly',
+    frequency: 'Weekly',
     interval: 1,
     days: []
   },
-  staff_min: '',
+  min_staff: '',
   members: []
 };
 
@@ -51,9 +51,9 @@ function getShiftValue(shift: Shift): ShiftFormValue {
     end: getDateValue(shift.end.datetime),
     recurrence: {
       ...shift.recurrence,
-      frecuency: upperFirstChar(shift.recurrence.frecuency)
+      frequency: upperFirstChar(shift.recurrence.frequency)
     },
-    staff_min: shift.staff_min.toString(),
+    min_staff: shift.min_staff.toString(),
     members: shift.members.map((m: ShiftMember) => ({
       name: m.name,
       asyncObject: {
@@ -123,13 +123,13 @@ function isFormInvalid(value: ShiftFormValue, shift?: Shift): boolean {
     !value.acronym ||
     isDateTimeInvalid(value.start) ||
     isDateTimeInvalid(value.end) ||
-    !value.staff_min ||
-    value.staff_min.length === 0
+    !value.min_staff ||
+    value.min_staff.length === 0
   );
 }
 
-function getDateRequestValue(date: moment.Moment): string {
-  return date.format('YYYY-MM-ddTHH:mm:ss');
+function getDateRequestValue(date: moment.Moment, time: string): string {
+  return `${date.format('YYYY-MM-DDT')}${time}:00`;
 }
 
 function getOptionListValue(list: SFPeopleOption[]): string[] {
@@ -140,10 +140,20 @@ function getShiftRequestValue(value: ShiftFormValue): ShiftRequest {
   return {
     ...value,
     start: {
-      datetime: getDateRequestValue(value.start.date as moment.Moment)
+      datetime: getDateRequestValue(
+        value.start.date as moment.Moment,
+        value.start.time
+      )
     },
     end: {
-      datetime: getDateRequestValue(value.end.date as moment.Moment)
+      datetime: getDateRequestValue(
+        value.end.date as moment.Moment,
+        value.end.time
+      )
+    },
+    recurrence: {
+      ...value.recurrence,
+      frequency: value.recurrence.frequency.toLowerCase()
     },
     areas: getOptionListValue(value.areas),
     members: getOptionListValue(value.members),
@@ -213,7 +223,7 @@ export const ShiftFormModal = ({
         onClick: onClose
       }}
       actionButton={{
-        label: shift ? 'Save Changes' : 'Create Group',
+        label: shift ? 'Save Changes' : 'Create Shift',
         isLoading: isSaving,
         disabled: isFormInvalid(value, shift),
         onClick: onSave

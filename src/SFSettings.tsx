@@ -452,7 +452,7 @@ export const SFSettings = ({
     <ApiContext.Provider
       value={{
         settings: getApiBaseUrl(enviroment),
-        shifts: `${getAppBaseUrl(enviroment, 'shift')}.api`
+        shifts: `${getAppBaseUrl(enviroment, 'shift')}api`
       }}
     >
       <div className={`${styles.settings} ${className || ''}`}>

@@ -29,7 +29,7 @@ export const RepeatForm = ({
         <SFSelect
           label="Frequency"
           options={[{ label: 'Weekly', value: 'Weekly' }]}
-          value={value.frecuency}
+          value={value.frequency}
           disabled
         />
 

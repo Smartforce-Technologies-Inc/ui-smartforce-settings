@@ -21,7 +21,7 @@ const CC_DEMO_URL: string = 'https://demo.citizencontact.app/';
 
 // Shift Urls
 const SHIFT_PROD_URL: string = 'https://shifts.smartforce.com/';
-const SHIFT_LOCAL_URL: string = 'http://localhost:3001/';
+const SHIFT_LOCAL_URL: string = 'http://localhost:8002/';
 const SHIFT_DEV_URL: string = 'https://shifts-dev.smartforce.com/';
 const SHIFT_QA_URL: string = 'https://shifts-qa.smartforce.com/';
 const SHIFT_DEMO_URL: string = 'https://shifts-demo.smartforce.com/';

@@ -107,11 +107,11 @@ export const ShiftForm = ({
           label="Minimum staffing"
           required
           helperText="It takes at least one member to continue."
-          value={value.staff_min}
+          value={value.min_staff}
           onChange={(e) =>
             onChange({
               ...value,
-              staff_min: e.target.value
+              min_staff: e.target.value
             })
           }
         />

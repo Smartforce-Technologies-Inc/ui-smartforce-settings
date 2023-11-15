@@ -11,7 +11,7 @@ export interface ShiftDate {
 }
 
 export interface ShiftRecurrence {
-  frecuency: string;
+  frequency: string;
   interval: number;
   days: string[];
   until?: ShiftDate;
@@ -32,7 +32,7 @@ export interface ShiftListItem {
   start: ShiftDate;
   end: ShiftDate;
   recurrence: ShiftRecurrence;
-  staff_min: number;
+  min_staff: number;
   members: string[];
   supervisor?: string;
   created_at: string;
@@ -50,7 +50,7 @@ export interface Shift {
   start: ShiftDate;
   end: ShiftDate;
   recurrence: ShiftRecurrence;
-  staff_min: number;
+  min_staff: number;
   members: ShiftMember[];
   supervisor?: ShiftMember;
   created_at: string;
@@ -73,7 +73,7 @@ export interface ShiftFormValue {
   areas: SFPeopleOption[];
   members: SFPeopleOption[];
   supervisor?: SFPeopleOption;
-  staff_min: string;
+  min_staff: string;
 }
 
 export interface ShiftRequestDate {
@@ -93,5 +93,5 @@ export interface ShiftRequest {
   recurrence: ShiftRecurrence;
   members: string[];
   supervisor?: string;
-  staff_min: string;
+  min_staff: string;
 }
