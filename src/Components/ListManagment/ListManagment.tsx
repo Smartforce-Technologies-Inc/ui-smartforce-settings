@@ -7,8 +7,9 @@ import { NoResults } from './NoResults/NoResults';
 const LIST_LIMIT = 10;
 
 export interface ListManagmentProps<T> {
+  actionButtonLabel: string;
+  emptyMessage: string;
   label: string;
-  labelPlural: string;
   list: T[];
   isLoading: boolean;
   filter: (list: T[], filter: string) => T[];
@@ -47,7 +48,7 @@ export const ListManagment = <T,>(
           size="medium"
           onClick={props.onCreate}
         >
-          Create {props.label}
+          {props.actionButtonLabel}
         </SFButton>
 
         {!isListEmpty && (
@@ -76,7 +77,7 @@ export const ListManagment = <T,>(
           <Fragment>
             {isListEmpty && (
               <SFText className={styles.emptyMsg} type="component-2">
-                There are no {props.labelPlural} created yet.
+                {props.emptyMessage}
               </SFText>
             )}
 
