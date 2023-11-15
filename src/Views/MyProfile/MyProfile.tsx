@@ -5,7 +5,7 @@ import { UserContext, MediaContext } from '../../Context';
 import { SettingsContentRender } from '../SettingsContentRender';
 import { MyProfileForm } from './MyProfileForm/MyProfileForm';
 import { AvatarImg, updateAvatar, updateUser } from '../../Services';
-import { ApiContext } from '../../SFSettings';
+import { ApiContext } from '../../Context';
 import { isFieldEmpty, isEqualObject, isOfficerIdValid } from '../../Helpers';
 import { User, UserGroup, SettingsError } from '../../Models';
 
@@ -63,7 +63,7 @@ export const MyProfile = ({
   onDone,
   onError
 }: MyProfileProps): React.ReactElement<MyProfileProps> => {
-  const apiBaseUrl = React.useContext(ApiContext);
+  const apiBaseUrl = React.useContext(ApiContext).settings;
   const { isPhone } = React.useContext(MediaContext);
   const { user, setUser } = React.useContext(UserContext);
   const [editUser, setEditUser] = React.useState<User>(

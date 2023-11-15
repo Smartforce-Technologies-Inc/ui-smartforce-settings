@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './ShiftListItemInfo.module.scss';
 import moment from 'moment';
-import { SFText, SFChip } from 'sfui';
-import { Shift } from '../../../../../Models';
+import { SFText } from 'sfui';
+import { ShiftListItem } from '../../../../../Models';
 
 const DAYS_DICT: Record<string, string> = {
   MO: 'Monday',
@@ -14,7 +14,7 @@ const DAYS_DICT: Record<string, string> = {
   SU: 'Sunday'
 };
 
-function getDaysLabel(shift: Shift): string {
+function getDaysLabel(shift: ShiftListItem): string {
   let msg: string = `Every week on `;
   shift.recurrence.days.forEach((day: string, index: number) => {
     const isLast: boolean = index === shift.recurrence.days.length - 1;
@@ -36,7 +36,7 @@ function getDaysLabel(shift: Shift): string {
 }
 
 export interface ShiftListItemInfoProps {
-  shift: Shift;
+  shift: ShiftListItem;
 }
 
 export const ShiftListItemInfo = ({

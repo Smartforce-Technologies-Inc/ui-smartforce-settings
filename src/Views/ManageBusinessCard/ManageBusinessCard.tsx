@@ -11,7 +11,7 @@ import {
 } from '../../Context';
 import { BusinessCardSwitchForm } from './BusinessCardSwitchForm/BusinessSwitchForm';
 import { BusinessCardPreview } from './BusinessCardPreview/BusinessCardPreview';
-import { ApiContext } from '../../SFSettings';
+import { ApiContext } from '../../Context';
 import { saveBusinessCardSettings } from '../../Services';
 import {
   dispatchCustomEvent,
@@ -79,7 +79,7 @@ export const ManageBusinessCard = ({
   onError,
   onClose
 }: ManageBusinessCardProps): React.ReactElement<ManageBusinessCardProps> => {
-  const apiBaseUrl = React.useContext(ApiContext);
+  const apiBaseUrl = React.useContext(ApiContext).settings;
   const { isPhone } = React.useContext(MediaContext);
   const { themeType } = React.useContext(ThemeTypeContext);
   const user = React.useContext(UserContext).user as User;

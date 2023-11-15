@@ -4,7 +4,7 @@ import { SFAlertDialog, SFText, SFTextField } from 'sfui';
 import { Group, UserGroup, SettingsError } from '../../../Models';
 import { deleteGroup } from '../../../Services/GroupService';
 import { UserContext } from '../../../Context';
-import { ApiContext } from '../../../SFSettings';
+import { ApiContext } from '../../../Context';
 
 export interface DeleteGroupModalProps {
   group: Group;
@@ -19,7 +19,7 @@ export const DeleteGroupModal = ({
   isOpen,
   ...props
 }: DeleteGroupModalProps): React.ReactElement<DeleteGroupModalProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const { user, setUser } = useContext(UserContext);
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
   const [formValue, setFormValue] = React.useState<string>('');

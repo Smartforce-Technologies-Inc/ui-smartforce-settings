@@ -20,7 +20,7 @@ import {
   Subscription,
   User
 } from '../../../../Models';
-import { ApiContext } from '../../../../SFSettings';
+import { ApiContext } from '../../../../Context';
 import {
   getCustomer,
   changeRole,
@@ -66,7 +66,7 @@ export const MemberList = ({
   onError,
   onUpdate
 }: MemberListProps): React.ReactElement<MemberListProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const { user, setUser } = useContext(UserContext);
   const { customer, setCustomer } = useContext(CustomerContext);
   const { setSubscriptions } = React.useContext(SubscriptionContext);

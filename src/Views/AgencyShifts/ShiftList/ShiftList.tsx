@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import styles from './ShiftList.module.scss';
 import { Divider } from '../../../Components/Divider/Divider';
-import { Shift } from '../../../Models';
+import { ShiftListItem as Shift } from '../../../Models';
 import { ShiftListItem } from './ShiftListItem/ShiftListItem';
 
 export interface ShiftListProps {

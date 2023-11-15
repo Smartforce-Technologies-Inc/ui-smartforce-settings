@@ -7,7 +7,7 @@ import { Customer, SettingsError } from '../../Models';
 import { updateBadge, updateCustomer } from '../../Services/CustomerService';
 import { AgencyForm } from '../../Components/Agency/AgencyForm/AgencyForm';
 import { SettingsContentRender } from '../SettingsContentRender';
-import { ApiContext } from '../../SFSettings';
+import { ApiContext } from '../../Context';
 
 export interface AgencyInformationProps {
   onLoading: () => void;
@@ -20,7 +20,7 @@ export const AgencyInformation = ({
   onDone,
   onError
 }: AgencyInformationProps): React.ReactElement<AgencyInformationProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const { isPhone } = React.useContext(MediaContext);
   const { customer, setCustomer } = React.useContext(CustomerContext);
   const [customerValue, setCustomerValue] = React.useState<Partial<Customer>>(

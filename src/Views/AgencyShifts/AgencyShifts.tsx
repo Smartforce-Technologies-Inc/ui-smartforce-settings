@@ -1,24 +1,27 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { SettingsError, Shift } from '../../Models';
+import { SettingsError, Shift, ShiftListItem } from '../../Models';
 import { SettingsContentRender } from '../SettingsContentRender';
 import { ListManagment } from '../../Components/ListManagment/ListManagment';
-import { ApiContext } from '../../SFSettings';
-import { getShifts } from '../../Services';
+import { ApiContext } from '../../Context';
+import { getShift, getShifts } from '../../Services';
 import { ShiftList } from './ShiftList/ShiftList';
 import { ShiftFormModal } from './ShiftFormModal/ShiftFormModal';
 
-function sortShifts(groups: Shift[]): Shift[] {
-  return groups.sort((a: Shift, b: Shift): number =>
+function sortShifts(groups: ShiftListItem[]): ShiftListItem[] {
+  return groups.sort((a: ShiftListItem, b: ShiftListItem): number =>
     a.name.localeCompare(b.name)
   );
 }
 
-function getFilteredShifts(shifts: Shift[], filter: string): Shift[] {
+function getFilteredShifts(
+  shifts: ShiftListItem[],
+  filter: string
+): ShiftListItem[] {
   if (filter.length < 3) {
     return shifts;
   } else {
     const filterLower = filter.toLowerCase();
-    return shifts.filter((s: Shift) =>
+    return shifts.filter((s: ShiftListItem) =>
       s.name.toLowerCase().includes(filterLower)
     );
   }
@@ -33,10 +36,11 @@ export const AgencyShifts = ({
   onError,
   onClose
 }: AgencyShiftsProps): React.ReactElement<AgencyShiftsProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).shifts;
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [shifts, setShifts] = useState<Shift[]>([]);
+  const [shifts, setShifts] = useState<ShiftListItem[]>([]);
   const [selected, setSelected] = useState<Shift | undefined>();
+  const [isLoadingShift, setIsLoadingShift] = useState<boolean>(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -64,22 +68,47 @@ export const AgencyShifts = ({
     };
   }, [apiBaseUrl, onError]);
 
-  const onInfo = (shift: Shift) => {
-    //TODO
-  };
-  const onDelete = (shift: Shift) => {
-    //TODO
+  const onUpdate = async () => {
+    setIsLoading(true);
+    try {
+      const shifts = await getShifts(apiBaseUrl);
+      setShifts(sortShifts(shifts));
+      setIsLoading(false);
+    } catch (e: any) {
+      setIsLoading(false);
+      onError(e);
+    }
   };
 
-  const onEdit = (shift: Shift) => {
-    setSelected(shift);
+  const onCreate = () => {
+    setSelected(undefined);
     setIsCreateModalOpen(true);
   };
 
-  const onRestore = (shift: Shift) => {
+  const onInfo = (shiftPreview: ShiftListItem) => {
     //TODO
   };
-  const onViewHistory = (shift: Shift) => {
+  const onDelete = (shiftPreview: ShiftListItem) => {
+    //TODO
+  };
+
+  const onEdit = async (shiftPreview: ShiftListItem) => {
+    try {
+      setIsLoadingShift(true);
+      setIsCreateModalOpen(true);
+      const shift = await getShift(apiBaseUrl, shiftPreview.id);
+      setSelected(shift);
+      setIsLoadingShift(false);
+    } catch (e: any) {
+      setIsLoadingShift(false);
+      onError(e);
+    }
+  };
+
+  const onRestore = (shiftPreview: ShiftListItem) => {
+    //TODO
+  };
+  const onViewHistory = (shiftPreview: ShiftListItem) => {
     //TODO
   };
 
@@ -90,6 +119,9 @@ export const AgencyShifts = ({
           <ShiftFormModal
             shift={selected}
             isOpen={isCreateModalOpen}
+            isLoading={isLoadingShift}
+            onError={onError}
+            onSave={onUpdate}
             onClose={() => setIsCreateModalOpen(false)}
           />
 
@@ -99,8 +131,8 @@ export const AgencyShifts = ({
             list={shifts}
             isLoading={isLoading}
             filter={getFilteredShifts}
-            onCreate={() => setIsCreateModalOpen(true)}
-            renderList={(list: Shift[]) => (
+            onCreate={onCreate}
+            renderList={(list: ShiftListItem[]) => (
               <ShiftList
                 shifts={list}
                 onInfo={onInfo}

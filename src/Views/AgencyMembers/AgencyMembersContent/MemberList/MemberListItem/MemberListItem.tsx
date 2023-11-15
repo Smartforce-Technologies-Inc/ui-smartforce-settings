@@ -17,7 +17,7 @@ import {
 import { User, Member, SettingsError } from '../../../../../Models';
 import { resendInvitation } from '../../../../../Services';
 import { SETTINGS_CUSTOM_EVENT } from '../../../../../Constants';
-import { ApiContext } from '../../../../../SFSettings';
+import { ApiContext } from '../../../../../Context';
 
 export interface MemberListItemProps {
   member: Member;
@@ -37,7 +37,7 @@ export const MemberListItem = ({
   onTransitionEnd,
   ...props
 }: MemberListItemProps): React.ReactElement<MemberListItemProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const user = useContext(UserContext).user as User;
   const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false);
   const refAnchorEl = useRef<HTMLDivElement | null>(null);

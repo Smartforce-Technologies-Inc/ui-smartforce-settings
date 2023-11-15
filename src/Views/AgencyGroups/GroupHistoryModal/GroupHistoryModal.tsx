@@ -16,7 +16,7 @@ import {
 } from '../../../Components/PanelModal/PanelModal';
 import { getGroupHistory } from '../../../Services/GroupService';
 import { UserContext } from '../../../Context';
-import { ApiContext } from '../../../SFSettings';
+import { ApiContext } from '../../../Context';
 
 export interface GroupHistoryModalProps {
   group: Group;
@@ -96,7 +96,7 @@ export const GroupHistoryModal = ({
   onClose,
   onError
 }: GroupHistoryModalProps): React.ReactElement<GroupHistoryModalProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const user = useContext(UserContext).user as User;
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [historyItems, setHistoryItems] = React.useState<SFTimelineItem[]>([]);
