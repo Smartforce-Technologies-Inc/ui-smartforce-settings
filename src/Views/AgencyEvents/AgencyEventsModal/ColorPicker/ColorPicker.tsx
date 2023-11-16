@@ -39,6 +39,7 @@ export const ColorPicker = ({
       <div className={styles.colorList}>
         {colorPalette.map((color: string) => (
           <div
+            key={`picker-${color}`}
             className={`${styles.container} ${
               color === colorSelected ? styles.selected : ''
             }`}
