@@ -84,6 +84,7 @@ export const AgencyEvents = ({
           onModalClose();
         }}
         onBack={onModalClose}
+        onError={onError}
         onFinish={onFinish}
       />
       {modalValue && (
