@@ -3,9 +3,9 @@ export interface AgencyEvent {
   color: string;
 }
 
-export interface AgencyEventTypeResponse {
-  id: number;
-  agency_id: number;
+export interface AgencyEventType {
+  id: string;
+  agency_id: string;
   name: string;
   color: string;
   created_at: string;

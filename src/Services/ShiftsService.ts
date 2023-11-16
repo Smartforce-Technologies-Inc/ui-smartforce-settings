@@ -1,7 +1,7 @@
 import { apiGet, apiPost, apiPut } from '../Helpers';
 import {
   AgencyEvent,
-  AgencyEventTypeResponse,
+  AgencyEventType,
   Shift,
   ShiftListItem,
   ShiftRequest
@@ -42,9 +42,9 @@ export function editShift(
 export function createEventType(
   baseUrl: string,
   eventType: AgencyEvent
-): Promise<AgencyEventTypeResponse> {
+): Promise<AgencyEventType> {
   const url: string = `${baseUrl}/calendars`;
-  return apiPost<AgencyEvent, AgencyEventTypeResponse>(
+  return apiPost<AgencyEvent, AgencyEventType>(
     url,
     eventType,
     getUserSession().access_token
