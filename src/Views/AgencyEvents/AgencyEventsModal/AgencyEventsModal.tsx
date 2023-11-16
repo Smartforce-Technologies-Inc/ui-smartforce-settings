@@ -4,7 +4,9 @@ import { PanelModal, PanelModalAnchor } from '../../../Components';
 import { SFTextField } from 'sfui';
 import { Divider } from '../../../Components/Divider/Divider';
 import { ColorPicker } from './ColorPicker/ColorPicker';
-import { AgencyEvent } from '../../../Models';
+import { AgencyEvent, SettingsError } from '../../../Models';
+import { ApiContext } from '../../../Context';
+import { createEventType } from '../../../Services';
 
 const isSaveDisabled = (
   isSaving: boolean,
@@ -27,6 +29,7 @@ export interface AgencyEventsModalProps {
   isOpen: boolean;
   onBack: () => void;
   onClose: () => void;
+  onError: (e: SettingsError) => void;
   onFinish: () => void;
   value?: AgencyEvent;
 }
@@ -35,9 +38,11 @@ export const AgencyEventsModal = ({
   isOpen,
   onBack,
   onClose,
+  onError,
   onFinish,
   value
 }: AgencyEventsModalProps): React.ReactElement<AgencyEventsModalProps> => {
+  const apiBaseUrl = React.useContext(ApiContext).shifts;
   const [anchor, setAnchor] = React.useState<PanelModalAnchor>('right');
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
   const [formValue, setFormValue] = React.useState<AgencyEvent>(
@@ -52,11 +57,22 @@ export const AgencyEventsModal = ({
     setFormValue({ ...formValue, name });
   };
 
-  const onSave = (): void => {
-    if (value) {
-      // TODO add BE implementation for event edit
-    } else {
-      // TODO add BE implementation for event create
+  const onSave = async () => {
+    setIsSaving(true);
+
+    try {
+      if (value) {
+        // TODO add BE implementation for event edit
+      } else {
+        await createEventType(apiBaseUrl, formValue);
+      }
+
+      setIsSaving(false);
+      onFinish();
+      onClose();
+    } catch (e: any) {
+      setIsSaving(false);
+      onError(e);
     }
   };
 
