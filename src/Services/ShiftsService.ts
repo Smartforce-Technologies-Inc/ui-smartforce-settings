@@ -1,5 +1,11 @@
 import { apiGet, apiPost, apiPut } from '../Helpers';
-import { Shift, ShiftListItem, ShiftRequest } from '../Models';
+import {
+  AgencyEvent,
+  AgencyEventTypeResponse,
+  Shift,
+  ShiftListItem,
+  ShiftRequest
+} from '../Models';
 import { getUserSession } from './AuthService';
 
 export function getShifts(baseUrl: string): Promise<ShiftListItem[]> {
@@ -31,4 +37,16 @@ export function editShift(
 ): Promise<Shift> {
   const url: string = `${baseUrl}/shifts/${id}`;
   return apiPut<ShiftRequest, Shift>(url, shift, getUserSession().access_token);
+}
+
+export function createEventType(
+  baseUrl: string,
+  eventType: AgencyEvent
+): Promise<AgencyEventTypeResponse> {
+  const url: string = `${baseUrl}/calendars`;
+  return apiPost<AgencyEvent, AgencyEventTypeResponse>(
+    url,
+    eventType,
+    getUserSession().access_token
+  );
 }
