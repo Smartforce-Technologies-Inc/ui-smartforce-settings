@@ -21,7 +21,7 @@ export const AgencyEventsList = ({
     <div className={styles.agencyAreasList}>
       <TransitionGroup>
         {events.map((event: AgencyEvent, index: number) => (
-          <SFCollapse key={event.name} timeout={480}>
+          <SFCollapse key={`${event.name}-${index}`} timeout={480}>
             <AgencyEventsListItem
               event={event}
               onDelete={() => onDelete(event)}

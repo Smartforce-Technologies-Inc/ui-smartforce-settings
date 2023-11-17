@@ -1,11 +1,13 @@
 import React from 'react';
 import { SettingsContentRender } from '../SettingsContentRender';
 import { SettingsError } from '../../Models/Error';
-import { AgencyEvent } from '../../Models/AgencyEvents';
+import { AgencyEvent, AgencyEventType } from '../../Models/AgencyEvents';
 import { ListManagment } from '../../Components/ListManagment/ListManagment';
 import { AgencyEventsList } from './AgencyEventsList/AgencyEventsList';
 import { AgencyEventsModal } from './AgencyEventsModal/AgencyEventsModal';
 import { AgencyEventsDeleteDialog } from './AgencyEventsDeleteDialog/AgencyEventsDeleteDialog';
+import { getEventTypes } from '../../Services';
+import { ApiContext } from '../../Context';
 
 export interface AgencyEventsProps {
   onClose: () => void;
@@ -21,10 +23,17 @@ const getFilteredValues = (
   );
 };
 
+function sortEventTypes(events: AgencyEventType[]): AgencyEventType[] {
+  return events.sort((a: AgencyEventType, b: AgencyEventType): number =>
+    a.name.localeCompare(b.name)
+  );
+}
+
 export const AgencyEvents = ({
   onClose,
   onError
 }: AgencyEventsProps): React.ReactElement<AgencyEventsProps> => {
+  const apiBaseUrl = React.useContext(ApiContext).shifts;
   const [events, setEvents] = React.useState<AgencyEvent[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [modalValue, setModalValue] = React.useState<AgencyEvent | undefined>(
@@ -61,7 +70,8 @@ export const AgencyEvents = ({
   const onFinish = async () => {
     setIsLoading(true);
     try {
-      // TODO add BE implementation
+      const response = await getEventTypes(apiBaseUrl);
+      setEvents(sortEventTypes(response));
       setIsLoading(false);
     } catch (e: any) {
       setIsLoading(false);
@@ -71,7 +81,28 @@ export const AgencyEvents = ({
   };
 
   React.useEffect(() => {
-    // TODO add get events
+    let isSubscribed: boolean = true;
+
+    const init = async () => {
+      setIsLoading(true);
+      try {
+        const events = await getEventTypes(apiBaseUrl);
+
+        if (isSubscribed) {
+          setEvents(sortEventTypes(events));
+          setIsLoading(false);
+        }
+      } catch (e: any) {
+        onError(e);
+      }
+    };
+
+    init();
+
+    // Unsuscribed when cleaning up
+    return () => {
+      isSubscribed = false;
+    };
   }, []);
 
   return (

@@ -15,6 +15,8 @@ const isSaveDisabled = (
 ) => {
   return (
     !formValue ||
+    !formValue.color ||
+    !formValue.name ||
     isSaving ||
     (formValue.color === value?.color && formValue.name === value?.name)
   );
