@@ -1,7 +1,7 @@
 import React from 'react';
 import { SettingsContentRender } from '../SettingsContentRender';
 import { SettingsError } from '../../Models/Error';
-import { AgencyEvent, AgencyEventType } from '../../Models/AgencyEvents';
+import { AgencyEventType } from '../../Models/AgencyEvents';
 import { ListManagment } from '../../Components/ListManagment/ListManagment';
 import { AgencyEventsList } from './AgencyEventsList/AgencyEventsList';
 import { AgencyEventsModal } from './AgencyEventsModal/AgencyEventsModal';
@@ -15,9 +15,9 @@ export interface AgencyEventsProps {
 }
 
 const getFilteredValues = (
-  list: AgencyEvent[],
+  list: AgencyEventType[],
   filter: string
-): AgencyEvent[] => {
+): AgencyEventType[] => {
   return list.filter((l) =>
     l.name.toLowerCase().includes(filter.toLowerCase())
   );
@@ -34,11 +34,11 @@ export const AgencyEvents = ({
   onError
 }: AgencyEventsProps): React.ReactElement<AgencyEventsProps> => {
   const apiBaseUrl = React.useContext(ApiContext).shifts;
-  const [events, setEvents] = React.useState<AgencyEvent[]>([]);
+  const [events, setEvents] = React.useState<AgencyEventType[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [modalValue, setModalValue] = React.useState<AgencyEvent | undefined>(
-    undefined
-  );
+  const [modalValue, setModalValue] = React.useState<
+    AgencyEventType | undefined
+  >(undefined);
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] =
     React.useState<boolean>(false);
@@ -48,17 +48,17 @@ export const AgencyEvents = ({
     setModalValue(undefined);
   };
 
-  const onEventDelete = (event: AgencyEvent) => {
+  const onEventDelete = (event: AgencyEventType) => {
     setIsDeleteDialogOpen(false);
-    setEvents(events.filter((e: AgencyEvent) => e.name === event.name));
+    setEvents(events.filter((e: AgencyEventType) => e.name === event.name));
   };
 
-  const onDelete = (event: AgencyEvent) => {
+  const onDelete = (event: AgencyEventType) => {
     setModalValue(event);
     setIsDeleteDialogOpen(true);
   };
 
-  const onEdit = (event: AgencyEvent) => {
+  const onEdit = (event: AgencyEventType) => {
     setModalValue(event);
     setIsModalOpen(true);
   };
@@ -122,6 +122,7 @@ export const AgencyEvents = ({
         <AgencyEventsDeleteDialog
           value={modalValue}
           isOpen={isDeleteDialogOpen}
+          onError={onError}
           onDelete={onEventDelete}
           onClose={() => setIsDeleteDialogOpen(false)}
         />
@@ -136,7 +137,7 @@ export const AgencyEvents = ({
             isLoading={isLoading}
             filter={getFilteredValues}
             onCreate={onCreate}
-            renderList={(list: AgencyEvent[]) => (
+            renderList={(list: AgencyEventType[]) => (
               <AgencyEventsList
                 events={list}
                 onDelete={onDelete}

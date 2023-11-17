@@ -4,14 +4,14 @@ import { PanelModal, PanelModalAnchor } from '../../../Components';
 import { SFTextField } from 'sfui';
 import { Divider } from '../../../Components/Divider/Divider';
 import { ColorPicker } from './ColorPicker/ColorPicker';
-import { AgencyEvent, SettingsError } from '../../../Models';
+import { AgencyEvent, AgencyEventType, SettingsError } from '../../../Models';
 import { ApiContext } from '../../../Context';
-import { createEventType } from '../../../Services';
+import { createEventType, editEventType } from '../../../Services';
 
 const isSaveDisabled = (
   isSaving: boolean,
   formValue?: AgencyEvent,
-  value?: AgencyEvent
+  value?: AgencyEventType
 ) => {
   return (
     !formValue ||
@@ -33,7 +33,7 @@ export interface AgencyEventsModalProps {
   onClose: () => void;
   onError: (e: SettingsError) => void;
   onFinish: () => void;
-  value?: AgencyEvent;
+  value?: AgencyEventType;
 }
 
 export const AgencyEventsModal = ({
@@ -64,7 +64,7 @@ export const AgencyEventsModal = ({
 
     try {
       if (value) {
-        // TODO add BE implementation for event edit
+        await editEventType(apiBaseUrl, { ...value, ...formValue });
       } else {
         await createEventType(apiBaseUrl, formValue);
       }
