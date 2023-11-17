@@ -132,8 +132,12 @@ function getDateRequestValue(date: moment.Moment, time: string): string {
   return `${date.format('YYYY-MM-DDT')}${time}:00`;
 }
 
-function getOptionListValue(list: SFPeopleOption[]): string[] {
-  return list.map((o: SFPeopleOption) => o.asyncObject.id);
+function getOptionListValue(list: SFPeopleOption[]): ShiftMember[] {
+  return list.map((o: SFPeopleOption) => ({
+    id: o.asyncObject.id,
+    name: o.name,
+    avatar_thumbnail_url: o.avatarUrl
+  }));
 }
 
 function getShiftRequestValue(value: ShiftFormValue): ShiftRequest {
@@ -157,7 +161,13 @@ function getShiftRequestValue(value: ShiftFormValue): ShiftRequest {
     },
     areas: getOptionListValue(value.areas),
     participants: getOptionListValue(value.participants),
-    supervisor: value.supervisor?.asyncObject.id
+    supervisor: value.supervisor
+      ? {
+          id: value.supervisor.asyncObject.id,
+          name: value.supervisor.name,
+          avatar_thumbnail_url: value.supervisor.avatarUrl
+        }
+      : undefined
   };
 }
 
