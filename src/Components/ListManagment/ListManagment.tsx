@@ -32,7 +32,8 @@ export const ListManagment = <T,>(
     refSearchValueLength.current = searchValue.length;
   }, [searchValue]);
 
-  const filteredList = props.filter(props.list, searchValue);
+  const filteredList =
+    searchValue.length > 2 ? props.filter(props.list, searchValue) : props.list;
   const visibleList: T[] = filteredList.slice(0, limit);
   const isListEmpty: boolean = props.list.length === 0;
 
