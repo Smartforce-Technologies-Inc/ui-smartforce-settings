@@ -50,7 +50,7 @@ export const AgencyEvents = ({
 
   const onEventDelete = (event: AgencyEventType) => {
     setIsDeleteDialogOpen(false);
-    setEvents(events.filter((e: AgencyEventType) => e.name === event.name));
+    setEvents(events.filter((e: AgencyEventType) => e.id !== event.id));
   };
 
   const onDelete = (event: AgencyEventType) => {
