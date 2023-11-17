@@ -3,6 +3,13 @@
   flex-direction: column;
   gap: 24px;
 
+  &.spinner {
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    box-sizing: border-box;
+  }
+
   .content {
     display: flex;
     flex-direction: column;

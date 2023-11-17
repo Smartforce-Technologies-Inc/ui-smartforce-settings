@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styles from './ShiftInfoModal.module.scss';
 import { Avatar, PanelModal } from '../../../Components';
 import { Divider } from '../../../Components/Divider/Divider';
 import { Shift, ShiftMember } from '../../../Models';
-import { SFText } from 'sfui';
+import { SFSpinner, SFText } from 'sfui';
 import {
   formatArrayToString,
   formatDateString,
@@ -30,7 +30,8 @@ const filterShiftMembers = (
 
 export interface ShiftInfoModalProps {
   isOpen: boolean;
-  shift: Shift;
+  isLoading: boolean;
+  shift?: Shift;
   onClose: () => void;
   onBack: () => void;
 }
@@ -39,7 +40,8 @@ export const ShiftInfoModal = ({
   isOpen,
   shift,
   onClose,
-  onBack
+  onBack,
+  ...props
 }: ShiftInfoModalProps): React.ReactElement<ShiftInfoModalProps> => {
   const [isAddMembersOpen, setIsAddMembersOpen] =
     React.useState<boolean>(false);
@@ -75,53 +77,68 @@ export const ShiftInfoModal = ({
           setIsAddMembersOpen(false);
         }}
       />
-      <div className={styles.shiftInfoModal}>
-        <Avatar acronym={shift.acronym} size="large" />
-        <div className={styles.header}>
-          <SFText type="component-title">{shift.name}</SFText>
-        </div>
+      <div
+        className={`${styles.shiftInfoModal} ${
+          props.isLoading ? styles.spinner : ''
+        }`}
+      >
+        {props.isLoading && <SFSpinner />}
+        {!props.isLoading && shift && (
+          <Fragment>
+            <Avatar acronym={shift?.acronym} size="large" />
+            <div className={styles.header}>
+              <SFText type="component-title">{shift?.name}</SFText>
+            </div>
 
-        <div className={styles.content}>
-          <ShiftInfoModalItem icon="Refresh" text={getDaysLabel(shift)} />
-          <ShiftInfoModalItem
-            icon="Clock"
-            text={`${formatDateString(
-              shift.start.datetime,
-              'HH:mm'
-            )} to ${formatDateString(shift.end.datetime, 'HH:mm')}`}
-          />
-          <ShiftInfoModalItem
-            icon="Callendar"
-            text={`From ${formatDateString(shift.start.datetime, 'L')}`}
-          />
-          {shift.areas && (
-            <ShiftInfoModalItem
-              icon="Map"
-              text={formatArrayToString(shift.areas.map((a) => a.name))}
+            <div className={styles.content}>
+              <ShiftInfoModalItem icon="Refresh" text={getDaysLabel(shift)} />
+              <ShiftInfoModalItem
+                icon="Clock"
+                text={`${formatDateString(
+                  shift.start.datetime,
+                  'HH:mm'
+                )} to ${formatDateString(shift.end.datetime, 'HH:mm')}`}
+              />
+              <ShiftInfoModalItem
+                icon="Callendar"
+                text={`From ${formatDateString(shift.start.datetime, 'L')}`}
+              />
+              {shift.areas && shift.areas.length > 0 && (
+                <ShiftInfoModalItem
+                  icon="Map"
+                  text={formatArrayToString(shift.areas.map((a) => a.name))}
+                />
+              )}
+              {shift.supervisor && (
+                <ShiftInfoModalItem
+                  icon="User-1"
+                  text={shift.supervisor.name}
+                />
+              )}
+            </div>
+            <Divider />
+            <div>
+              <ShiftInfoModalItem icon="Users" text="Minimum Staffing" />
+              <ProgressBar
+                value={shift.participants.length}
+                peak={shift.min_staff}
+              />
+            </div>
+            <Divider />
+            <ListManagment
+              actionButtonLabel="Add Members"
+              emptyMessage="There are no members yet."
+              label="Member"
+              list={shift.participants}
+              isLoading={isLoading}
+              filter={filterShiftMembers}
+              onCreate={() => setIsAddMembersOpen(true)}
+              renderList={(list: ShiftMember[]) => (
+                <MemberList members={list} onRemove={onMemberRemove} />
+              )}
             />
-          )}
-          {shift.supervisor && (
-            <ShiftInfoModalItem icon="User-1" text={shift.supervisor.name} />
-          )}
-        </div>
-        <Divider />
-        <div>
-          <ShiftInfoModalItem icon="Users" text="Minimum Staffing" />
-          <ProgressBar value={shift.members.length} peak={shift.min_staff} />
-        </div>
-        <Divider />
-        <ListManagment
-          actionButtonLabel="Add Members"
-          emptyMessage="There are no members yet."
-          label="Member"
-          list={shift.members}
-          isLoading={isLoading}
-          filter={filterShiftMembers}
-          onCreate={() => setIsAddMembersOpen(true)}
-          renderList={(list: ShiftMember[]) => (
-            <MemberList members={list} onRemove={onMemberRemove} />
-          )}
-        />
+          </Fragment>
+        )}
       </div>
     </PanelModal>
   );
