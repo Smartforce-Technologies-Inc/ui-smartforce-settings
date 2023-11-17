@@ -91,10 +91,9 @@ export const AgencyShifts = ({
   const onInfo = async (shiftPreview: ShiftListItem) => {
     try {
       setIsLoadingShift(true);
-      setIsCreateModalOpen(true);
+      setIsViewModalOpen(true);
       const shift = await getShift(apiBaseUrl, shiftPreview.id);
       setModalValue(shift);
-      setIsViewModalOpen(true);
       setIsLoadingShift(false);
     } catch (e: any) {
       setIsLoadingShift(false);
@@ -137,17 +136,16 @@ export const AgencyShifts = ({
             onSave={onUpdate}
             onClose={() => setIsCreateModalOpen(false)}
           />
-          {modalValue && (
-            <ShiftInfoModal
-              isOpen={isViewModalOpen}
-              onClose={() => {
-                onClose();
-                setIsViewModalOpen(false);
-              }}
-              onBack={() => setIsViewModalOpen(false)}
-              shift={modalValue}
-            />
-          )}
+          <ShiftInfoModal
+            isOpen={isViewModalOpen}
+            isLoading={isLoadingShift}
+            onClose={() => {
+              onClose();
+              setIsViewModalOpen(false);
+            }}
+            onBack={() => setIsViewModalOpen(false)}
+            shift={modalValue}
+          />
           <ListManagment
             actionButtonLabel="Create Shift"
             emptyMessage="There are no shifts created yet."
