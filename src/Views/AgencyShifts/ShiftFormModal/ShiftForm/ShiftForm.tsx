@@ -118,11 +118,11 @@ export const ShiftForm = ({
 
         <MultipleMemberPicker
           label="Add Members"
-          value={value.members}
-          onChange={(members: SFPeopleOption[]) =>
+          value={value.participants}
+          onChange={(participants: SFPeopleOption[]) =>
             onChange({
               ...value,
-              members
+              participants
             })
           }
         />

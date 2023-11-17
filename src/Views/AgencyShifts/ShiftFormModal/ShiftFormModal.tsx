@@ -29,7 +29,7 @@ const initValue: ShiftFormValue = {
     days: []
   },
   min_staff: '',
-  members: []
+  participants: []
 };
 
 function getDateValue(isoString: string): ShiftFormDateTimeValue {
@@ -54,7 +54,7 @@ function getShiftValue(shift: Shift): ShiftFormValue {
       frequency: upperFirstChar(shift.recurrence.frequency)
     },
     min_staff: shift.min_staff.toString(),
-    members: shift.members.map((m: ShiftMember) => ({
+    participants: shift.participants.map((m: ShiftMember) => ({
       name: m.name,
       asyncObject: {
         id: m.id
@@ -93,13 +93,13 @@ function isSameOptionList(a: SFPeopleOption[], b: SFPeopleOption[]): boolean {
 
 function isSameShift(a: ShiftFormValue, b: ShiftFormValue): boolean {
   const {
-    members: aMembers,
+    participants: aMembers,
     supervisor: aSupervisor,
     areas: aAreas,
     ...aProps
   } = a;
   const {
-    members: bMembers,
+    participants: bMembers,
     supervisor: bSupervisor,
     areas: bAreas,
     ...bProps
@@ -156,7 +156,7 @@ function getShiftRequestValue(value: ShiftFormValue): ShiftRequest {
       frequency: value.recurrence.frequency.toLowerCase()
     },
     areas: getOptionListValue(value.areas),
-    members: getOptionListValue(value.members),
+    participants: getOptionListValue(value.participants),
     supervisor: value.supervisor?.asyncObject.id
   };
 }
