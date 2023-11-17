@@ -87,11 +87,11 @@ export interface ShiftRequestRecurrence extends Omit<ShiftRecurrence, 'until'> {
 export interface ShiftRequest {
   name: string;
   acronym: string;
-  areas: string[];
+  areas: ShiftArea[];
   start: ShiftRequestDate;
   end: ShiftRequestDate;
   recurrence: ShiftRecurrence;
-  participants: string[];
-  supervisor?: string;
+  participants: ShiftMember[];
+  supervisor?: ShiftMember;
   min_staff: string;
 }
