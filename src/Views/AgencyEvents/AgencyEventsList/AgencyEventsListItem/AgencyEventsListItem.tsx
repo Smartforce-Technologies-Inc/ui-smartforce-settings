@@ -55,8 +55,7 @@ export const AgencyEventsListItem = ({
           onClick={onMenuOpen}
         />
 
-        {/** TODO remove comment with BE implementation */}
-        {/* <SFMenu
+        <SFMenu
           autoFocus={false}
           anchorEl={menuAnchorElement}
           open={Boolean(menuAnchorElement)}
@@ -67,8 +66,8 @@ export const AgencyEventsListItem = ({
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
           <SFMenuItem onClick={onEventEdit}>Edit event type</SFMenuItem>
-          <SFMenuItem onClick={onEventDelete}>Delete Event</SFMenuItem>
-        </SFMenu> */}
+          {/*<SFMenuItem onClick={onEventDelete}>Delete Event</SFMenuItem>*/}
+        </SFMenu>
       </div>
     </div>
   );
