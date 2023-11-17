@@ -46,7 +46,7 @@ export const AgencyEventsDeleteDialog = ({
         buttonProps: { variant: 'text', onClick: onClose, disabled: isSaving }
       }}
       rightAction={{
-        label: 'Delete Event',
+        label: 'Delete Event Type',
         buttonProps: {
           sfColor: 'red',
           onClick: onEventDelete,
