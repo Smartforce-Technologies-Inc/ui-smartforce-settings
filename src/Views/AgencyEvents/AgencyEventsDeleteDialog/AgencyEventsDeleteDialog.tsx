@@ -1,18 +1,20 @@
 import React from 'react';
 import styles from './AgencyEventsDeleteDialog.module.scss';
 import { SFAlertDialog, SFText } from 'sfui';
-import { AgencyEvent } from '../../../Models';
+import { AgencyEventType, SettingsError } from '../../../Models';
 
 export interface AgencyEventsDeleteDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  onDelete: (event: AgencyEvent) => void;
-  value: AgencyEvent;
+  onError: (e: SettingsError) => void;
+  onDelete: (event: AgencyEventType) => void;
+  value: AgencyEventType;
 }
 
 export const AgencyEventsDeleteDialog = ({
   isOpen,
   onClose,
+  onError,
   onDelete,
   value
 }: AgencyEventsDeleteDialogProps): React.ReactElement<AgencyEventsDeleteDialogProps> => {
