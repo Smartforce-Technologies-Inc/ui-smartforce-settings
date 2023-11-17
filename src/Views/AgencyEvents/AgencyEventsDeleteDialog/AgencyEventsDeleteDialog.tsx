@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './AgencyEventsDeleteDialog.module.scss';
 import { SFAlertDialog, SFText } from 'sfui';
 import { AgencyEventType, SettingsError } from '../../../Models';
+import { deleteEventType } from '../../../Services';
+import { ApiContext } from '../../../Context';
 
 export interface AgencyEventsDeleteDialogProps {
   isOpen: boolean;
@@ -18,10 +20,20 @@ export const AgencyEventsDeleteDialog = ({
   onDelete,
   value
 }: AgencyEventsDeleteDialogProps): React.ReactElement<AgencyEventsDeleteDialogProps> => {
+  const apiBaseUrl = React.useContext(ApiContext).shifts;
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
 
   const onEventDelete = async () => {
-    // TODO add BE integration
+    setIsSaving(true);
+
+    try {
+      await deleteEventType(apiBaseUrl, value.id);
+      setIsSaving(false);
+      onDelete(value);
+    } catch (e: any) {
+      setIsSaving(false);
+      onError(e);
+    }
   };
 
   return (
