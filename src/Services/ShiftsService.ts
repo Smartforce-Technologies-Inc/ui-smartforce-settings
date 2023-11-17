@@ -58,3 +58,18 @@ export function createEventType(
     getUserSession().access_token
   );
 }
+
+export function editEventType(
+  baseUrl: string,
+  eventType: AgencyEventType
+): Promise<AgencyEventType> {
+  const url: string = `${baseUrl}/calendars/${eventType.id}`;
+  return apiPut<AgencyEvent, AgencyEventType>(
+    url,
+    {
+      name: eventType.name,
+      color: eventType.color
+    },
+    getUserSession().access_token
+  );
+}
