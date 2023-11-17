@@ -66,7 +66,7 @@ export const AgencyEventsListItem = ({
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
           <SFMenuItem onClick={onEventEdit}>Edit event type</SFMenuItem>
-          {/*<SFMenuItem onClick={onEventDelete}>Delete Event</SFMenuItem>*/}
+          <SFMenuItem onClick={onEventDelete}>Delete</SFMenuItem>
         </SFMenu>
       </div>
     </div>

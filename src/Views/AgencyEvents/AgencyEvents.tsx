@@ -45,12 +45,14 @@ export const AgencyEvents = ({
 
   const onModalClose = () => {
     setIsModalOpen(false);
+    setIsDeleteDialogOpen(false);
     setModalValue(undefined);
   };
 
   const onEventDelete = (event: AgencyEventType) => {
     setIsDeleteDialogOpen(false);
-    setEvents(events.filter((e: AgencyEventType) => e.name === event.name));
+    setModalValue(undefined);
+    setEvents(events.filter((e: AgencyEventType) => e.id !== event.id));
   };
 
   const onDelete = (event: AgencyEventType) => {
@@ -124,14 +126,14 @@ export const AgencyEvents = ({
           isOpen={isDeleteDialogOpen}
           onError={onError}
           onDelete={onEventDelete}
-          onClose={() => setIsDeleteDialogOpen(false)}
+          onClose={onModalClose}
         />
       )}
       <SettingsContentRender
         renderContent={() => (
           <ListManagment
             actionButtonLabel="Create Event Type"
-            emptyMessage="There are no events created yet."
+            emptyMessage="There are no event types created yet."
             label="Event Type"
             list={events}
             isLoading={isLoading}

@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiPut } from '../Helpers';
+import { apiDelete, apiGet, apiPost, apiPut } from '../Helpers';
 import {
   AgencyEvent,
   AgencyEventType,
@@ -72,4 +72,10 @@ export function editEventType(
     },
     getUserSession().access_token
   );
+}
+
+export function deleteEventType(baseUrl: string, id: string): Promise<void> {
+  const url: string = `${baseUrl}/calendars/${id}`;
+
+  return apiDelete(url, getUserSession().access_token);
 }
