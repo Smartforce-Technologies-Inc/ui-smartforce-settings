@@ -45,11 +45,13 @@ export const AgencyEvents = ({
 
   const onModalClose = () => {
     setIsModalOpen(false);
+    setIsDeleteDialogOpen(false);
     setModalValue(undefined);
   };
 
   const onEventDelete = (event: AgencyEventType) => {
     setIsDeleteDialogOpen(false);
+    setModalValue(undefined);
     setEvents(events.filter((e: AgencyEventType) => e.id !== event.id));
   };
 
@@ -124,7 +126,7 @@ export const AgencyEvents = ({
           isOpen={isDeleteDialogOpen}
           onError={onError}
           onDelete={onEventDelete}
-          onClose={() => setIsDeleteDialogOpen(false)}
+          onClose={onModalClose}
         />
       )}
       <SettingsContentRender
