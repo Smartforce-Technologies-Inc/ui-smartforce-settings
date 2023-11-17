@@ -39,6 +39,14 @@ export function editShift(
   return apiPut<ShiftRequest, Shift>(url, shift, getUserSession().access_token);
 }
 
+export function getEventTypes(baseUrl: string): Promise<AgencyEventType[]> {
+  const url: string = `${baseUrl}/calendars`;
+  return apiGet<{ data: AgencyEventType[] }>(
+    url,
+    getUserSession().access_token
+  ).then((resp) => resp.data);
+}
+
 export function createEventType(
   baseUrl: string,
   eventType: AgencyEvent
