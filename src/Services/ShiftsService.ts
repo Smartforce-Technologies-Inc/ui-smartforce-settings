@@ -4,6 +4,7 @@ import {
   AgencyEventType,
   Shift,
   ShiftListItem,
+  ShiftMember,
   ShiftRequest
 } from '../Models';
 import { getUserSession } from './AuthService';
@@ -82,4 +83,18 @@ export function deleteEventType(baseUrl: string, id: string): Promise<void> {
   const url: string = `${baseUrl}/calendars/${id}`;
 
   return apiDelete(url, getUserSession().access_token);
+}
+
+export function addShiftMembers(
+  baseUrl: string,
+  id: string,
+  members: ShiftMember[]
+): Promise<ShiftMember[]> {
+  const url: string = `${baseUrl}/shifts/${id}/participants`;
+
+  return apiPost<ShiftMember[], ShiftMember[]>(
+    url,
+    members,
+    getUserSession().access_token
+  );
 }
