@@ -92,6 +92,6 @@ export interface ShiftRequest {
   end: ShiftRequestDate;
   recurrence: ShiftRecurrence;
   participants: ShiftMember[];
-  supervisor?: ShiftMember;
+  supervisor: ShiftMember | undefined | null;
   min_staff: string;
 }

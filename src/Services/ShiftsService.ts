@@ -1,4 +1,4 @@
-import { apiDelete, apiGet, apiPost, apiPut } from '../Helpers';
+import { apiDelete, apiGet, apiPatch, apiPost, apiPut } from '../Helpers';
 import {
   AgencyEvent,
   AgencyEventType,
@@ -36,7 +36,11 @@ export function editShift(
   shift: ShiftRequest
 ): Promise<Shift> {
   const url: string = `${baseUrl}/shifts/${id}`;
-  return apiPut<ShiftRequest, Shift>(url, shift, getUserSession().access_token);
+  return apiPatch<ShiftRequest, Shift>(
+    url,
+    shift,
+    getUserSession().access_token
+  );
 }
 
 export function getEventTypes(baseUrl: string): Promise<AgencyEventType[]> {

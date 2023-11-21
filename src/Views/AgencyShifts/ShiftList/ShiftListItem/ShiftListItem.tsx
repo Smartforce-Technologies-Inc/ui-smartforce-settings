@@ -83,17 +83,14 @@ export const ShiftListItem = ({
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
-          {/* {shift.status === 'Inactive' && (
-            <SFMenuItem onClick={onRestore}>Restore shift</SFMenuItem>
-          )}
-
-          {shift.status === 'Active' && (
-            <SFMenuItem onClick={onEdit}>Edit shift</SFMenuItem>
-          )}*/}
-
+          <SFMenuItem onClick={onEdit}>Edit shift</SFMenuItem>
           <SFMenuItem onClick={onInfo}>See shift information</SFMenuItem>
 
           {/*
+          {shift.status === 'Inactive' && (
+            <SFMenuItem onClick={onRestore}>Restore shift</SFMenuItem>
+          )}
+
           {shift.status === 'Active' && (
             <SFMenuItem onClick={onViewHistory}>View history</SFMenuItem>
           )}
