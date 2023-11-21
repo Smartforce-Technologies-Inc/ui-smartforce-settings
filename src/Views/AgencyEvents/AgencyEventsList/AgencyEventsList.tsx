@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './AgencyEventsList.module.scss';
 import { TransitionGroup } from 'react-transition-group';
 import { AgencyEventType } from '../../../Models';
 import { AgencyEventsListItem } from './AgencyEventsListItem/AgencyEventsListItem';
@@ -18,7 +17,7 @@ export const AgencyEventsList = ({
   onEdit
 }: AgencyEventsListProps): React.ReactElement<AgencyEventsListProps> => {
   return (
-    <div className={styles.agencyAreasList}>
+    <div>
       <TransitionGroup>
         {events.map((event: AgencyEventType, index: number) => (
           <SFCollapse key={`${event.name}-${index}`} timeout={480}>

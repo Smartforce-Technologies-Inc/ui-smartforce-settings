@@ -50,10 +50,10 @@ export const ShiftInfoModal = ({
   const apiBaseUrl = React.useContext(ApiContext).shifts;
   const [isAddMembersOpen, setIsAddMembersOpen] =
     React.useState<boolean>(false);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isLoading, _setIsLoading] = React.useState<boolean>(false);
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
 
-  const onMemberRemove = (member: ShiftMember) => {
+  const onMemberRemove = (_member: ShiftMember) => {
     // TODO add BE integration
   };
 

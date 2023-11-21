@@ -100,7 +100,7 @@ export const AgencyShifts = ({
       onError(e);
     }
   };
-  const onDelete = (shiftPreview: ShiftListItem) => {
+  const onDelete = (_shiftPreview: ShiftListItem) => {
     //TODO
   };
 
@@ -117,10 +117,10 @@ export const AgencyShifts = ({
     }
   };
 
-  const onRestore = (shiftPreview: ShiftListItem) => {
+  const onRestore = (_shiftPreview: ShiftListItem) => {
     //TODO
   };
-  const onViewHistory = (shiftPreview: ShiftListItem) => {
+  const onViewHistory = (_shiftPreview: ShiftListItem) => {
     //TODO
   };
 

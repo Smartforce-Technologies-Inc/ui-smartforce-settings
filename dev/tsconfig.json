@@ -17,6 +17,8 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "strictNullChecks": true,
     "resolveJsonModule": true,
     "plugins": [{ "name": "typescript-plugin-css-modules" }]

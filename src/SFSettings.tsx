@@ -1,4 +1,4 @@
-import React, { Fragment, createContext } from 'react';
+import React, { Fragment } from 'react';
 import styles from './SFSettings.module.scss';
 import { SFPaper, SFScrollable } from 'sfui';
 import SectionCard from './Components/SectionCard/SectionCard';

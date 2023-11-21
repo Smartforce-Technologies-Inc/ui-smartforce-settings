@@ -37,25 +37,25 @@ export const ShiftListItem = ({
     onMenuClose();
   };
 
-  const onRestore = () => {
-    props.onRestore();
-    onMenuClose();
-  };
+  // const onRestore = () => {
+  //   props.onRestore();
+  //   onMenuClose();
+  // };
 
   const onEdit = () => {
     props.onEdit();
     onMenuClose();
   };
 
-  const onViewHistory = () => {
-    props.onViewHistory();
-    onMenuClose();
-  };
+  // const onViewHistory = () => {
+  //   props.onViewHistory();
+  //   onMenuClose();
+  // };
 
-  const onDelete = () => {
-    props.onDelete();
-    onMenuClose();
-  };
+  // const onDelete = () => {
+  //   props.onDelete();
+  //   onMenuClose();
+  // };
 
   return (
     <div className={styles.shiftListItem}>
