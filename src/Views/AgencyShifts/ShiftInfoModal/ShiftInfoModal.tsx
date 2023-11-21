@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import styles from './ShiftInfoModal.module.scss';
 import { Avatar, PanelModal } from '../../../Components';
 import { Divider } from '../../../Components/Divider/Divider';
-import { Shift, ShiftMember } from '../../../Models';
-import { SFSpinner, SFText } from 'sfui';
+import { SettingsError, Shift, ShiftMember } from '../../../Models';
+import { SFPeopleOption, SFSpinner, SFText } from 'sfui';
 import {
   formatArrayToString,
   formatDateString,
@@ -14,6 +14,8 @@ import { ProgressBar } from './ProgressBar/ProgressBar';
 import { ListManagment } from '../../../Components/ListManagment/ListManagment';
 import { MemberList } from './MemberList/MemberList';
 import { AddMembersModal } from './AddMembersModal/AddMembersModal';
+import { addShiftMembers } from '../../../Services';
+import { ApiContext } from '../../../Context';
 
 const filterShiftMembers = (
   list: ShiftMember[],
@@ -34,6 +36,7 @@ export interface ShiftInfoModalProps {
   shift?: Shift;
   onClose: () => void;
   onBack: () => void;
+  onError: (e: SettingsError) => void;
 }
 
 export const ShiftInfoModal = ({
@@ -41,8 +44,10 @@ export const ShiftInfoModal = ({
   shift,
   onClose,
   onBack,
+  onError,
   ...props
 }: ShiftInfoModalProps): React.ReactElement<ShiftInfoModalProps> => {
+  const apiBaseUrl = React.useContext(ApiContext).shifts;
   const [isAddMembersOpen, setIsAddMembersOpen] =
     React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -52,8 +57,22 @@ export const ShiftInfoModal = ({
     // TODO add BE integration
   };
 
-  const onAddMembers = () => {
-    // TODO add BE integration
+  const onAddMembers = async (members: SFPeopleOption[]) => {
+    const newMembers = members.map((m: SFPeopleOption) => ({
+      id: m.asyncObject.id
+    }));
+    setIsSaving(true);
+
+    try {
+      if (shift) {
+        await addShiftMembers(apiBaseUrl, shift.id, newMembers);
+        setIsSaving(false);
+        setIsAddMembersOpen(false);
+      }
+    } catch (e: any) {
+      setIsSaving(false);
+      onError(e);
+    }
   };
 
   return (

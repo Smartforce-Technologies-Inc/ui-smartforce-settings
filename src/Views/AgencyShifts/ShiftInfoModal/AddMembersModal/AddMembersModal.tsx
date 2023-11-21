@@ -45,7 +45,7 @@ export const AddMembersModal = ({
       actionButton={{
         label: 'Add Members',
         isLoading: isSaving,
-        disabled: members.length === 0,
+        disabled: members.length === 0 || isSaving,
         onClick: () => onAdd(members)
       }}
       onBack={onBack}

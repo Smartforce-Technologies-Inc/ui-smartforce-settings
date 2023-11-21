@@ -31,7 +31,7 @@ export async function apiPost<V, R>(
         'Content-Type': 'application/json',
         Authorization: `bearer ${token}`
       }),
-      body: JSON.stringify({ ...value })
+      body: JSON.stringify(value)
     });
 
     if (fetchResp.ok) {
