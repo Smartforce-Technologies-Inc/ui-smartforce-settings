@@ -88,11 +88,10 @@ export function deleteEventType(baseUrl: string, id: string): Promise<void> {
 export function addShiftMembers(
   baseUrl: string,
   id: string,
-  members: ShiftMember[]
+  members: { id: string }[]
 ): Promise<ShiftMember[]> {
   const url: string = `${baseUrl}/shifts/${id}/participants`;
-
-  return apiPost<ShiftMember[], ShiftMember[]>(
+  return apiPost<{ id: string }[], ShiftMember[]>(
     url,
     members,
     getUserSession().access_token
