@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import styles from './ShiftListItem.module.scss';
-import { SFIconButton, SFMenu } from 'sfui';
+import { SFIconButton, SFMenu, SFMenuItem } from 'sfui';
 import { Avatar } from '../../../../Components';
 import { ShiftListItem as Shift } from '../../../../Models';
 import { ShiftListItemInfo } from './ShiftListItemInfo/ShiftListItemInfo';
@@ -83,17 +83,17 @@ export const ShiftListItem = ({
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
-          {/* // TODO uncomment when available */}
           {/* {shift.status === 'Inactive' && (
             <SFMenuItem onClick={onRestore}>Restore shift</SFMenuItem>
           )}
 
           {shift.status === 'Active' && (
             <SFMenuItem onClick={onEdit}>Edit shift</SFMenuItem>
-          )}
-          {shift.status === 'Active' && (
-            <SFMenuItem onClick={onInfo}>See shift information</SFMenuItem>
-          )}
+          )}*/}
+
+          <SFMenuItem onClick={onInfo}>See shift information</SFMenuItem>
+
+          {/*
           {shift.status === 'Active' && (
             <SFMenuItem onClick={onViewHistory}>View history</SFMenuItem>
           )}
