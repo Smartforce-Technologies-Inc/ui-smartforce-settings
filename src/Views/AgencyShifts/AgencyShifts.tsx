@@ -144,6 +144,7 @@ export const AgencyShifts = ({
               setIsViewModalOpen(false);
             }}
             onBack={() => setIsViewModalOpen(false)}
+            onError={onError}
             shift={modalValue}
           />
           <ListManagment
