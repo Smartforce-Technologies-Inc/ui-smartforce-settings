@@ -165,7 +165,7 @@ function getShiftRequestValue(value: ShiftFormValue): ShiftRequest {
           id: value.supervisor.asyncObject.id,
           name: value.supervisor.name
         }
-      : undefined
+      : null
   };
 }
 
@@ -216,26 +216,34 @@ export const ShiftFormModal = ({
         setValue(initValue);
       }
     }
-  }, [isOpen]);
+  }, [isOpen, shift]);
 
   return (
     <PanelModal
       anchor={anchor}
       isOpen={isOpen}
-      title={`${shift ? 'Edit' : 'Create'} Shift`}
-      dialogCloseButton={{
-        label: 'Discard',
-        variant: 'text',
-        sfColor: 'grey',
-        disabled: isSaving,
-        onClick: onClose
-      }}
-      actionButton={{
-        label: shift ? 'Save Changes' : 'Create Shift',
-        isLoading: isSaving,
-        disabled: isFormInvalid(value, shift),
-        onClick: onSave
-      }}
+      title={isLoading ? undefined : `${shift ? 'Edit' : 'Create'} Shift`}
+      dialogCloseButton={
+        isLoading
+          ? undefined
+          : {
+              label: 'Discard',
+              variant: 'text',
+              sfColor: 'grey',
+              disabled: isSaving,
+              onClick: onClose
+            }
+      }
+      actionButton={
+        isLoading
+          ? undefined
+          : {
+              label: shift ? 'Save Changes' : 'Create Shift',
+              isLoading: isSaving,
+              disabled: isFormInvalid(value, shift),
+              onClick: onSave
+            }
+      }
       onBack={onClose}
       onClose={() => {
         setAnchor('bottom');
