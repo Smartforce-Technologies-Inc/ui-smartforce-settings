@@ -1,7 +1,6 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { SFPeoplePicker, SFPeopleOption } from 'sfui';
 import { getUserSession } from '../../Services';
-import { ApiContext } from '../../Context';
 
 const formatOption = (option: any): SFPeopleOption => {
   return {
@@ -16,18 +15,18 @@ const getOptionSelected = (o: SFPeopleOption, v: SFPeopleOption): boolean => {
 };
 
 export interface MultipleMemberProps {
+  baseUrl: string;
   label: string;
   value: SFPeopleOption[];
   onChange: (value: SFPeopleOption[]) => void;
 }
 
 export const MultipleMemberPicker = ({
+  baseUrl,
   label,
   value,
   onChange
 }: MultipleMemberProps): React.ReactElement<MultipleMemberProps> => {
-  const apiBaseUrl = useContext(ApiContext).settings;
-
   const fetchInit: RequestInit = useMemo(
     () => ({
       method: 'GET',
@@ -45,7 +44,7 @@ export const MultipleMemberPicker = ({
       label={label}
       isAsync
       formatUrlQuery={(value: string) =>
-        `${apiBaseUrl}/agencies/me/users?active_only=True&name=${value}`
+        `${baseUrl}/agencies/me/users?active_only=True&name=${value}`
       }
       formatOption={formatOption}
       fetchInit={fetchInit}

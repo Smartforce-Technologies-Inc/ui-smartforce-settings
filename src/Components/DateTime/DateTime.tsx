@@ -31,18 +31,21 @@ export interface DateTimeValue {
 
 export interface DateTimeProps {
   label: string;
+  disableFuture?: boolean;
   value: DateTimeValue;
   onChange: (value: DateTimeValue) => void;
 }
 
 export const DateTime = ({
   label,
+  disableFuture = false,
   value,
   onChange
 }: DateTimeProps): React.ReactElement<DateTimeProps> => {
   return (
     <div className={styles.dateTime}>
       <SFDatePicker
+        disableFuture={disableFuture}
         label={`${label} date`}
         required
         value={value.date}

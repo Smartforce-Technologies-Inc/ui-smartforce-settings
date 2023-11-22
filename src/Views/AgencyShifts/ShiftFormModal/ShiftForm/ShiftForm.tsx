@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './ShiftForm.module.scss';
 import { SFNumericField, SFPeopleOption, SFText, SFTextField } from 'sfui';
 import { AreasField } from '../../../../Components/AreasField/AreasField';
@@ -8,6 +8,7 @@ import { ShiftFormValue, ShiftRecurrence } from '../../../../Models';
 import { MemberPicker } from '../../../../Components/MemberPicker/MemberPicker';
 import { RepeatForm } from './RepeatForm/RepeatForm';
 import { MultipleMemberPicker } from '../../../../Components/MultipleMemberPicker/MultipleMemberPicker';
+import { ApiContext } from '../../../../Context';
 
 export interface ShiftFormProps {
   value: ShiftFormValue;
@@ -18,6 +19,8 @@ export const ShiftForm = ({
   value,
   onChange
 }: ShiftFormProps): React.ReactElement<ShiftFormProps> => {
+  const apiBaseUrl = useContext(ApiContext).settings;
+
   return (
     <div className={styles.shiftForm}>
       <div className={styles.section}>
@@ -117,6 +120,7 @@ export const ShiftForm = ({
         />
 
         <MultipleMemberPicker
+          baseUrl={apiBaseUrl}
           label="Add Members"
           value={value.participants}
           onChange={(participants: SFPeopleOption[]) =>
@@ -128,6 +132,7 @@ export const ShiftForm = ({
         />
 
         <MemberPicker
+          baseUrl={apiBaseUrl}
           label="Supervisor"
           value={value.supervisor}
           onChange={(supervisor: SFPeopleOption) =>

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   PanelModal,
   PanelModalAnchor
 } from '../../../../Components/PanelModal/PanelModal';
 import { SFPeopleOption } from 'sfui';
 import { MultipleMemberPicker } from '../../../../Components/MultipleMemberPicker/MultipleMemberPicker';
+import { ApiContext } from '../../../../Context';
 
 export interface AddMembersModalProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ export const AddMembersModal = ({
   onBack,
   onClose
 }: AddMembersModalProps): React.ReactElement<AddMembersModalProps> => {
+  const apiBaseUrl = useContext(ApiContext).settings;
   const [members, setMembers] = useState<SFPeopleOption[]>([]);
   const [anchor, setAnchor] = useState<PanelModalAnchor>('right');
 
@@ -55,6 +57,7 @@ export const AddMembersModal = ({
       }}
     >
       <MultipleMemberPicker
+        baseUrl={apiBaseUrl}
         label="Members"
         value={members as SFPeopleOption[]}
         onChange={(newMembers: SFPeopleOption[]) => setMembers(newMembers)}
