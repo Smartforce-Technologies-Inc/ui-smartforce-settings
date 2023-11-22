@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './DateTime.module.scss';
 import moment from 'moment';
 import { SFDatePicker, SFMenuOption, SFSelect } from 'sfui';
-import { ShiftFormDateTimeValue } from '../../../../../Models';
 
 function getNumberString(value: number): string {
   return value.toString().padStart(2, '0');
@@ -25,10 +24,15 @@ const TIME_OPTIONS: SFMenuOption[] = getTimeOptions().map((o: string) => ({
   value: o
 }));
 
+export interface DateTimeValue {
+  date: moment.Moment | null;
+  time: string;
+}
+
 export interface DateTimeProps {
   label: string;
-  value: ShiftFormDateTimeValue;
-  onChange: (value: ShiftFormDateTimeValue) => void;
+  value: DateTimeValue;
+  onChange: (value: DateTimeValue) => void;
 }
 
 export const DateTime = ({

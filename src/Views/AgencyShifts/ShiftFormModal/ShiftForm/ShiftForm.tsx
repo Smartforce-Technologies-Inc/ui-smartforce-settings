@@ -3,7 +3,7 @@ import styles from './ShiftForm.module.scss';
 import { SFNumericField, SFPeopleOption, SFText, SFTextField } from 'sfui';
 import { AreasField } from '../../../../Components/AreasField/AreasField';
 import { Divider } from '../../../../Components/Divider/Divider';
-import { DateTime } from './DateTime/DateTime';
+import { DateTime } from '../../../../Components/DateTime/DateTime';
 import { ShiftFormValue, ShiftRecurrence } from '../../../../Models';
 import { MemberPicker } from '../../../../Components/MemberPicker/MemberPicker';
 import { RepeatForm } from './RepeatForm/RepeatForm';

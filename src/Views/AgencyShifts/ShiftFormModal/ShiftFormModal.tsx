@@ -1,12 +1,15 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import styles from './ShiftFormModal.module.scss';
 import moment from 'moment';
-import { PanelModal, PanelModalAnchor } from '../../../Components';
+import {
+  DateTimeValue,
+  PanelModal,
+  PanelModalAnchor
+} from '../../../Components';
 import {
   SettingsError,
   Shift,
   ShiftArea,
-  ShiftFormDateTimeValue,
   ShiftFormValue,
   ShiftMember,
   ShiftRequest
@@ -32,7 +35,7 @@ const initValue: ShiftFormValue = {
   participants: []
 };
 
-function getDateValue(isoString: string): ShiftFormDateTimeValue {
+function getDateValue(isoString: string): DateTimeValue {
   const date = moment(isoString);
   return { date, time: date.format('HH:mm') };
 }
@@ -71,7 +74,7 @@ function getShiftValue(shift: Shift): ShiftFormValue {
   };
 }
 
-function isDateTimeInvalid(datetime: ShiftFormDateTimeValue): boolean {
+function isDateTimeInvalid(datetime: DateTimeValue): boolean {
   return !datetime.date || !datetime.time || datetime.time.length === 0;
 }
 

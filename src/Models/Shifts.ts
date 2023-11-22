@@ -1,4 +1,5 @@
 import { SFPeopleOption } from 'sfui';
+import { DateTimeValue } from '../Components';
 
 export interface ShiftArea {
   id: string;
@@ -59,16 +60,11 @@ export interface Shift {
   updated_by_user: string;
 }
 
-export interface ShiftFormDateTimeValue {
-  date: moment.Moment | null;
-  time: string;
-}
-
 export interface ShiftFormValue {
   name: string;
   acronym: string;
-  start: ShiftFormDateTimeValue;
-  end: ShiftFormDateTimeValue;
+  start: DateTimeValue;
+  end: DateTimeValue;
   recurrence: ShiftRecurrence;
   areas: SFPeopleOption[];
   participants: SFPeopleOption[];
