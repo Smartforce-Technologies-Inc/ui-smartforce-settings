@@ -97,6 +97,12 @@ export const ShiftInfoModal = ({
     }
   };
 
+  React.useEffect(() => {
+    if (shift) {
+      setParticipants(shift.participants);
+    }
+  }, [shift]);
+
   return (
     <PanelModal
       isOpen={isOpen}
