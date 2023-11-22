@@ -14,7 +14,7 @@ import { ProgressBar } from './ProgressBar/ProgressBar';
 import { ListManagment } from '../../../Components/ListManagment/ListManagment';
 import { MemberList } from './MemberList/MemberList';
 import { AddMembersModal } from './AddMembersModal/AddMembersModal';
-import { addShiftMembers } from '../../../Services';
+import { addShiftMembers, removeShiftMember } from '../../../Services';
 import { ApiContext } from '../../../Context';
 
 const filterShiftMembers = (
@@ -41,20 +41,37 @@ export interface ShiftInfoModalProps {
 
 export const ShiftInfoModal = ({
   isOpen,
-  shift,
   onClose,
   onBack,
   onError,
+  shift,
   ...props
 }: ShiftInfoModalProps): React.ReactElement<ShiftInfoModalProps> => {
   const apiBaseUrl = React.useContext(ApiContext).shifts;
   const [isAddMembersOpen, setIsAddMembersOpen] =
     React.useState<boolean>(false);
-  const [isLoading, _setIsLoading] = React.useState<boolean>(false);
+  const [participants, setParticipants] = React.useState<ShiftMember[]>(
+    shift?.participants ?? []
+  );
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
 
-  const onMemberRemove = (_member: ShiftMember) => {
-    // TODO add BE integration
+  const onMemberRemove = async (member: ShiftMember) => {
+    setIsLoading(true);
+
+    try {
+      if (shift) {
+        await removeShiftMember(apiBaseUrl, shift.id, member.id);
+        const removedMember = participants.filter(
+          (p: ShiftMember) => p.id !== member.id
+        );
+        setParticipants(removedMember);
+        setIsLoading(false);
+      }
+    } catch (e: any) {
+      setIsLoading(false);
+      onError(e);
+    }
   };
 
   const onAddMembers = async (members: SFPeopleOption[]) => {
@@ -65,7 +82,12 @@ export const ShiftInfoModal = ({
 
     try {
       if (shift) {
-        await addShiftMembers(apiBaseUrl, shift.id, newMembers);
+        const addedMembers = await addShiftMembers(
+          apiBaseUrl,
+          shift.id,
+          newMembers
+        );
+        setParticipants([...participants, ...addedMembers]);
         setIsSaving(false);
         setIsAddMembersOpen(false);
       }
@@ -138,17 +160,14 @@ export const ShiftInfoModal = ({
             <Divider />
             <div>
               <ShiftInfoModalItem icon="Users" text="Minimum Staffing" />
-              <ProgressBar
-                value={shift.participants.length}
-                peak={shift.min_staff}
-              />
+              <ProgressBar value={participants.length} peak={shift.min_staff} />
             </div>
             <Divider />
             <ListManagment
               actionButtonLabel="Add Members"
               emptyMessage="There are no members yet."
               label="Member"
-              list={shift.participants}
+              list={participants}
               isLoading={isLoading}
               filter={filterShiftMembers}
               onCreate={() => setIsAddMembersOpen(true)}

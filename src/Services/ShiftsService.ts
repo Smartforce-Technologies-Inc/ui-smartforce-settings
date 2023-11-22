@@ -91,9 +91,19 @@ export function addShiftMembers(
   members: { id: string }[]
 ): Promise<ShiftMember[]> {
   const url: string = `${baseUrl}/shifts/${id}/participants`;
-  return apiPost<{ id: string }[], ShiftMember[]>(
+  return apiPost<{ id: string }[], { data: ShiftMember[] }>(
     url,
     members,
     getUserSession().access_token
-  );
+  ).then((response) => response.data);
+}
+
+export function removeShiftMember(
+  baseUrl: string,
+  shiftId: string,
+  memberId: string
+): Promise<void> {
+  const url: string = `${baseUrl}/shifts/${shiftId}/participants/${memberId}`;
+
+  return apiDelete(url, getUserSession().access_token);
 }
