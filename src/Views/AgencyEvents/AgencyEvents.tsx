@@ -3,11 +3,11 @@ import { SettingsContentRender } from '../SettingsContentRender';
 import { SettingsError } from '../../Models/Error';
 import { AgencyEventType } from '../../Models/AgencyEvents';
 import { ListManagment } from '../../Components/ListManagment/ListManagment';
-import { AgencyEventsList } from './AgencyEventsList/AgencyEventsList';
 import { AgencyEventsModal } from './AgencyEventsModal/AgencyEventsModal';
 import { AgencyEventsDeleteDialog } from './AgencyEventsDeleteDialog/AgencyEventsDeleteDialog';
 import { getEventTypes } from '../../Services';
 import { ApiContext } from '../../Context';
+import { AgencyEventsItem } from './AgencyEventsItem/AgencyEventsItem';
 
 export interface AgencyEventsProps {
   onClose: () => void;
@@ -131,7 +131,7 @@ export const AgencyEvents = ({
       )}
       <SettingsContentRender
         renderContent={() => (
-          <ListManagment
+          <ListManagment<AgencyEventType>
             actionButtonLabel="Create Event Type"
             emptyMessage="There are no event types created yet."
             label="Event Type"
@@ -139,12 +139,18 @@ export const AgencyEvents = ({
             isLoading={isLoading}
             filter={getFilteredValues}
             onCreate={onCreate}
-            renderList={(list: AgencyEventType[]) => (
-              <AgencyEventsList
-                events={list}
-                onDelete={onDelete}
-                onEdit={onEdit}
-              />
+            options={[
+              {
+                label: 'Edit event type',
+                onClick: onEdit
+              },
+              {
+                label: 'Delete',
+                onClick: onDelete
+              }
+            ]}
+            renderItem={(item: AgencyEventType) => (
+              <AgencyEventsItem event={item} />
             )}
           />
         )}

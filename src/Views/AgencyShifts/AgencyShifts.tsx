@@ -4,9 +4,9 @@ import { SettingsContentRender } from '../SettingsContentRender';
 import { ListManagment } from '../../Components/ListManagment/ListManagment';
 import { ApiContext } from '../../Context';
 import { getShift, getShifts } from '../../Services';
-import { ShiftList } from './ShiftList/ShiftList';
 import { ShiftFormModal } from './ShiftFormModal/ShiftFormModal';
 import { ShiftInfoModal } from './ShiftInfoModal/ShiftInfoModal';
+import { AgencyShiftItem } from './AgencyShiftItem/AgencyShiftItem';
 
 function sortShifts(groups: ShiftListItem[]): ShiftListItem[] {
   return groups.sort((a: ShiftListItem, b: ShiftListItem): number =>
@@ -100,9 +100,6 @@ export const AgencyShifts = ({
       onError(e);
     }
   };
-  const onDelete = (_shiftPreview: ShiftListItem) => {
-    //TODO
-  };
 
   const onEdit = async (shiftPreview: ShiftListItem) => {
     try {
@@ -115,13 +112,6 @@ export const AgencyShifts = ({
       setIsLoadingShift(false);
       onError(e);
     }
-  };
-
-  const onRestore = (_shiftPreview: ShiftListItem) => {
-    //TODO
-  };
-  const onViewHistory = (_shiftPreview: ShiftListItem) => {
-    //TODO
   };
 
   return (
@@ -147,7 +137,7 @@ export const AgencyShifts = ({
             onError={onError}
             shift={modalValue}
           />
-          <ListManagment
+          <ListManagment<ShiftListItem>
             actionButtonLabel="Create Shift"
             emptyMessage="There are no shifts created yet."
             label="Shift"
@@ -155,16 +145,18 @@ export const AgencyShifts = ({
             isLoading={isLoading}
             filter={getFilteredShifts}
             onCreate={onCreate}
-            renderList={(list: ShiftListItem[]) => (
-              <ShiftList
-                shifts={list}
-                onInfo={onInfo}
-                onDelete={onDelete}
-                onEdit={onEdit}
-                onRestore={onRestore}
-                onViewHistory={onViewHistory}
-              />
-            )}
+            onClick={onInfo}
+            options={[
+              {
+                label: 'Edit shift',
+                onClick: onEdit
+              },
+              {
+                label: 'See shift information',
+                onClick: onInfo
+              }
+            ]}
+            renderItem={(item) => <AgencyShiftItem shift={item} />}
           />
         </Fragment>
       )}

@@ -12,10 +12,10 @@ import {
 import { ShiftInfoModalItem } from './ShiftInfoModalItem/ShiftInfoModalItem';
 import { ProgressBar } from './ProgressBar/ProgressBar';
 import { ListManagment } from '../../../Components/ListManagment/ListManagment';
-import { MemberList } from './MemberList/MemberList';
 import { AddMembersModal } from './AddMembersModal/AddMembersModal';
 import { addShiftMembers, removeShiftMember } from '../../../Services';
 import { ApiContext } from '../../../Context';
+import { MemberItem } from './MemberItem/MemberItem';
 
 const filterShiftMembers = (
   list: ShiftMember[],
@@ -169,7 +169,7 @@ export const ShiftInfoModal = ({
               <ProgressBar value={participants.length} peak={shift.min_staff} />
             </div>
             <Divider />
-            <ListManagment
+            <ListManagment<ShiftMember>
               actionButtonLabel="Add Members"
               emptyMessage="There are no members yet."
               label="Member"
@@ -177,9 +177,13 @@ export const ShiftInfoModal = ({
               isLoading={isLoading}
               filter={filterShiftMembers}
               onCreate={() => setIsAddMembersOpen(true)}
-              renderList={(list: ShiftMember[]) => (
-                <MemberList members={list} onRemove={onMemberRemove} />
-              )}
+              options={[
+                {
+                  label: 'Remove from shift',
+                  onClick: onMemberRemove
+                }
+              ]}
+              renderItem={(item) => <MemberItem member={item} />}
             />
           </Fragment>
         )}
