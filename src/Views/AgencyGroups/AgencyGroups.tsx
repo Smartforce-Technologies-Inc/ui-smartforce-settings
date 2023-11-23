@@ -2,7 +2,6 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { CreateGroupModal } from './CreateGroupModal/CreateGroupModal';
 import { Group, GroupMember, SettingsError } from '../../Models';
 import { getGroups, restoreGroup } from '../../Services/GroupService';
-import { GroupList } from './GroupList/GroupList';
 import { SettingsContentRender } from '../SettingsContentRender';
 import { EditGroupModal } from './EditGroupModal/EditGroupModal';
 import { ViewGroupModal } from './ViewGroupModal/ViewGroupModal';
@@ -13,6 +12,7 @@ import { SETTINGS_CUSTOM_EVENT } from '../../Constants/Events';
 import { dispatchCustomEvent } from '../../Helpers';
 import { ApiContext } from '../../Context';
 import { ListManagment } from '../../Components/ListManagment/ListManagment';
+import { AgencyGroupsItem } from './AgencyGroupsItem/AgencyGroupsItem';
 
 function sortGroups(groups: Group[]): Group[] {
   return groups.sort((a: Group, b: Group): number => {
@@ -221,7 +221,7 @@ export const AgencyGroups = ({
             onRemoveMembers={onUpdateGroup}
           />
 
-          <ListManagment
+          <ListManagment<Group>
             actionButtonLabel="Create Group"
             emptyMessage="There are no groups created yet."
             label="Group"
@@ -229,16 +229,30 @@ export const AgencyGroups = ({
             isLoading={isLoading}
             filter={getFilteredGroups}
             onCreate={() => setIsCreateModalOpen(true)}
-            renderList={(list: Group[]) => (
-              <GroupList
-                groups={list}
-                onClick={onView}
-                onDelete={onDelete}
-                onEdit={onEdit}
-                onRestore={onRestore}
-                onViewHistory={onViewHistory}
-              />
-            )}
+            onClick={onView}
+            options={[
+              {
+                label: 'Restore group',
+                filter: (group: Group) => group.status === 'Inactive',
+                onClick: onRestore
+              },
+              {
+                label: 'Edit group',
+                filter: (group: Group) => group.status === 'Active',
+                onClick: onEdit
+              },
+              {
+                label: 'View history',
+                filter: (group: Group) => group.status === 'Active',
+                onClick: onViewHistory
+              },
+              {
+                label: 'Delete',
+                filter: (group: Group) => group.status === 'Active',
+                onClick: onDelete
+              }
+            ]}
+            renderItem={(item: Group) => <AgencyGroupsItem group={item} />}
           />
         </Fragment>
       )}

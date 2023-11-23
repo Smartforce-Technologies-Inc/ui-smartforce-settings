@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import styles from './GroupListItemInfo.module.scss';
 import { SFChip, SFText } from 'sfui';
-import { Group, GroupUser } from '../../../../../Models';
+import { Group, GroupUser } from '../../../../Models';
 import { ActionInfo } from './ActionInfo/ActionInfo';
-import { InactiveDaysMessage } from '../../../../../Components/InactiveDaysMessage/InactiveDaysMessage';
+import { InactiveDaysMessage } from '../../../../Components/InactiveDaysMessage/InactiveDaysMessage';
 
 export interface GroupListItemInfoProps {
   group: Group;

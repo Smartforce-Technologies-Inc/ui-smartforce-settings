@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './ShiftListItemInfo.module.scss';
 import { SFText } from 'sfui';
-import { ShiftListItem } from '../../../../../Models';
-import { getDaysLabel } from '../../../../../Helpers';
+import { ShiftListItem } from '../../../../Models';
+import { getDaysLabel } from '../../../../Helpers';
 
 export interface ShiftListItemInfoProps {
   shift: ShiftListItem;

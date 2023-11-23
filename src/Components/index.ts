@@ -3,6 +3,7 @@ export * from './Avatar/Avatar';
 export * from './DateTime/DateTime';
 export * from './GoogleMap';
 export * from './ImageUpload/ImageUpload';
+export * from './ListManagment/ListManagment';
 export * from './Loader/Loader';
 export * from './MultipleMemberPicker/MultipleMemberPicker';
 export * from './MemberPicker/MemberPicker';

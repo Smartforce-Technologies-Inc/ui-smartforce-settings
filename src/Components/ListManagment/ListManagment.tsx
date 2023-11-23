@@ -3,8 +3,12 @@ import styles from './ListManagment.module.scss';
 import { SFButton, SFSearch, SFSpinner, SFText } from 'sfui';
 import { Divider } from '../Divider/Divider';
 import { NoResults } from './NoResults/NoResults';
+import { List } from './List/List';
+import { ListManagmentMenuOption } from './List/ListItem/ListItem';
 
 const LIST_LIMIT = 10;
+
+export { ListManagmentMenuOption };
 
 export interface ListManagmentProps<T> {
   actionButtonLabel: string;
@@ -12,9 +16,11 @@ export interface ListManagmentProps<T> {
   label: string;
   list: T[];
   isLoading: boolean;
+  options: ListManagmentMenuOption<T>[];
   filter: (list: T[], filter: string) => T[];
   onCreate: () => void;
-  renderList: (list: T[]) => React.ReactElement;
+  onClick?: (item: T) => void;
+  renderItem: (item: T) => React.ReactElement;
 }
 
 export const ListManagment = <T,>(
@@ -93,7 +99,12 @@ export const ListManagment = <T,>(
 
                 {filteredList.length > 0 && (
                   <Fragment>
-                    {props.renderList(visibleList)}
+                    <List
+                      list={filteredList}
+                      options={props.options}
+                      onClick={props.onClick}
+                      renderItem={props.renderItem}
+                    />
 
                     {limit < props.list.length && (
                       <SFButton

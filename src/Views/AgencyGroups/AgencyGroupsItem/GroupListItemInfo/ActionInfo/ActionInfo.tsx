@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import styles from './ActionInfo.module.scss';
 import { SFText } from 'sfui';
-import { formatDateString } from '../../../../../../Helpers';
-import { UserContext } from '../../../../../../Context';
-import { GroupUser, User } from '../../../../../../Models';
+import { formatDateString } from '../../../../../Helpers';
+import { UserContext } from '../../../../../Context';
+import { GroupUser, User } from '../../../../../Models';
 
 export interface ActionInfoProps {
   type: 'Created' | 'Deleted';
