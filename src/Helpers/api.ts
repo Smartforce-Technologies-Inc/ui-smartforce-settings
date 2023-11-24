@@ -31,7 +31,7 @@ export async function apiPost<V, R>(
         'Content-Type': 'application/json',
         Authorization: `bearer ${token}`
       }),
-      body: JSON.stringify({ ...value })
+      body: JSON.stringify(value)
     });
 
     if (fetchResp.ok) {
@@ -47,6 +47,32 @@ export async function apiPost<V, R>(
   } catch (e) {
     return Promise.reject(e);
   }
+}
+
+export async function apiPut<T, R>(
+  url: string,
+  value: T,
+  token?: string
+): Promise<R> {
+  return fetch(url, {
+    method: 'PUT',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      Authorization: `bearer ${token}`
+    }),
+    body: JSON.stringify(value)
+  }).then(async (resp: Response) => {
+    if (resp.ok) {
+      return resp.json();
+    } else {
+      const body = await resp.json();
+      return Promise.reject({
+        code: resp.status,
+        text: resp.statusText,
+        detail: body.detail
+      });
+    }
+  });
 }
 
 export async function apiPatch<T, R>(

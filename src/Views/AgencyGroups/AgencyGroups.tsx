@@ -1,23 +1,18 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
-import styles from './AgencyGroups.module.scss';
-import { SFButton, SFSearch, SFSpinner, SFText } from 'sfui';
 import { CreateGroupModal } from './CreateGroupModal/CreateGroupModal';
-import { Divider } from '../../Components/Divider/Divider';
 import { Group, GroupMember, SettingsError } from '../../Models';
 import { getGroups, restoreGroup } from '../../Services/GroupService';
-import { GroupList } from './GroupList/GroupList';
 import { SettingsContentRender } from '../SettingsContentRender';
 import { EditGroupModal } from './EditGroupModal/EditGroupModal';
-import { NoResults } from './NoResults/NoResults';
 import { ViewGroupModal } from './ViewGroupModal/ViewGroupModal';
 import { DeleteGroupModal } from './DeleteGroupModal/DeleteGroupModal';
 import { GroupHistoryModal } from './GroupHistoryModal/GroupHistoryModal';
 import { UserContext } from '../../Context';
 import { SETTINGS_CUSTOM_EVENT } from '../../Constants/Events';
 import { dispatchCustomEvent } from '../../Helpers';
-import { ApiContext } from '../../SFSettings';
-
-const GROUPS_LIMIT = 10;
+import { ApiContext } from '../../Context';
+import { ListManagment } from '../../Components/ListManagment/ListManagment';
+import { AgencyGroupsItem } from './AgencyGroupsItem/AgencyGroupsItem';
 
 function sortGroups(groups: Group[]): Group[] {
   return groups.sort((a: Group, b: Group): number => {
@@ -60,7 +55,7 @@ export const AgencyGroups = ({
   onClose,
   onError
 }: AgencyGroupsProps): React.ReactElement<AgencyGroupsProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const { user, setUser } = useContext(UserContext);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -70,11 +65,8 @@ export const AgencyGroups = ({
     useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [groups, setGroups] = useState<Group[]>([]);
-  const [limit, setLimit] = useState<number>(GROUPS_LIMIT);
   const [selected, setSelected] = useState<Group | undefined>();
   const [deleteGroup, setDeleteGroup] = useState<Group | undefined>();
-  const [searchValue, setSearchValue] = useState<string>('');
-  const refSearchValueLength = React.useRef<number>(searchValue.length);
 
   useEffect(() => {
     let isSubscribed: boolean = true;
@@ -137,11 +129,6 @@ export const AgencyGroups = ({
     }
   };
 
-  const isListEmpty = groups.length === 0;
-
-  const filteredGroups = getFilteredGroups(groups, searchValue);
-  const visibleGroups: Group[] = filteredGroups.slice(0, limit);
-
   const onView = (group: Group) => {
     setSelected(group);
     setIsInfoModalOpen(true);
@@ -166,14 +153,6 @@ export const AgencyGroups = ({
     setSelected(group);
     setIsViewHistoryModalOpen(true);
   };
-
-  React.useEffect(() => {
-    if (searchValue.length > 2 || refSearchValueLength.current > 2) {
-      setLimit(GROUPS_LIMIT);
-    }
-
-    refSearchValueLength.current = searchValue.length;
-  }, [searchValue]);
 
   return (
     <SettingsContentRender
@@ -242,103 +221,39 @@ export const AgencyGroups = ({
             onRemoveMembers={onUpdateGroup}
           />
 
-          <div className={styles.agencyGroups}>
-            <div
-              className={`${styles.header} ${
-                isListEmpty ? styles.noGroups : ''
-              }`}
-            >
-              <SFButton
-                fullWidth
-                sfColor="blue"
-                variant="outlined"
-                size="medium"
-                onClick={() => setIsCreateModalOpen(true)}
-              >
-                Create Group
-              </SFButton>
-
-              {!isListEmpty && (
-                <div className={styles.searchField}>
-                  <SFSearch
-                    label="Search group"
-                    value={searchValue}
-                    onChange={(value: string) => setSearchValue(value)}
-                  />
-                </div>
-              )}
-
-              <div className={styles.divider}>
-                <Divider size={2} />
-              </div>
-            </div>
-
-            <div className={styles.list}>
-              {isLoading && (
-                <div className={styles.spinner}>
-                  <SFSpinner />
-                </div>
-              )}
-
-              {!isLoading && (
-                <Fragment>
-                  {isListEmpty && (
-                    <SFText className={styles.emptyMsg} type="component-2">
-                      There are no groups created yet.
-                    </SFText>
-                  )}
-
-                  {!isListEmpty && (
-                    <Fragment>
-                      {filteredGroups.length === 0 && (
-                        <NoResults filter={searchValue} />
-                      )}
-
-                      {filteredGroups.length > 0 && (
-                        <Fragment>
-                          <GroupList
-                            groups={visibleGroups}
-                            onClick={onView}
-                            onDelete={onDelete}
-                            onEdit={onEdit}
-                            onRestore={onRestore}
-                            onViewHistory={onViewHistory}
-                          />
-
-                          {limit < filteredGroups.length && (
-                            <SFButton
-                              fullWidth
-                              sfColor="grey"
-                              size="medium"
-                              variant="text"
-                              onClick={() =>
-                                setLimit((limit) => limit + GROUPS_LIMIT)
-                              }
-                            >
-                              See More
-                            </SFButton>
-                          )}
-
-                          {visibleGroups.length === filteredGroups.length &&
-                            limit > GROUPS_LIMIT && (
-                              <SFButton
-                                fullWidth
-                                sfColor="grey"
-                                size="medium"
-                                variant="text"
-                                onClick={() => setLimit(GROUPS_LIMIT)}
-                              >
-                                See Less
-                              </SFButton>
-                            )}
-                        </Fragment>
-                      )}
-                    </Fragment>
-                  )}
-                </Fragment>
-              )}
-            </div>
-          </div>
+          <ListManagment<Group>
+            actionButtonLabel="Create Group"
+            emptyMessage="There are no groups created yet."
+            label="Group"
+            list={groups}
+            isLoading={isLoading}
+            filter={getFilteredGroups}
+            onCreate={() => setIsCreateModalOpen(true)}
+            onClick={onView}
+            options={[
+              {
+                label: 'Restore group',
+                filter: (group: Group) => group.status === 'Inactive',
+                onClick: onRestore
+              },
+              {
+                label: 'Edit group',
+                filter: (group: Group) => group.status === 'Active',
+                onClick: onEdit
+              },
+              {
+                label: 'View history',
+                filter: (group: Group) => group.status === 'Active',
+                onClick: onViewHistory
+              },
+              {
+                label: 'Delete',
+                filter: (group: Group) => group.status === 'Active',
+                onClick: onDelete
+              }
+            ]}
+            renderItem={(item: Group) => <AgencyGroupsItem group={item} />}
+          />
         </Fragment>
       )}
     />

@@ -24,7 +24,7 @@ import {
   getSubscriptions
 } from '../../../Services';
 import { Divider } from '../../../Components/Divider/Divider';
-import { ApiContext } from '../../../SFSettings';
+import { ApiContext } from '../../../Context';
 
 const PAGE_SIZE = 10;
 
@@ -81,7 +81,7 @@ export const AgencyMembersContent = ({
   onError,
   onHome
 }: AgencyMembersContentProps): React.ReactElement<AgencyMembersContentProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const { user } = React.useContext(UserContext);
   const { setSubscriptions } = React.useContext(SubscriptionContext);
 

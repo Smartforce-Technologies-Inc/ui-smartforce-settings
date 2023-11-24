@@ -1,4 +1,4 @@
-import React, { Fragment, createContext } from 'react';
+import React, { Fragment } from 'react';
 import styles from './SFSettings.module.scss';
 import { SFPaper, SFScrollable } from 'sfui';
 import SectionCard from './Components/SectionCard/SectionCard';
@@ -16,9 +16,14 @@ import { AgencyMessaging } from './Views/AgencyMessaging/AgencyMessaging';
 import { AgencyAreas } from './Views/AgencyAreas/AgencyAreas';
 import { AgencyGroups } from './Views/AgencyGroups/AgencyGroups';
 import { ManageBusinessCard } from './Views/ManageBusinessCard/ManageBusinessCard';
-import { MediaContext, CustomerContext, UserContext } from './Context';
+import {
+  MediaContext,
+  CustomerContext,
+  UserContext,
+  SubscriptionContext
+} from './Context';
 import { SettingsError } from './Models/Error';
-import { checkPermissions } from './Helpers';
+import { checkPermissions, getAppSubscription, isRoleOfficer } from './Helpers';
 import {
   AGENCY_AREAS_CREATE,
   AGENCY_GROUPS_CREATE,
@@ -31,11 +36,18 @@ import {
 } from './Constants';
 import { AppEnv, ApplicationProduct } from './Models/Apps';
 import { getApiBaseUrl, getAppBaseUrl } from './Helpers/application';
-
-export const ApiContext = createContext<string>('');
+import { AgencyShifts } from './Views/AgencyShifts/AgencyShifts';
+import { AgencyEvents } from './Views/AgencyEvents/AgencyEvents';
+import { ApiContext } from './Context/Api';
 
 const onGetStarted = (env: AppEnv, product: ApplicationProduct) => {
   window.open(getAppBaseUrl(env, product), '_blank');
+};
+
+const disabledViews: string[] = ['tasks', 'inventory'];
+
+const isViewDisabled = (section: string): boolean => {
+  return disabledViews.includes(section);
 };
 
 export interface SFSettingsProps {
@@ -75,8 +87,13 @@ export const SFSettings = ({
   const { isPhone } = React.useContext(MediaContext);
   const { user } = React.useContext(UserContext);
   const { customer } = React.useContext(CustomerContext);
+  const { subscriptions } = React.useContext(SubscriptionContext);
   const [isPanelOpen, setIsPanelOpen] = React.useState<boolean>(false);
   const [isPanelLoading, setIsPanelLoading] = React.useState<boolean>(false);
+  const hasShiftSubscription: boolean = !!getAppSubscription(
+    subscriptions,
+    'shift'
+  );
 
   const onPanelLoading = () => setIsPanelLoading(true);
 
@@ -283,6 +300,78 @@ export const SFSettings = ({
     ];
   }
 
+  if (!isRoleOfficer(user?.role.id) && hasShiftSubscription) {
+    sectionCards = [
+      ...sectionCards,
+      {
+        title: 'Agency Shifts',
+        name: 'shifts',
+        items: [
+          {
+            cardTitle: 'Manage Shifts',
+            name: 'shifts',
+            viewTitle: 'Manage Shifts',
+            description: "Add and manage your agency's shifts.",
+            component: <AgencyShifts onError={onError} onClose={onPanelDone} />
+          }
+        ]
+      }
+    ];
+  }
+
+  sectionCards = [
+    ...sectionCards,
+    {
+      title: 'Agency Tasks',
+      name: 'tasks',
+      items: [
+        {
+          cardTitle: '',
+          name: 'tasks',
+          viewTitle: '',
+          description: '',
+          component: <></>
+        }
+      ]
+    }
+  ];
+
+  if (!isRoleOfficer(user?.role.id) && hasShiftSubscription) {
+    sectionCards = [
+      ...sectionCards,
+      {
+        title: 'Agency Events',
+        name: 'events',
+        items: [
+          {
+            cardTitle: 'Manage Event Types',
+            name: 'types',
+            viewTitle: 'Manage Event Types',
+            description: 'Add and manage event types for your agency.',
+            component: <AgencyEvents onError={onError} onClose={onPanelDone} />
+          }
+        ]
+      }
+    ];
+  }
+
+  sectionCards = [
+    ...sectionCards,
+    {
+      title: 'Agency Inventory',
+      name: 'inventory',
+      items: [
+        {
+          cardTitle: '',
+          name: 'inventory',
+          viewTitle: '',
+          description: '',
+          component: <></>
+        }
+      ]
+    }
+  ];
+
   if (
     user &&
     checkPermissions(AGENCY_PREFERENCES_READ, user.role.permissions)
@@ -360,7 +449,12 @@ export const SFSettings = ({
     selectedSection.name === 'business_card';
 
   return (
-    <ApiContext.Provider value={getApiBaseUrl(enviroment)}>
+    <ApiContext.Provider
+      value={{
+        settings: getApiBaseUrl(enviroment),
+        shifts: `${getAppBaseUrl(enviroment, 'shift')}api`
+      }}
+    >
       <div className={`${styles.settings} ${className || ''}`}>
         {isPhone && (
           <Fragment>
@@ -369,6 +463,7 @@ export const SFSettings = ({
                 <SectionCard
                   key={`sectionCard-${section.name}`}
                   title={section.title}
+                  disabled={isViewDisabled(section.name)}
                 >
                   {section.items.map(
                     (item: SectionItemValue, subsectionIndex: number) => {
@@ -409,6 +504,7 @@ export const SFSettings = ({
                   key={`sectionMenu-${section.name}`}
                   title={section.title}
                   selected={section.name === selectedSection.name}
+                  disabled={isViewDisabled(section.name)}
                   onClick={() => selectCurrentSection(section)}
                 />
               ))}

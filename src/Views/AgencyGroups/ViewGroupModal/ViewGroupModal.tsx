@@ -18,7 +18,7 @@ import { GroupInfoHeader } from './GroupInfoHeader/GroupInfoHeader';
 import { GroupInfoMembers } from './GroupInfoMembers/GroupInfoMembers';
 import { AddMembersModal } from './AddMembersModal/AddMembersModal';
 import { UserContext } from '../../../Context';
-import { ApiContext } from '../../../SFSettings';
+import { ApiContext } from '../../../Context';
 
 export interface ViewGroupModalProps {
   selected?: Group;
@@ -39,7 +39,7 @@ export const ViewGroupModal = ({
   onError,
   onRemoveMembers
 }: ViewGroupModalProps): React.ReactElement<ViewGroupModalProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const { user, setUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [group, setGroup] = useState<Group | undefined>();

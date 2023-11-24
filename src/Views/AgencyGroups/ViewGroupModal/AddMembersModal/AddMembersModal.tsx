@@ -5,7 +5,7 @@ import {
 } from '../../../../Components/PanelModal/PanelModal';
 import { SFPeopleOption, SFPeoplePicker } from 'sfui';
 import { getUserSession } from '../../../../Services';
-import { ApiContext } from '../../../../SFSettings';
+import { ApiContext } from '../../../../Context';
 
 const formatOption = (option: any): SFPeopleOption => {
   return {
@@ -30,7 +30,7 @@ export const AddMembersModal = ({
   onBack,
   onClose
 }: AddMembersModalProps): React.ReactElement<AddMembersModalProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const [members, setMembers] = useState<SFPeopleOption[]>([]);
   const [anchor, setAnchor] = useState<PanelModalAnchor>('right');
 

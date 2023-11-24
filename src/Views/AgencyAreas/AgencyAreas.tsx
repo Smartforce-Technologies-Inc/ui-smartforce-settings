@@ -11,7 +11,7 @@ import { Area } from '../../Models';
 import { AreasContext } from '../../Context';
 import { getAreas } from '../../Services';
 import { SettingsError } from '../../Models/Error';
-import { ApiContext } from '../../SFSettings';
+import { ApiContext } from '../../Context';
 
 export interface AgencyAreasProps {
   onClose: () => void;
@@ -22,7 +22,7 @@ export const AgencyAreas = ({
   onClose,
   onError
 }: AgencyAreasProps): React.ReactElement<AgencyAreasProps> => {
-  const apiBaseUrl = React.useContext(ApiContext);
+  const apiBaseUrl = React.useContext(ApiContext).settings;
   const { areas, setAreas } = React.useContext(AreasContext);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [searchValue, setSearchValue] = React.useState<string>('');

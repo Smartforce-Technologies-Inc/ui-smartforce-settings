@@ -1,0 +1,22 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.dayPicker {
+  display: flex;
+  width: 100%;
+
+  .day {
+    cursor: pointer;
+    flex: 1 1 0px;
+    display: flex;
+    height: 42px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px 0px 0px 2px;
+    border: 1px solid $sf-grey-400;
+    text-align: center;
+
+    &.selected {
+      background: rgba(204, 204, 204, 0.5);
+    }
+  }
+}

@@ -3,7 +3,7 @@ import styles from './CreateGroupForm.module.scss';
 import { SFPeopleOption, SFPeoplePicker, SFTextField } from 'sfui';
 import { getUserSession } from '../../../../Services';
 import { ImageUpload } from '../../../../Components/ImageUpload/ImageUpload';
-import { ApiContext } from '../../../../SFSettings';
+import { ApiContext } from '../../../../Context';
 
 const formatOption = (option: any): SFPeopleOption => {
   return {
@@ -38,7 +38,7 @@ export const CreateGroupForm = ({
   value,
   onChange
 }: CreateGroupFormProps): React.ReactElement<CreateGroupFormProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
 
   const nameHelper = error.name
     ? 'This name is already taken.'

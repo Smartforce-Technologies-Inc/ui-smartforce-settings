@@ -1,4 +1,5 @@
 export * from './Areas';
+export * from './AgencyEvents';
 export * from './Apps';
 export * from './Customer';
 export * from './Notifications';
@@ -8,5 +9,6 @@ export * from './Member';
 export * from './Form';
 export * from './Pagination';
 export * from './Geographic';
+export * from './Shifts';
 export * from './Subscription';
 export * from './User';

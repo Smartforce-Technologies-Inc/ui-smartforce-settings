@@ -16,7 +16,7 @@ import {
   ERROR_GROUP_NAME_ALREADY_EXISTS
 } from '../../../Constants';
 import { UserContext } from '../../../Context';
-import { ApiContext } from '../../../SFSettings';
+import { ApiContext } from '../../../Context';
 
 function isFormInvalid(
   formValue: GroupFormValue,
@@ -65,7 +65,7 @@ export const EditGroupModal = ({
   onError,
   ...props
 }: EditGroupModalProps): React.ReactElement<EditGroupModalProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const { user, setUser } = useContext(UserContext);
   const [value, setValue] = useState<GroupFormValue>(getGroupFormValue(group));
   const [error, setError] = useState<CreateGroupError>(initError);

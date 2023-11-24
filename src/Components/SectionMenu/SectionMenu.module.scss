@@ -1,28 +1,56 @@
 @import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
 
 .sectionMenu {
-  font-size: 16px;
-  line-height: 24px;
-  margin: 0;
-  font-weight: 500;
-  color: $sf-grey-600;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 
-  &.selected {
-    font-weight: 700;
-    color: $sf-grey-900;
+  .title {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0;
+    font-weight: 500;
+    color: $sf-grey-600;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
-  &:hover {
-    cursor: pointer;
+  &.selected {
+    .title {
+      font-weight: 700;
+      color: $sf-grey-900;
+    }
+  }
+
+  &.disabled {
+    .title {
+      color: $sf-grey-400;
+
+      &:hover {
+        cursor: default;
+      }
+    }
   }
 }
 
 :global(.nightMode) {
   .sectionMenu {
-    color: $sf-grey-400;
+    .title {
+      color: $sf-grey-400;
+    }
 
     &.selected {
-      color: $sf-grey-50;
+      .title {
+        color: $sf-grey-50;
+      }
+    }
+
+    &.disabled {
+      .title {
+        color: $sf-grey-600;
+      }
     }
   }
 }

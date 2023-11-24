@@ -1,0 +1,15 @@
+.shiftListItemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .deleteMsg {
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  .status {
+    display: flex;
+  }
+}

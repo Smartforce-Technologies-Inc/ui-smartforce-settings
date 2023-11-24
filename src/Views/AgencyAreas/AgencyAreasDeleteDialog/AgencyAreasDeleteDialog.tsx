@@ -4,7 +4,7 @@ import { SFAlertDialog, SFText } from 'sfui';
 import { Area } from '../../../Models';
 import { deleteArea } from '../../../Services';
 import { SettingsError } from '../../../Models/Error';
-import { ApiContext } from '../../../SFSettings';
+import { ApiContext } from '../../../Context';
 
 export interface AgencyAreasDeleteDialogProps {
   isOpen: boolean;
@@ -21,7 +21,7 @@ export const AgencyAreasDeleteDialog = ({
   onError,
   value
 }: AgencyAreasDeleteDialogProps): React.ReactElement<AgencyAreasDeleteDialogProps> => {
-  const apiBaseUrl = React.useContext(ApiContext);
+  const apiBaseUrl = React.useContext(ApiContext).settings;
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
 
   const onAreaDelete = async () => {

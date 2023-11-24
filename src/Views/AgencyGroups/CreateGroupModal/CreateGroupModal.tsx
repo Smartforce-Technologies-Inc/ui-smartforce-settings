@@ -16,8 +16,7 @@ import {
   ERROR_GROUP_ACRONYM_ALREADY_EXISTS,
   ERROR_GROUP_NAME_ALREADY_EXISTS
 } from '../../../Constants';
-import { UserContext } from '../../../Context';
-import { ApiContext } from '../../../SFSettings';
+import { UserContext, ApiContext } from '../../../Context';
 
 const initValue: GroupFormValue = {
   name: '',
@@ -57,7 +56,7 @@ export const CreateGroupModal = ({
   onError,
   ...props
 }: CreateGroupModalProps): React.ReactElement<CreateGroupModalProps> => {
-  const apiBaseUrl = useContext(ApiContext);
+  const apiBaseUrl = useContext(ApiContext).settings;
   const { user, setUser } = useContext(UserContext);
   const [value, setValue] = useState<GroupFormValue>(initValue);
   const [error, setError] = useState<CreateGroupError>(initError);
