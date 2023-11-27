@@ -15,7 +15,7 @@ import { ListManagment } from '../../../Components/ListManagment/ListManagment';
 import { AddMembersModal } from './AddMembersModal/AddMembersModal';
 import { addShiftMembers, removeShiftMember } from '../../../Services';
 import { ApiContext } from '../../../Context';
-import { MemberItem } from './MemberItem/MemberItem';
+import { AvatarListItem } from '../../../Components/AvatarListItem/AvatarListItem';
 
 const filterShiftMembers = (
   list: ShiftMember[],
@@ -183,7 +183,12 @@ export const ShiftInfoModal = ({
                   onClick: onMemberRemove
                 }
               ]}
-              renderItem={(item) => <MemberItem member={item} />}
+              renderItem={(item) => (
+                <AvatarListItem
+                  name={item.name}
+                  url={item.avatar_thumbnail_url}
+                />
+              )}
             />
           </Fragment>
         )}
