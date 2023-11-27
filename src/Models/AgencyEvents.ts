@@ -3,11 +3,14 @@ export interface AgencyEvent {
   color: string;
 }
 
-export interface AgencyEventType {
+export interface AgencyEventTypeBasic {
   id: string;
-  agency_id: string;
   name: string;
   color: string;
+}
+
+export interface AgencyEventType extends AgencyEventTypeBasic {
+  agency_id: string;
   created_at: string;
   updated_at: string;
   created_by_user: string;

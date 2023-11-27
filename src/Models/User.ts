@@ -12,6 +12,12 @@ export interface UserGroup {
   avatar_thumbnail_url?: string;
 }
 
+export interface UserBasic {
+  id: string;
+  name: string;
+  avatar_thumbnail_url?: string;
+}
+
 export interface UserRole extends MemberRole {
   permissions?: string[];
 }
