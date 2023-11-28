@@ -36,14 +36,19 @@ export function removeRepetead<T>(list: T[]): T[] {
 // https://github.com/lodash/lodash/issues/4815
 export function asyncDebounce<F extends (...args: any[]) => Promise<any>>(
   func: F,
-  wait?: number
+  wait?: number,
+  options?: any
 ) {
   // @ts-ignore
-  const debounced = debounce((resolve, reject, args: Parameters<F>) => {
-    func(...args)
-      .then(resolve)
-      .catch(reject);
-  }, wait);
+  const debounced = debounce(
+    (resolve, reject, args: Parameters<F>) => {
+      func(...args)
+        .then(resolve)
+        .catch(reject);
+    },
+    wait,
+    options
+  );
   return (...args: Parameters<F>): ReturnType<F> =>
     new Promise((resolve, reject) => {
       debounced(resolve, reject, args);
