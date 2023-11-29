@@ -11,14 +11,14 @@
   font-weight: bold;
 
   &.extraSmall {
-    width: 24px;
+    min-width: 24px;
     height: 24px;
     font-size: 8px;
     line-height: 12px;
   }
 
   &.small {
-    width: 42px;
+    min-width: 42px;
     height: 42px;
     font-size: 14px;
     line-height: 21px;
