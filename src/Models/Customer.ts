@@ -27,4 +27,5 @@ export interface Customer {
   status: CustomerStatus;
   unit?: string | null;
   website?: string | null;
+  timezone: string;
 }
