@@ -100,13 +100,13 @@ export const ListManagment = <T,>(
                 {filteredList.length > 0 && (
                   <Fragment>
                     <List
-                      list={filteredList}
+                      list={visibleList}
                       options={props.options}
                       onClick={props.onClick}
                       renderItem={props.renderItem}
                     />
 
-                    {limit < props.list.length && (
+                    {limit < filteredList.length && (
                       <SFButton
                         fullWidth
                         sfColor="grey"
@@ -118,7 +118,7 @@ export const ListManagment = <T,>(
                       </SFButton>
                     )}
 
-                    {visibleList.length === props.list.length &&
+                    {visibleList.length === filteredList.length &&
                       limit > LIST_LIMIT && (
                         <SFButton
                           fullWidth
