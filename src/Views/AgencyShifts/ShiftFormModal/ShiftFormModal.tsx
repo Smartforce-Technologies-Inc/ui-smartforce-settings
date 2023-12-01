@@ -145,8 +145,9 @@ function getOptionListValue(list: SFPeopleOption[]): ShiftMember[] {
 function sortRecurrenceDays(days: string[]): string[] {
   const daysOfWeek = ['MO', 'TU', 'TH', 'WE', 'FR', 'SA', 'SU'];
 
-  return days.sort((a: string, b: string) =>
-    daysOfWeek.indexOf(a) < daysOfWeek.indexOf(b) ? -1 : 1
+  const currentDays = [...days];
+  return currentDays.sort(
+    (a: string, b: string) => daysOfWeek.indexOf(a) - daysOfWeek.indexOf(b)
   );
 }
 
