@@ -22,6 +22,7 @@ export const PanelModalDrawer = ({
   classes,
   actionButton,
   altActionButton,
+  subTitle,
   onBack,
   onClose
 }: PanelModalDrawerProps): React.ReactElement<PanelModalDrawerProps> => {
@@ -51,7 +52,14 @@ export const PanelModalDrawer = ({
         />
       </div>
 
-      {title && <h4>{title}</h4>}
+      <div className={styles.contentTitle}>
+        {title && <SFText type="component-title">{title}</SFText>}
+        {subTitle && (
+          <SFText className={styles.subTitle} type="component-2">
+            {subTitle}
+          </SFText>
+        )}
+      </div>
 
       <SFScrollable className={`${styles.content} ${classes?.content ?? ''}`}>
         {children}

@@ -1,3 +1,5 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
 .panelModalDrawer {
   width: 100%;
   height: 100%;
@@ -28,12 +30,15 @@
     }
   }
 
-  > h4 {
-    padding: 0 16px 12px 16px;
-    margin: 0;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 28px;
+  .contentTitle {
+    padding: 0 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .subTitle {
+      color: $sf-grey-main-light;
+    }
   }
 
   .content {
@@ -49,5 +54,15 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+  }
+}
+
+:global(.nightMode) {
+  .panelModalDrawer {
+    .contentTitle {
+      .subTitle {
+        color: $sf-grey-main-dark;
+      }
+    }
   }
 }
