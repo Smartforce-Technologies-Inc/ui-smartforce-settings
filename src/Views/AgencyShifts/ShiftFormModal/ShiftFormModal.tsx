@@ -142,6 +142,15 @@ function getOptionListValue(list: SFPeopleOption[]): ShiftMember[] {
   }));
 }
 
+function sortRecurrenceDays(days: string[]): string[] {
+  const daysOfWeek = ['MO', 'TU', 'TH', 'WE', 'FR', 'SA', 'SU'];
+
+  const currentDays = [...days];
+  return currentDays.sort(
+    (a: string, b: string) => daysOfWeek.indexOf(a) - daysOfWeek.indexOf(b)
+  );
+}
+
 function getShiftRequestValue(value: ShiftFormValue): ShiftRequest {
   return {
     ...value,
@@ -159,7 +168,8 @@ function getShiftRequestValue(value: ShiftFormValue): ShiftRequest {
     },
     recurrence: {
       ...value.recurrence,
-      frequency: value.recurrence.frequency.toLowerCase()
+      frequency: value.recurrence.frequency.toLowerCase(),
+      days: sortRecurrenceDays(value.recurrence.days)
     },
     areas: getOptionListValue(value.areas),
     participants: getOptionListValue(value.participants),
