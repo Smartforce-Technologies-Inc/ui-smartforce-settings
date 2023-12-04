@@ -1,28 +1,10 @@
 import React from 'react';
 import styles from './DateTime.module.scss';
 import moment from 'moment';
-import { SFDatePicker, SFMenuOption, SFSelect } from 'sfui';
+import { SFDatePicker, SFSelect } from 'sfui';
+import { getTimeOptions } from '../../Helpers';
 
-function getNumberString(value: number): string {
-  return value.toString().padStart(2, '0');
-}
-
-function getTimeOptions(): string[] {
-  let options: string[] = [];
-
-  for (let hour = 0; hour < 24; hour++) {
-    for (let minute = 0; minute < 50; minute = minute + 15) {
-      options.push(`${getNumberString(hour)}:${getNumberString(minute)}`);
-    }
-  }
-
-  return options;
-}
-
-const TIME_OPTIONS: SFMenuOption[] = getTimeOptions().map((o: string) => ({
-  label: o,
-  value: o
-}));
+const TIME_OPTIONS = getTimeOptions();
 
 export interface DateTimeValue {
   date: moment.Moment | null;

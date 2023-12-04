@@ -74,8 +74,17 @@ function getShiftValue(shift: Shift): ShiftFormValue {
   };
 }
 
+function getDateRequestValue(date: moment.Moment, time: string): string {
+  return `${date.format('YYYY-MM-DDT')}${time}:00`;
+}
+
 function isDateTimeInvalid(datetime: DateTimeValue): boolean {
-  return !datetime.date || !datetime.time || datetime.time.length === 0;
+  return (
+    !datetime.date ||
+    !datetime.date.isValid() ||
+    !datetime.time ||
+    datetime.time.length === 0
+  );
 }
 
 function isSameOption(
@@ -126,13 +135,10 @@ function isFormInvalid(value: ShiftFormValue, shift?: Shift): boolean {
     !value.acronym ||
     isDateTimeInvalid(value.start) ||
     isDateTimeInvalid(value.end) ||
+    value.recurrence.days.length === 0 ||
     !value.min_staff ||
     value.min_staff.length === 0
   );
-}
-
-function getDateRequestValue(date: moment.Moment, time: string): string {
-  return `${date.format('YYYY-MM-DDT')}${time}:00`;
 }
 
 function getOptionListValue(list: SFPeopleOption[]): ShiftMember[] {

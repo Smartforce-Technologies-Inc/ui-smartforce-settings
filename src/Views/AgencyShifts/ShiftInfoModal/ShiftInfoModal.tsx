@@ -7,7 +7,7 @@ import { SFPeopleOption, SFSpinner, SFText } from 'sfui';
 import {
   formatArrayToString,
   formatDateString,
-  getDaysLabel
+  getRecurrenceString
 } from '../../../Helpers';
 import { ShiftInfoModalItem } from './ShiftInfoModalItem/ShiftInfoModalItem';
 import { ProgressBar } from './ProgressBar/ProgressBar';
@@ -138,7 +138,10 @@ export const ShiftInfoModal = ({
             </div>
 
             <div className={styles.content}>
-              <ShiftInfoModalItem icon="Refresh" text={getDaysLabel(shift)} />
+              <ShiftInfoModalItem
+                icon="Refresh"
+                text={getRecurrenceString(shift.recurrence)}
+              />
               <ShiftInfoModalItem
                 icon="Clock"
                 text={`${formatDateString(
