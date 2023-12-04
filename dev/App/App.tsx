@@ -28,7 +28,7 @@ export const BASE_URL = 'http://localhost:8001/api';
 export const App = () => {
   const { themeType } = React.useContext(ThemeTypeContext);
   const theme: SFTheme = createSFTheme(themeType);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [isLogged, setIsLogged] = React.useState<boolean>(false);
 
   React.useEffect(() => {

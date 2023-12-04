@@ -1,14 +1,24 @@
 import React, { useContext } from 'react';
 import styles from './ShiftForm.module.scss';
-import { SFNumericField, SFPeopleOption, SFText, SFTextField } from 'sfui';
+import {
+  SFDatePicker,
+  SFNumericField,
+  SFPeopleOption,
+  SFSelect,
+  SFText,
+  SFTextField
+} from 'sfui';
 import { AreasField } from '../../../../Components/AreasField/AreasField';
 import { Divider } from '../../../../Components/Divider/Divider';
-import { DateTime } from '../../../../Components/DateTime/DateTime';
 import { ShiftFormValue, ShiftRecurrence } from '../../../../Models';
 import { MemberPicker } from '../../../../Components/MemberPicker/MemberPicker';
 import { RepeatForm } from './RepeatForm/RepeatForm';
 import { MultipleMemberPicker } from '../../../../Components/MultipleMemberPicker/MultipleMemberPicker';
 import { ApiContext } from '../../../../Context';
+import { getTimeOptions } from '../../../../Helpers';
+import { RepeatInfo } from './RepeatInfo/RepeatInfo';
+
+const TIME_OPTIONS = getTimeOptions();
 
 export interface ShiftFormProps {
   value: ShiftFormValue;
@@ -20,6 +30,25 @@ export const ShiftForm = ({
   onChange
 }: ShiftFormProps): React.ReactElement<ShiftFormProps> => {
   const apiBaseUrl = useContext(ApiContext).settings;
+
+  const onDateTimeChange = (newValue: ShiftFormValue) => {
+    if (newValue.start.date) {
+      const endDate = newValue.start.date.clone();
+      if (newValue.start.time > newValue.end.time) {
+        endDate.add(1, 'days');
+      }
+
+      onChange({
+        ...newValue,
+        end: {
+          ...newValue.end,
+          date: endDate
+        }
+      });
+    } else {
+      onChange(newValue);
+    }
+  };
 
   return (
     <div className={styles.shiftForm}>
@@ -68,27 +97,64 @@ export const ShiftForm = ({
       <div className={styles.section}>
         <SFText type="component-1-medium">Date and Time</SFText>
 
-        <DateTime
-          label="Start"
-          value={value.start}
-          onChange={(start) =>
-            onChange({
+        <SFDatePicker
+          label="Start date"
+          required
+          value={value.start.date}
+          onChange={(date) =>
+            onDateTimeChange({
               ...value,
-              start
+              start: {
+                ...value.start,
+                date
+              }
             })
           }
         />
 
-        <DateTime
-          label="End"
-          value={value.end}
-          onChange={(end) =>
-            onChange({
-              ...value,
-              end
-            })
-          }
-        />
+        <div className={styles.timeRange}>
+          <SFSelect
+            label="Start time"
+            required
+            value={value.start.time}
+            options={TIME_OPTIONS}
+            onChange={(
+              e: React.ChangeEvent<{
+                name?: string | undefined;
+                value: unknown;
+              }>
+            ) =>
+              onDateTimeChange({
+                ...value,
+                start: {
+                  ...value.start,
+                  time: e.target.value as string
+                }
+              })
+            }
+          />
+
+          <SFSelect
+            label="End time"
+            required
+            value={value.end.time}
+            options={TIME_OPTIONS}
+            onChange={(
+              e: React.ChangeEvent<{
+                name?: string | undefined;
+                value: unknown;
+              }>
+            ) =>
+              onDateTimeChange({
+                ...value,
+                end: {
+                  ...value.end,
+                  time: e.target.value as string
+                }
+              })
+            }
+          />
+        </div>
 
         <RepeatForm
           value={value.recurrence}
@@ -99,6 +165,19 @@ export const ShiftForm = ({
             })
           }
         />
+
+        {value.start.date &&
+          value.start.date.isValid() &&
+          value.recurrence.days.length > 0 &&
+          value.start.time.length > 0 &&
+          value.end.time.length > 0 && (
+            <RepeatInfo
+              startDate={value.start.date}
+              startTime={value.start.time}
+              endTime={value.end.time}
+              recurrence={value.recurrence}
+            />
+          )}
       </div>
 
       <Divider />

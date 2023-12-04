@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './ShiftListItemInfo.module.scss';
 import { SFText } from 'sfui';
 import { ShiftListItem } from '../../../../Models';
-import { getDaysLabel } from '../../../../Helpers';
+import { getRecurrenceString, getTimeRangeString } from '../../../../Helpers';
 
 export interface ShiftListItemInfoProps {
   shift: ShiftListItem;
@@ -17,7 +17,10 @@ export const ShiftListItemInfo = ({
         <SFText type="component-2">{shift.name}</SFText>
 
         <SFText type="component-2-medium" sfColor="neutral">
-          {getDaysLabel(shift, true)}
+          {`${getRecurrenceString(shift.recurrence)} from ${getTimeRangeString(
+            shift.start.datetime,
+            shift.end.datetime
+          )}`}
         </SFText>
       </div>
 

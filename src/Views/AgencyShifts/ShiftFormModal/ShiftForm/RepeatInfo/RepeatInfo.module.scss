@@ -1,0 +1,21 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.repeatInfo {
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: $sf-blue-50;
+
+  > p {
+    color: $sf-blue-900;
+  }
+}
+
+:global(.nightMode) {
+  .repeatInfo {
+    background-color: $sf-blue-900;
+
+    > p {
+      color: $sf-blue-50;
+    }
+  }
+}

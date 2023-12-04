@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { DAYS_DICT } from '../Constants';
-import { Shift, ShiftListItem } from '../Models';
+import { ShiftRecurrence } from '../Models';
 
 export const formatDateString = (isoDate: string, format: string): string => {
   return moment(new Date(isoDate)).format(format);
@@ -41,15 +41,12 @@ export function formatArrayToString<T>(value: T[]): string {
   return value.join(', ');
 }
 
-export function getDaysLabel(
-  shift: ShiftListItem | Shift,
-  hasTime?: boolean
-): string {
+export function getRecurrenceString(recurrence: ShiftRecurrence): string {
   let msg: string = `Every week on `;
-  shift.recurrence.days.forEach((day: string, index: number) => {
-    const isLast: boolean = index === shift.recurrence.days.length - 1;
+  recurrence.days.forEach((day: string, index: number) => {
+    const isLast: boolean = index === recurrence.days.length - 1;
 
-    if (shift.recurrence.days.length > 1 && isLast) {
+    if (recurrence.days.length > 1 && isLast) {
       msg += `and `;
     }
 
@@ -58,11 +55,13 @@ export function getDaysLabel(
     if (!isLast) msg += ', ';
   });
 
-  if (hasTime) {
-    msg += ` from ${moment(shift.start.datetime).format('HH:mm')} to ${moment(
-      shift.end.datetime
-    ).format('HH:mm')}`;
-  }
-
   return msg;
+}
+
+export function getTimeRangeString(start: string, end: string): string {
+  return `${moment(start).format('HH:mm')} to ${moment(end).format('HH:mm')}`;
+}
+
+export function getNumberString(value: number): string {
+  return value.toString().padStart(2, '0');
 }
