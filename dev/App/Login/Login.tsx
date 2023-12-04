@@ -19,8 +19,17 @@ export const Login = ({
     password: ''
   });
 
+  const disabled: boolean =
+    value.email.length === 0 || value.password.length === 0;
+
+  const onKeyUp = (e: { key: string }) => {
+    if (e.key === 'Enter' && !disabled) {
+      onLogin(value);
+    }
+  };
+
   return (
-    <div className={styles.login}>
+    <div className={styles.login} onKeyUp={onKeyUp}>
       <SFTextField
         label="E-mail"
         type="email"
@@ -40,7 +49,9 @@ export const Login = ({
         }
       />
 
-      <SFButton onClick={() => onLogin(value)}>Log in</SFButton>
+      <SFButton disabled={disabled} onClick={() => onLogin(value)}>
+        Log in
+      </SFButton>
     </div>
   );
 };
