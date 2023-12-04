@@ -36,11 +36,13 @@ export const App = () => {
       if (isLogin()) {
         try {
           await getUser(BASE_URL);
+          setIsLogged(true);
+          setIsLoading(false);
         } catch (e) {
           logout();
+          setIsLogged(false);
+          setIsLoading(false);
         }
-        setIsLogged(true);
-        setIsLoading(false);
       }
     };
 
