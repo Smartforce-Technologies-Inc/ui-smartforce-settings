@@ -149,7 +149,7 @@ function getOptionListValue(list: SFPeopleOption[]): ShiftMember[] {
 }
 
 function sortRecurrenceDays(days: string[]): string[] {
-  const daysOfWeek = ['MO', 'TU', 'TH', 'WE', 'FR', 'SA', 'SU'];
+  const daysOfWeek = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'];
 
   const currentDays = [...days];
   return currentDays.sort(
@@ -279,7 +279,17 @@ export const ShiftFormModal = ({
         {!isLoading && (
           <ShiftForm
             value={value}
-            onChange={(value: ShiftFormValue) => setValue(value)}
+            onChange={(value: ShiftFormValue) => {
+              const newValue = {
+                ...value,
+                recurrence: {
+                  ...value.recurrence,
+                  days: sortRecurrenceDays(value.recurrence.days)
+                }
+              };
+
+              setValue(newValue);
+            }}
           />
         )}
       </Fragment>
