@@ -24,6 +24,11 @@
   }
 }
 
+[class*='MuiListItem-root'] {
+  display: flex;
+  gap: 12px;
+}
+
 :global(.nightMode) {
   .listItem {
     @media (hover: hover) {
