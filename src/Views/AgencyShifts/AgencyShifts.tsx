@@ -122,9 +122,13 @@ export const AgencyShifts = ({
             shift={selected}
             isOpen={isCreateModalOpen}
             isLoading={isLoadingShift}
+            onBack={() => setIsCreateModalOpen(false)}
             onError={onError}
             onSave={onUpdate}
-            onClose={() => setIsCreateModalOpen(false)}
+            onClose={() => {
+              onClose();
+              setIsCreateModalOpen(false);
+            }}
           />
           <ShiftInfoModal
             isOpen={isViewModalOpen}
