@@ -7,6 +7,7 @@ export interface ListManagmentMenuOption<T> {
   disabled?: boolean;
   filter?: (item: T) => boolean;
   onClick: (item: T) => void;
+  chip?: React.ReactElement;
 }
 export interface ListItemProps<T> {
   item: T;
@@ -75,6 +76,7 @@ export const ListItem = <T,>({
                 onClick={() => onOptionClick(o)}
               >
                 {o.label}
+                {o.chip}
               </SFMenuItem>
             ))}
         </SFMenu>
