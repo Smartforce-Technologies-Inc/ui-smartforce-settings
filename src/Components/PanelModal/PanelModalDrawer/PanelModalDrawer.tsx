@@ -55,7 +55,7 @@ export const PanelModalDrawer = ({
       <div className={styles.contentTitle}>
         {title && <SFText type="component-title">{title}</SFText>}
         {subTitle && (
-          <SFText className={styles.subTitle} type="component-2">
+          <SFText sfColor="neutral" type="component-2">
             {subTitle}
           </SFText>
         )}

@@ -1,5 +1,4 @@
 @import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
-@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
 
 .panelModalDialog {
   .paper {
@@ -39,10 +38,6 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
-
-      .subTitle {
-        color: $sf-grey-main-light;
-      }
     }
 
     &.withTitle {
@@ -77,17 +72,5 @@
     justify-content: center;
     align-items: center;
     height: 58px;
-  }
-}
-
-:global(.nightMode) {
-  .panelModalDialog {
-    .container {
-      .contentTitle {
-        .subTitle {
-          color: $sf-grey-main-dark;
-        }
-      }
-    }
   }
 }
