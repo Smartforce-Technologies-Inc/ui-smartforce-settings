@@ -31,6 +31,7 @@ export interface PanelModalProps {
   dialogCloseButton?: PanelModalButtonProps;
   actionButton?: PanelModalButtonProps;
   altActionButton?: PanelModalButtonProps;
+  subTitle?: string;
   onBack?: () => void;
   onClose: () => void;
 }

@@ -25,6 +25,7 @@ export const PanelModalDialog = ({
   classes,
   actionButton,
   altActionButton,
+  subTitle,
   onClose
 }: PanelModalDialogProps): React.ReactElement<PanelModalDialogProps> => {
   return (
@@ -46,7 +47,14 @@ export const PanelModalDialog = ({
           title ? styles.withTitle : ''
         }`}
       >
-        {title && <h4>{title}</h4>}
+        <div className={styles.contentTitle}>
+          {title && <SFText type="component-title">{title}</SFText>}
+          {subTitle && (
+            <SFText sfColor="neutral" type="component-2">
+              {subTitle}
+            </SFText>
+          )}
+        </div>
 
         <SFScrollable className={`${styles.content} ${classes?.content ?? ''}`}>
           {children}
