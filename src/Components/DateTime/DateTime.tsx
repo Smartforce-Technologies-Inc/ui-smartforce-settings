@@ -12,6 +12,7 @@ export interface DateTimeValue {
 }
 
 export interface DateTimeProps {
+  errorText?: string;
   label: string;
   disableFuture?: boolean;
   value: DateTimeValue;
@@ -19,6 +20,7 @@ export interface DateTimeProps {
 }
 
 export const DateTime = ({
+  errorText,
   label,
   disableFuture = false,
   value,
@@ -30,6 +32,8 @@ export const DateTime = ({
         disableFuture={disableFuture}
         label={`${label} date`}
         required
+        error={!!errorText}
+        helperText={errorText}
         value={value.date}
         onChange={(date: moment.Moment) =>
           onChange({
@@ -42,6 +46,8 @@ export const DateTime = ({
       <SFSelect
         label={`${label} time`}
         required
+        error={!!errorText}
+        helperText={errorText}
         value={value.time}
         options={TIME_OPTIONS}
         onChange={(
