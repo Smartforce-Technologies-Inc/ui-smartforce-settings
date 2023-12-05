@@ -13,25 +13,24 @@ export interface DateTimeValue {
 
 export interface DateTimeProps {
   label: string;
-  disableFuture?: boolean;
   value: DateTimeValue;
   error?: boolean;
+  required?: boolean;
   onChange: (value: DateTimeValue) => void;
 }
 
 export const DateTime = ({
   error = false,
+  required = false,
   label,
-  disableFuture = false,
   value,
   onChange
 }: DateTimeProps): React.ReactElement<DateTimeProps> => {
   return (
     <div className={styles.dateTime}>
       <SFDatePicker
-        disableFuture={disableFuture}
         label={`${label} date`}
-        required
+        required={required}
         error={error}
         value={value.date}
         onChange={(date: moment.Moment) =>
@@ -44,7 +43,7 @@ export const DateTime = ({
 
       <SFSelect
         label={`${label} time`}
-        required
+        required={required}
         error={error}
         value={value.time}
         options={TIME_OPTIONS}
