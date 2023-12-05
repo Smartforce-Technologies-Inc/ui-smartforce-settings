@@ -12,11 +12,23 @@
     justify-content: center;
     align-items: center;
     border-radius: 2px 0px 0px 2px;
-    border: 1px solid $sf-grey-400;
+    border: 1px solid $sf-grey-main-dark;
     text-align: center;
 
     &.selected {
       background: rgba(204, 204, 204, 0.5);
+    }
+  }
+}
+
+:global(.nightMode) {
+  .dayPicker {
+    .day {
+      border-color: $sf-grey-main-light;
+
+      &.selected {
+        background: rgba(128, 128, 128, 0.2);
+      }
     }
   }
 }
