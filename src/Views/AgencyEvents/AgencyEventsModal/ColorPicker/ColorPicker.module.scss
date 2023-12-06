@@ -1,3 +1,5 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
 .colorPicker {
   display: flex;
   flex-direction: column;
@@ -29,6 +31,18 @@
 
       &.selected {
         border-color: black;
+      }
+    }
+  }
+}
+
+:global(.nightMode) {
+  .colorPicker {
+    .colorList {
+      .container {
+        &.selected {
+          border-color: $sf-grey-50;
+        }
       }
     }
   }
