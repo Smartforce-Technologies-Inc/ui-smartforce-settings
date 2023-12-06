@@ -96,6 +96,7 @@ export const AgencyEventsModal = ({
         setAnchor('bottom');
         onClose();
       }}
+      onBack={onBack}
       anchor={anchor}
       dialogCloseButton={{
         label: 'Discard',
