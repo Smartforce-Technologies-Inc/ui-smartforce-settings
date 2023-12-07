@@ -47,14 +47,16 @@ export const PanelModalDialog = ({
           title ? styles.withTitle : ''
         }`}
       >
-        <div className={styles.contentTitle}>
-          {title && <SFText type="component-title">{title}</SFText>}
-          {subTitle && (
-            <SFText sfColor="neutral" type="component-2">
-              {subTitle}
-            </SFText>
-          )}
-        </div>
+        {title && (
+          <div className={styles.contentTitle}>
+            <SFText type="component-title">{title}</SFText>
+            {subTitle && (
+              <SFText sfColor="neutral" type="component-2">
+                {subTitle}
+              </SFText>
+            )}
+          </div>
+        )}
 
         <SFScrollable className={`${styles.content} ${classes?.content ?? ''}`}>
           {children}
