@@ -279,6 +279,7 @@ export const ShiftFormModal = ({
         {!isLoading && (
           <ShiftForm
             value={value}
+            isEdit={!!shift}
             onChange={(value: ShiftFormValue) => {
               const newValue = {
                 ...value,
