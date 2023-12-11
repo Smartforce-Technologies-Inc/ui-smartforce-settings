@@ -55,10 +55,11 @@ export const AgencyEvents = ({
     setEvents(events.filter((e: AgencyEventType) => e.id !== event.id));
   };
 
-  const onDelete = (event: AgencyEventType) => {
-    setModalValue(event);
-    setIsDeleteDialogOpen(true);
-  };
+  // TODO uncomment this when delete is available
+  // const onDelete = (event: AgencyEventType) => {
+  //   setModalValue(event);
+  //   setIsDeleteDialogOpen(true);
+  // };
 
   const onEdit = (event: AgencyEventType) => {
     setModalValue(event);
@@ -143,11 +144,11 @@ export const AgencyEvents = ({
               {
                 label: 'Edit event type',
                 onClick: onEdit
-              },
-              {
-                label: 'Delete',
-                onClick: onDelete
               }
+              // {
+              //   label: 'Delete',
+              //   onClick: onDelete
+              // }
             ]}
             renderItem={(item: AgencyEventType) => (
               <AgencyEventsItem event={item} />
