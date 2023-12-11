@@ -36,7 +36,7 @@ export const ShiftForm = ({
   const onDateTimeChange = (newValue: ShiftFormValue) => {
     if (newValue.start.date) {
       const endDate = newValue.start.date.clone();
-      if (newValue.start.time > newValue.end.time) {
+      if (newValue.start.time >= newValue.end.time) {
         endDate.add(1, 'days');
       }
 
