@@ -192,6 +192,7 @@ export interface ShiftFormModalProps {
   shift?: Shift;
   isOpen: boolean;
   isLoading: boolean;
+  onBack: () => void;
   onError: (e: SettingsError) => void;
   onClose: () => void;
   onSave: () => void;
@@ -201,6 +202,7 @@ export const ShiftFormModal = ({
   shift,
   isOpen,
   isLoading,
+  onBack,
   onError,
   onClose,
   ...props
@@ -263,11 +265,11 @@ export const ShiftFormModal = ({
               onClick: onSave
             }
       }
-      onBack={onClose}
-      onClose={() => {
+      onBack={() => {
         setAnchor('bottom');
-        onClose();
+        onBack();
       }}
+      onClose={onClose}
     >
       <Fragment>
         {isLoading && (

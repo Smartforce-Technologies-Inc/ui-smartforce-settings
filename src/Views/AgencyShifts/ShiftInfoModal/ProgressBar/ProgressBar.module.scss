@@ -43,3 +43,19 @@
     }
   }
 }
+
+:global(.nightMode) {
+  .progressBar {
+    .bar {
+      background-color: $sf-grey-700;
+
+      .progress {
+        background-color: $sf-red-200;
+
+        &.success {
+          background-color: $sf-green-main-dark;
+        }
+      }
+    }
+  }
+}

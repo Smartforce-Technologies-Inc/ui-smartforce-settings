@@ -7,6 +7,7 @@ import { getShift, getShifts } from '../../Services';
 import { ShiftFormModal } from './ShiftFormModal/ShiftFormModal';
 import { ShiftInfoModal } from './ShiftInfoModal/ShiftInfoModal';
 import { AgencyShiftItem } from './AgencyShiftItem/AgencyShiftItem';
+import { SFChip } from 'sfui';
 
 function sortShifts(groups: ShiftListItem[]): ShiftListItem[] {
   return groups.sort((a: ShiftListItem, b: ShiftListItem): number =>
@@ -122,9 +123,13 @@ export const AgencyShifts = ({
             shift={selected}
             isOpen={isCreateModalOpen}
             isLoading={isLoadingShift}
+            onBack={() => setIsCreateModalOpen(false)}
             onError={onError}
             onSave={onUpdate}
-            onClose={() => setIsCreateModalOpen(false)}
+            onClose={() => {
+              onClose();
+              setIsCreateModalOpen(false);
+            }}
           />
           <ShiftInfoModal
             isOpen={isViewModalOpen}
@@ -154,6 +159,18 @@ export const AgencyShifts = ({
               {
                 label: 'See shift information',
                 onClick: onInfo
+              },
+              // {
+              //   label: 'View history',
+              //   disabled: true,
+              //   onClick: () => {},
+              //   chip: <SFChip sfColor="default" label="Coming Soon" />
+              // },
+              {
+                label: 'Delete',
+                disabled: true,
+                onClick: () => {},
+                chip: <SFChip sfColor="default" label="Coming Soon" />
               }
             ]}
             renderItem={(item) => <AgencyShiftItem shift={item} />}
