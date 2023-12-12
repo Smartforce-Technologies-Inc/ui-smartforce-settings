@@ -1,0 +1,102 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.qrCodeModal {
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+
+  .title {
+    margin: 0;
+    line-height: 28px;
+    font-weight: 500;
+  }
+
+  .subTitle {
+    margin: 3px 0;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+  }
+
+  .qrCodeForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .qrCode {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 272px;
+      height: 272px;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-sm-width) {
+  .qrCodeModal {
+    .qrCodeForm {
+      .qrCode,
+      .qrCode .svgImage {
+        width: 462px;
+        height: 462px;
+      }
+    }
+
+    button {
+      width: fit-content;
+      align-self: flex-end;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-md-width) {
+  .qrCodeModal {
+    .qrCodeForm {
+      .qrCode,
+      .qrCode .svgImage {
+        width: 404px;
+        height: 404px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-lg-width) {
+  .qrCodeModal {
+    .qrCodeForm {
+      .qrCode,
+      .qrCode .svgImage {
+        width: 354px;
+        height: 354px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-xl-width) {
+  .qrCodeModal {
+    .qrCodeForm {
+      .qrCode,
+      .qrCode .svgImage {
+        width: 462px;
+        height: 462px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-xxl-width) {
+  .qrCodeModal {
+    .qrCodeForm {
+      .qrCode,
+      .qrCode .svgImage {
+        width: 404px;
+        height: 404px;
+      }
+    }
+  }
+}

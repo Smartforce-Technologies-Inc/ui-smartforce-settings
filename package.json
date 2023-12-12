@@ -28,6 +28,7 @@
   "dependencies": {
     "@turf/destination": "^6.5.0",
     "lodash.debounce": "^4.0.8",
+    "qrcode.react": "^1.0.1",
     "react-image-crop": "^9.0.4"
   },
   "devDependencies": {
@@ -44,6 +45,7 @@
     "@turf/helpers": "^6.5.0",
     "@types/googlemaps": "^3.43.3",
     "@types/lodash.debounce": "^4.0.7",
+    "@types/qrcode.react": "^1.0.2",
     "@types/react": "^16.14.11",
     "@types/react-dom": "^16.9.14",
     "autoprefixer": "^10.4.12",
