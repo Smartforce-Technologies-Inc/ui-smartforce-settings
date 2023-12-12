@@ -1,6 +1,7 @@
 export * from './Agency/AgencyForm/AgencyForm';
 export * from './Avatar/Avatar';
 export * from './AvatarListItem/AvatarListItem';
+export * from './ContactQRCode/ContactQRCode';
 export * from './DateTime/DateTime';
 export * from './GoogleMap';
 export * from './ImageUpload/ImageUpload';
@@ -9,4 +10,5 @@ export * from './Loader/Loader';
 export * from './MultipleMemberPicker/MultipleMemberPicker';
 export * from './MemberPicker/MemberPicker';
 export * from './PanelModal';
+export * from './QRCodeModal/QRCodeModal';
 export * from './StripeCreditCardForm/StripeCreditCardForm';

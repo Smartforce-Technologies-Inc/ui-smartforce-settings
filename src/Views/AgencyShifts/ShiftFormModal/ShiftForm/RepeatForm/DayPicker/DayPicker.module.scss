@@ -44,3 +44,15 @@
     }
   }
 }
+
+:global(.nightMode) {
+  .dayPicker {
+    .day {
+      border-color: $sf-grey-main-light;
+
+      &.selected {
+        background: rgba(128, 128, 128, 0.2);
+      }
+    }
+  }
+}
