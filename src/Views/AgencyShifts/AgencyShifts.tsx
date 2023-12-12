@@ -160,17 +160,21 @@ export const AgencyShifts = ({
                 label: 'See shift information',
                 onClick: onInfo
               },
-              // {
-              //   label: 'View history',
-              //   disabled: true,
-              //   onClick: () => {},
-              //   chip: <SFChip sfColor="default" label="Coming Soon" />
-              // },
+              {
+                label: 'View history',
+                disabled: true,
+                onClick: () => {},
+                chip: (
+                  <SFChip size="small" sfColor="default" label="Coming Soon" />
+                )
+              },
               {
                 label: 'Delete',
                 disabled: true,
                 onClick: () => {},
-                chip: <SFChip sfColor="default" label="Coming Soon" />
+                chip: (
+                  <SFChip size="small" sfColor="default" label="Coming Soon" />
+                )
               }
             ]}
             renderItem={(item) => <AgencyShiftItem shift={item} />}
