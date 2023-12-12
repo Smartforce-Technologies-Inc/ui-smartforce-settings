@@ -8,6 +8,7 @@ import { AgencyEventsDeleteDialog } from './AgencyEventsDeleteDialog/AgencyEvent
 import { getEventTypes } from '../../Services';
 import { ApiContext } from '../../Context';
 import { AgencyEventsItem } from './AgencyEventsItem/AgencyEventsItem';
+import { SFChip } from 'sfui';
 
 export interface AgencyEventsProps {
   onClose: () => void;
@@ -144,11 +145,15 @@ export const AgencyEvents = ({
               {
                 label: 'Edit event type',
                 onClick: onEdit
+              },
+              {
+                label: 'Delete',
+                disabled: true,
+                onClick: () => {},
+                chip: (
+                  <SFChip size="small" sfColor="default" label="Coming Soon" />
+                )
               }
-              // {
-              //   label: 'Delete',
-              //   onClick: onDelete
-              // }
             ]}
             renderItem={(item: AgencyEventType) => (
               <AgencyEventsItem event={item} />

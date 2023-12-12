@@ -1,15 +1,15 @@
 import { ApplicationUrlDict, SFApp } from '../Models';
 import DM_CC_LOGO from '../Images/DMLogoCC';
 import NM_CC_LOGO from '../Images/NMLogoCC';
-import DM_SHIFT_LOGO from '../Images/DMLogoShift';
-import NM_SHIFT_LOGO from '../Images/NMLogoShift';
+//import DM_SHIFT_LOGO from '../Images/DMLogoShift';
+//import NM_SHIFT_LOGO from '../Images/NMLogoShift';
 
 export const SF_APPS: SFApp[] = [
-  { product: 'cc', logo: { dayMode: DM_CC_LOGO, nightMode: NM_CC_LOGO } },
-  {
-    product: 'shift',
-    logo: { dayMode: DM_SHIFT_LOGO, nightMode: NM_SHIFT_LOGO }
-  }
+  { product: 'cc', logo: { dayMode: DM_CC_LOGO, nightMode: NM_CC_LOGO } }
+  // {
+  //   product: 'shift',
+  //   logo: { dayMode: DM_SHIFT_LOGO, nightMode: NM_SHIFT_LOGO }
+  // }
 ];
 
 // Citizen Contact Urls
