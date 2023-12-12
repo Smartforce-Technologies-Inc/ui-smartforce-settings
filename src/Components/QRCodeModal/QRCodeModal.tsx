@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './QRCodeModal.module.scss';
 import { SFButton, SFDialog, SFTextField } from 'sfui';
-import ContactQRCode from '../ContactQRCode/ContactQRCode';
+import { ContactQRCode } from '../ContactQRCode/ContactQRCode';
 import { QRSpinner } from './QRSpinner/QRSpinner';
 import { User } from '../../Models';
 
@@ -16,7 +16,7 @@ export interface QRCodeModalProps {
   onClose?: () => void;
 }
 
-const QRCodeModal = ({
+export const QRCodeModal = ({
   isOpen,
   title,
   subTitle,
@@ -94,5 +94,3 @@ const QRCodeModal = ({
     </SFDialog>
   );
 };
-
-export default QRCodeModal;

@@ -131,7 +131,7 @@ const getQRCodeURL = (
   return `${ccPublicURL}${token}`;
 };
 
-const ContactQRCode = ({
+export const ContactQRCode = ({
   size = 256,
   user,
   baseUrl,
@@ -158,5 +158,3 @@ const ContactQRCode = ({
     />
   );
 };
-
-export default ContactQRCode;
