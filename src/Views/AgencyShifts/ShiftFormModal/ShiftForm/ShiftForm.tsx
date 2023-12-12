@@ -22,11 +22,13 @@ const TIME_OPTIONS = getTimeOptions();
 
 export interface ShiftFormProps {
   value: ShiftFormValue;
+  isEdit?: boolean;
   onChange: (value: ShiftFormValue) => void;
 }
 
 export const ShiftForm = ({
   value,
+  isEdit,
   onChange
 }: ShiftFormProps): React.ReactElement<ShiftFormProps> => {
   const apiBaseUrl = useContext(ApiContext).settings;
@@ -34,7 +36,7 @@ export const ShiftForm = ({
   const onDateTimeChange = (newValue: ShiftFormValue) => {
     if (newValue.start.date) {
       const endDate = newValue.start.date.clone();
-      if (newValue.start.time > newValue.end.time) {
+      if (newValue.start.time >= newValue.end.time) {
         endDate.add(1, 'days');
       }
 
@@ -198,17 +200,19 @@ export const ShiftForm = ({
           }
         />
 
-        <MultipleMemberPicker
-          baseUrl={apiBaseUrl}
-          label="Add Members"
-          value={value.participants}
-          onChange={(participants: SFPeopleOption[]) =>
-            onChange({
-              ...value,
-              participants
-            })
-          }
-        />
+        {!isEdit && (
+          <MultipleMemberPicker
+            baseUrl={apiBaseUrl}
+            label="Add Members"
+            value={value.participants}
+            onChange={(participants: SFPeopleOption[]) =>
+              onChange({
+                ...value,
+                participants
+              })
+            }
+          />
+        )}
 
         <MemberPicker
           baseUrl={apiBaseUrl}

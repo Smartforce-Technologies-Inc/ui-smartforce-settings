@@ -15,8 +15,32 @@
     border: 1px solid $sf-grey-main-dark;
     text-align: center;
 
+    @media (hover: hover) {
+      &:hover {
+        background-color: rgba($sf-grey-200, 0.3);
+      }
+    }
+
     &.selected {
-      background: rgba(204, 204, 204, 0.5);
+      background-color: rgba($sf-grey-200, 0.5);
+    }
+  }
+}
+
+:global(.nightMode) {
+  .dayPicker {
+    .day {
+      border-color: $sf-grey-main-light;
+
+      @media (hover: hover) {
+        &:hover {
+          background-color: rgba($sf-grey-500, 0.3);
+        }
+      }
+
+      &.selected {
+        background-color: rgba($sf-grey-500, 0.5);
+      }
     }
   }
 }
