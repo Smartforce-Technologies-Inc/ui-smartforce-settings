@@ -6,23 +6,33 @@ export interface ProgressBarProps {
   value: number;
 }
 
+const getRightMargin = (value: number, peak: number): number => {
+  return 100 - Math.round(100 / (value / peak));
+};
+
 export const ProgressBar = ({
   peak,
   value
 }: ProgressBarProps): React.ReactElement<ProgressBarProps> => {
-  const fraction: number = Math.min(Math.round((value * 100) / peak), 100);
+  const fraction: number = Math.round((value * 100) / peak);
 
   return (
     <div className={styles.progressBar}>
       <div className={styles.bar}>
         <div
           className={`${styles.progress} ${
-            fraction === 100 ? styles.success : ''
+            fraction >= 100 ? styles.success : ''
           }`}
-          style={{ width: `${fraction}%` }}
+          style={{ width: `${Math.min(fraction, 100)}%` }}
         ></div>
       </div>
-      <div className={styles.tippingPoint}>
+      <div
+        className={styles.tippingPoint}
+        style={{
+          marginRight:
+            fraction > 100 ? `${getRightMargin(value, peak)}%` : undefined
+        }}
+      >
         <h5 className={styles.peak}>{peak}</h5>
       </div>
     </div>
