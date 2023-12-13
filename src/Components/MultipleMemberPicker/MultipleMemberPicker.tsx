@@ -15,7 +15,7 @@ const getOptionSelected = (o: SFPeopleOption, v: SFPeopleOption): boolean => {
 };
 
 export interface MultipleMemberProps {
-  required: boolean | undefined;
+  required?: boolean | undefined;
   baseUrl: string;
   label: string;
   value: SFPeopleOption[];
