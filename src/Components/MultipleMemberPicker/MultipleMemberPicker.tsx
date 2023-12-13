@@ -15,6 +15,7 @@ const getOptionSelected = (o: SFPeopleOption, v: SFPeopleOption): boolean => {
 };
 
 export interface MultipleMemberProps {
+  required: boolean | undefined;
   baseUrl: string;
   label: string;
   value: SFPeopleOption[];
@@ -22,6 +23,7 @@ export interface MultipleMemberProps {
 }
 
 export const MultipleMemberPicker = ({
+  required,
   baseUrl,
   label,
   value,
@@ -41,6 +43,7 @@ export const MultipleMemberPicker = ({
   return (
     <SFPeoplePicker
       multiple
+      required={required}
       label={label}
       isAsync
       formatUrlQuery={(value: string) =>
