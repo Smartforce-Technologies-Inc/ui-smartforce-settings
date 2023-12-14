@@ -23,9 +23,7 @@ const SectionMenu = ({
       onClick={!disabled ? onClick : undefined}
     >
       <p className={styles.title}>{title}</p>
-      {disabled && (
-        <SFChip size="small" sfColor="default" label="Coming Soon" />
-      )}
+      {disabled && <SFChip size="small" sfColor="default" label="Soon" />}
     </div>
   );
 };
