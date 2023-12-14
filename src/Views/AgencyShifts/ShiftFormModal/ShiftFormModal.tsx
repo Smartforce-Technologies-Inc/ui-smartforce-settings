@@ -126,8 +126,8 @@ function isSameShift(a: ShiftFormValue, b: ShiftFormValue): boolean {
 }
 
 function isFormInvalid(value: ShiftFormValue, shift?: Shift): boolean {
-  if (shift) {
-    return isSameShift(value, getShiftValue(shift));
+  if (shift && isSameShift(value, getShiftValue(shift))) {
+    return true;
   }
 
   return (
