@@ -16,7 +16,7 @@ import {
 } from '../../../Models';
 import { ShiftForm } from './ShiftForm/ShiftForm';
 import { isEqualObject, upperFirstChar } from '../../../Helpers';
-import { SFPeopleOption, SFSpinner } from 'sfui';
+import { SFAlert, SFPeopleOption, SFSpinner } from 'sfui';
 import { ApiContext } from '../../../Context';
 import { addShift, editShift } from '../../../Services';
 
@@ -279,21 +279,30 @@ export const ShiftFormModal = ({
         )}
 
         {!isLoading && (
-          <ShiftForm
-            value={value}
-            isEdit={!!shift}
-            onChange={(value: ShiftFormValue) => {
-              const newValue = {
-                ...value,
-                recurrence: {
-                  ...value.recurrence,
-                  days: sortRecurrenceDays(value.recurrence.days)
-                }
-              };
+          <Fragment>
+            {shift && (
+              <SFAlert
+                className={styles.alert}
+                type="info"
+                title="The changes will be applied starting on the next shift."
+              ></SFAlert>
+            )}
+            <ShiftForm
+              value={value}
+              isEdit={!!shift}
+              onChange={(value: ShiftFormValue) => {
+                const newValue = {
+                  ...value,
+                  recurrence: {
+                    ...value.recurrence,
+                    days: sortRecurrenceDays(value.recurrence.days)
+                  }
+                };
 
-              setValue(newValue);
-            }}
-          />
+                setValue(newValue);
+              }}
+            />
+          </Fragment>
         )}
       </Fragment>
     </PanelModal>
