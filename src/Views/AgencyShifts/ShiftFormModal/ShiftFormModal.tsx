@@ -126,17 +126,8 @@ function isSameShift(a: ShiftFormValue, b: ShiftFormValue): boolean {
 }
 
 function isFormInvalid(value: ShiftFormValue, shift?: Shift): boolean {
-  if (shift) {
-    return (
-      isSameShift(value, getShiftValue(shift)) ||
-      !value.name ||
-      !value.acronym ||
-      isDateTimeInvalid(value.start) ||
-      isDateTimeInvalid(value.end) ||
-      value.recurrence.days.length === 0 ||
-      !value.min_staff ||
-      value.min_staff.length === 0
-    );
+  if (shift && isSameShift(value, getShiftValue(shift))) {
+    return true;
   }
 
   return (
