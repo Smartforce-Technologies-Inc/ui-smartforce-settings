@@ -1,0 +1,19 @@
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.groupInfoHeader {
+  padding-right: 16px;
+
+  .name {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 24px 0 6px;
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (min-width: $sf-media-sm-width) {
+  .groupInfoHeader {
+    padding-right: 36px;
+  }
+}

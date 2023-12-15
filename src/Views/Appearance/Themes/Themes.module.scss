@@ -1,0 +1,30 @@
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.themes {
+  min-height: 0;
+  display: grid;
+  gap: 21px;
+
+  .theme {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .radio {
+      padding-left: 12px;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-md-width) {
+  .themes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 36px;
+  }
+}
+
+@media screen and (min-width: $sf-media-xl-width) {
+  .themes {
+    gap: 48px;
+  }
+}

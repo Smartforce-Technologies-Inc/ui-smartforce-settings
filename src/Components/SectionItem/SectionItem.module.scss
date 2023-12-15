@@ -1,0 +1,67 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.sectionItem {
+  display: grid;
+  grid-template-columns: 1fr 32px;
+  gap: 8px;
+  cursor: pointer;
+  padding-bottom: 24px;
+  border-bottom: 1px solid $sf-grey-100;
+
+  .textContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+
+    .title {
+      margin: 0;
+      cursor: none;
+    }
+
+    .description {
+      font-size: 12px;
+      line-height: 14px;
+      cursor: none;
+      margin: 0;
+      font-weight: 400;
+      color: $sf-grey-600;
+    }
+  }
+
+  .icon {
+    align-self: center;
+  }
+
+  &.withImage {
+    grid-template-columns: 100px 1fr 32px;
+
+    .image {
+      align-self: center;
+      justify-self: center;
+
+      img {
+        width: 100%;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  &:nth-last-child(1) {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+:global(.nightMode) {
+  .sectionItem {
+    border-color: $sf-grey-700;
+
+    .textContainer {
+      .description {
+        color: $sf-grey-400;
+      }
+    }
+  }
+}

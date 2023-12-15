@@ -1,0 +1,70 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.memberDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .memberName {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .name {
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 28px;
+    }
+
+    .email {
+      color: $sf-grey-600;
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+
+  .infoItemChip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+
+    .infoItemChipLabel {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+
+  .infoItem {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .infoItemLabel {
+      color: $sf-grey-600;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .infoItemValue {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+}
+
+:global(.nightMode) {
+  .memberDetails {
+    .memberName {
+      .email {
+        color: $sf-grey-400;
+      }
+    }
+
+    .infoItem {
+      .infoItemLabel {
+        color: $sf-grey-400;
+      }
+    }
+  }
+}

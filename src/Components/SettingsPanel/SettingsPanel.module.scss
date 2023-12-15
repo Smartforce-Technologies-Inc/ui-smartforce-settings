@@ -1,0 +1,33 @@
+.settingsPanel {
+  height: 100%;
+  right: 0;
+
+  .settingsPanelContainer {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: 50px 1fr;
+
+    .content {
+      min-height: 0;
+    }
+
+    .topBar {
+      padding: 8px 12px 0 12px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    &.withFooterButtons {
+      grid-template-rows: 20px 1fr 70px;
+
+      .footerButtons {
+        padding-top: 24px;
+      }
+    }
+
+    &.hide {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,56 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.avatar {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $sf-blue-400;
+  color: $sf-common-white;
+  text-transform: uppercase;
+  font-weight: bold;
+
+  &.extraSmall {
+    min-width: 24px;
+    max-width: 24px;
+    height: 24px;
+    font-size: 8px;
+    line-height: 12px;
+  }
+
+  &.small {
+    min-width: 42px;
+    max-width: 42px;
+    height: 42px;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  &.large {
+    width: 100px;
+    height: 100px;
+    font-size: 32px;
+    line-height: 48px;
+  }
+
+  > img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+  }
+
+  &.empty {
+    background-color: transparent;
+    border-style: dashed;
+    border-color: $sf-grey-200;
+    border-width: 1px;
+  }
+}
+
+:global(.nightMode) {
+  .avatar {
+    &.empty {
+      border-color: $sf-grey-700;
+    }
+  }
+}

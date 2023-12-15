@@ -1,0 +1,58 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.dayPicker {
+  display: flex;
+  width: 100%;
+
+  .day {
+    cursor: pointer;
+    flex: 1 1 0px;
+    display: flex;
+    height: 42px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px 0px 0px 2px;
+    border: 1px solid $sf-grey-main-dark;
+    text-align: center;
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: rgba($sf-grey-200, 0.3);
+      }
+    }
+
+    &.selected {
+      background-color: rgba($sf-grey-200, 0.5);
+    }
+  }
+}
+
+:global(.nightMode) {
+  .dayPicker {
+    .day {
+      border-color: $sf-grey-main-light;
+
+      @media (hover: hover) {
+        &:hover {
+          background-color: rgba($sf-grey-500, 0.3);
+        }
+      }
+
+      &.selected {
+        background-color: rgba($sf-grey-500, 0.5);
+      }
+    }
+  }
+}
+
+:global(.nightMode) {
+  .dayPicker {
+    .day {
+      border-color: $sf-grey-main-light;
+
+      &.selected {
+        background: rgba(128, 128, 128, 0.2);
+      }
+    }
+  }
+}

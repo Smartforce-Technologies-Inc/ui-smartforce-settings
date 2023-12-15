@@ -1,0 +1,11 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.themeSvg {
+  > img {
+    contain: strict;
+    min-height: 213px;
+    min-width: 295px;
+    max-width: 100%;
+  }
+}

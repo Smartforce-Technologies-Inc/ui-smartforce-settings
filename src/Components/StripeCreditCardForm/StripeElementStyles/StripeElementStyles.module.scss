@@ -1,0 +1,66 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.stripeElement {
+  height: 56px;
+  padding: 17px 13px;
+  width: 100%;
+  color: $sf-text-black;
+  background-color: $sf-surface-light;
+  box-sizing: border-box;
+  border: 1px solid $sf-grey-200;
+  border-radius: 2px;
+
+  @media (hover: hover) {
+    &:hover {
+      border: 1px solid $sf-grey-900;
+    }
+  }
+
+  &.stripeElementFocus {
+    border: 2px solid $sf-blue-main-light !important;
+    padding: 16px 12px;
+  }
+
+  &.stripeElementInvalid {
+    color: $sf-red-main-light;
+    border: 2px solid $sf-red-main-light !important;
+    padding: 16px 12px;
+  }
+
+  &.stripeElementWebkitAutofill {
+    color: $sf-text-black !important;
+    background-color: $sf-surface-light !important;
+  }
+}
+
+:global(.nightMode) {
+  .stripeElement {
+    color: $sf-text-white;
+    background-color: $sf-surface-dark;
+    border-color: $sf-grey-700;
+
+    &:hover {
+      border: 1px solid $sf-grey-50;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        border: 1px solid $sf-grey-50;
+      }
+    }
+
+    &.stripeElementFocus {
+      border-color: $sf-blue-main-dark !important;
+    }
+
+    &.stripeElementInvalid {
+      color: $sf-red-main-dark;
+      border-color: $sf-red-main-dark !important;
+    }
+
+    &.stripeElementWebkitAutofill {
+      color: $sf-text-white !important;
+      background-color: $sf-surface-dark !important;
+    }
+  }
+}

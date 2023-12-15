@@ -1,0 +1,37 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.memberListItem {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 12px;
+  padding: 20px 13px;
+  box-sizing: border-box;
+
+  &.withMenu {
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+  }
+
+  .memberInfo {
+    > p {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .role {
+      margin-top: 8px;
+    }
+  }
+
+  .textNeutral {
+    color: $sf-grey-600;
+  }
+}
+
+:global(.nightMode) {
+  .memberListItem {
+    .textNeutral {
+      color: $sf-grey-400;
+    }
+  }
+}

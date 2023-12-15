@@ -1,0 +1,155 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.businessCardPreview {
+  display: grid;
+  gap: 24px;
+  width: fit-content;
+  height: fit-content;
+  background-color: $sf-background-light;
+
+  .container {
+    display: grid;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 16px;
+  }
+
+  .mediaType {
+    display: flex;
+    width: fit-content;
+    margin: 0 auto;
+    gap: 24px;
+    padding: 24px;
+    background-color: $sf-grey-800;
+    border-radius: 2px 2px 0 0;
+
+    .icon {
+      @media (hover: hover) {
+        &:hover {
+          background-color: rgba($sf-grey-500, 0.3);
+        }
+      }
+
+      &:active {
+        background-color: rgba($sf-grey-500, 0.2);
+
+        svg {
+          path {
+            fill: $sf-grey-100 !important;
+          }
+        }
+      }
+    }
+
+    .active {
+      svg {
+        path {
+          fill: $sf-grey-100 !important;
+        }
+      }
+
+      &:focus {
+        background-color: unset;
+      }
+    }
+  }
+}
+
+.panelModal {
+  > div:nth-child(3) {
+    padding: 0;
+  }
+}
+
+:global(.nightMode) {
+  .businessCardPreview {
+    background-color: $sf-background-dark;
+
+    .mediaType {
+      background-color: $sf-grey-200;
+
+      .icon {
+        svg {
+          path {
+            fill: $sf-grey-600 !important;
+          }
+        }
+
+        @media (hover: hover) {
+          &:hover {
+            background-color: rgba($sf-grey-500, 0.2);
+          }
+        }
+
+        &:active {
+          background-color: rgba($sf-grey-500, 0.3);
+
+          svg {
+            path {
+              fill: $sf-grey-900 !important;
+            }
+          }
+        }
+
+        &.active {
+          svg {
+            path {
+              fill: $sf-grey-900 !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-sm-width) {
+  .panelModal {
+    .dialogPaper {
+      width: 100%;
+      max-width: unset;
+    }
+
+    .dialogContainer {
+      grid-template-columns: 100%;
+    }
+
+    > div:nth-child(3) {
+      padding: unset;
+    }
+  }
+
+  .businessCardPreview {
+    grid-template-rows: minmax(0, 1fr) auto;
+    height: 100%;
+
+    .container {
+      padding: 24px;
+    }
+
+    &.isMediaMobile {
+      width: auto;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-md-width) {
+  .panelModal {
+    .dialogPaper {
+      width: 1024px;
+    }
+  }
+
+  .businessCardPreview {
+    width: auto;
+  }
+}
+
+@media screen and (min-width: $sf-media-xxl-width) {
+  .panelModal {
+    .dialogPaper {
+      width: 1240px;
+    }
+  }
+}

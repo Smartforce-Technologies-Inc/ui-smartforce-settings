@@ -1,0 +1,11 @@
+.agencyEventsItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .eventColor {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+}
