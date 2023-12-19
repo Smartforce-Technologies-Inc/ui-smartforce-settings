@@ -9,7 +9,7 @@ import {
   User
 } from '../../../Models';
 import { formatDateString } from '../../../Helpers';
-import { HistoryTimeLineItem } from './HistoryTimeLineItem/HistoryTimeLineItem';
+import { HistoryTimeLineItem } from '../../../Components/HistoryTimeLineItem/HistoryTimeLineItem';
 import {
   PanelModal,
   PanelModalAnchor
