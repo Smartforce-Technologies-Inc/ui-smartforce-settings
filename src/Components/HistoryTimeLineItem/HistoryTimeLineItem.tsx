@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './HistoryTimeLineItem.module.scss';
-import { Avatar } from '../../../../Components/Avatar/Avatar';
+import { Avatar } from '../Avatar/Avatar';
 import { SFText } from 'sfui';
 
 export interface HistoryTimeLineItemProps {
