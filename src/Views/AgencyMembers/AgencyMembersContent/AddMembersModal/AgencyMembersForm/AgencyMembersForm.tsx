@@ -1,9 +1,18 @@
 import React from 'react';
 import styles from './AgencyMembersForm.module.scss';
 import { ChipFieldValueType, SFChipListInput } from 'sfui';
-import { SubscriptionContext, UserContext } from '../../../../../Context';
+import {
+  SubscriptionContext,
+  UserContext,
+  CustomerContext
+} from '../../../../../Context';
 import { RemainingSeats } from './RemainingSeats/RemainingSeats';
 import { isEmailValid } from '../../../../../Helpers';
+import {
+  COLORADO_STATE,
+  PLAN_ANALYTICS,
+  PLAN_ENGAGE
+} from '../../../../../Constants';
 
 export interface AgencyMembersFormProps {
   members: ChipFieldValueType[];
@@ -15,6 +24,7 @@ export const AgencyMembersForm = ({
   onChange
 }: AgencyMembersFormProps): React.ReactElement<AgencyMembersFormProps> => {
   const { user } = React.useContext(UserContext);
+  const { customer } = React.useContext(CustomerContext);
   const { subscriptions } = React.useContext(SubscriptionContext);
   const { total_seats_billed, total_seats_used } = subscriptions[0];
 
@@ -25,11 +35,20 @@ export const AgencyMembersForm = ({
           members.length === 0 ? styles.emptyList : ''
         }`}
       >
-        <RemainingSeats
-          seatsBilled={total_seats_billed}
-          seatsUsed={total_seats_used}
-          membersAmmount={members.length}
-        />
+        {/* 
+          TEMPORAL HOT FIX: CC-3224
+          Conditional for plan and state name added.
+          Assuming that the agencies only have CC subscription plan.
+        */}
+        {subscriptions[0].plan === PLAN_ANALYTICS ||
+          (subscriptions[0].plan === PLAN_ENGAGE &&
+            customer?.state_name !== COLORADO_STATE && (
+              <RemainingSeats
+                seatsBilled={total_seats_billed}
+                seatsUsed={total_seats_used}
+                membersAmmount={members.length}
+              />
+            ))}
 
         <SFChipListInput
           label="E-mail"
