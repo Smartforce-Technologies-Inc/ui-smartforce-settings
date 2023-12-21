@@ -28,6 +28,16 @@ export const AgencyMembersForm = ({
   const { subscriptions } = React.useContext(SubscriptionContext);
   const { total_seats_billed, total_seats_used } = subscriptions[0];
 
+  /* 
+    TEMPORAL HOT FIX: CC-3224
+    Conditional for plan and state name added.
+    Assuming that the agencies only have CC subscription plan.
+  */
+  const showAlert =
+    subscriptions[0].plan === PLAN_ANALYTICS ||
+    (subscriptions[0].plan === PLAN_ENGAGE &&
+      customer?.state_name !== COLORADO_STATE);
+
   return (
     <div className={styles.agencyMembersForm}>
       <div
@@ -35,20 +45,13 @@ export const AgencyMembersForm = ({
           members.length === 0 ? styles.emptyList : ''
         }`}
       >
-        {/* 
-          TEMPORAL HOT FIX: CC-3224
-          Conditional for plan and state name added.
-          Assuming that the agencies only have CC subscription plan.
-        */}
-        {subscriptions[0].plan === PLAN_ANALYTICS ||
-          (subscriptions[0].plan === PLAN_ENGAGE &&
-            customer?.state_name !== COLORADO_STATE && (
-              <RemainingSeats
-                seatsBilled={total_seats_billed}
-                seatsUsed={total_seats_used}
-                membersAmmount={members.length}
-              />
-            ))}
+        {showAlert && (
+          <RemainingSeats
+            seatsBilled={total_seats_billed}
+            seatsUsed={total_seats_used}
+            membersAmmount={members.length}
+          />
+        )}
 
         <SFChipListInput
           label="E-mail"
