@@ -13,6 +13,7 @@ import {
   PLAN_ANALYTICS,
   PLAN_ENGAGE
 } from '../../../../../Constants';
+import { Subscription } from '../../../../../Models';
 
 export interface AgencyMembersFormProps {
   members: ChipFieldValueType[];
@@ -33,10 +34,15 @@ export const AgencyMembersForm = ({
     Conditional for plan and state name added.
     Assuming that the agencies only have CC subscription plan.
   */
+  const ccSubscription = subscriptions.find(
+    (s: Subscription) => s.product === 'cc'
+  );
   const showAlert =
-    subscriptions[0].plan === PLAN_ANALYTICS ||
-    (subscriptions[0].plan === PLAN_ENGAGE &&
-      customer?.state_name !== COLORADO_STATE);
+    !ccSubscription ||
+    (ccSubscription &&
+      (ccSubscription.plan === PLAN_ANALYTICS ||
+        (ccSubscription.plan === PLAN_ENGAGE &&
+          customer?.state_name !== COLORADO_STATE)));
 
   return (
     <div className={styles.agencyMembersForm}>
