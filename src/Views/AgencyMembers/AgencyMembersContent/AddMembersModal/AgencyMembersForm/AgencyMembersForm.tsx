@@ -31,8 +31,8 @@ export const AgencyMembersForm = ({
 
   /* 
     TEMPORAL HOT FIX: CC-3224
-    Conditional for plan and state name added.
-    Assuming that the agencies only have CC subscription plan.
+    Conditional for plan and state name added in CC subscription.
+    We are assuming that in PROD only CC subscription exists for now.
   */
   const ccSubscription = subscriptions.find(
     (s: Subscription) => s.product === 'cc'
