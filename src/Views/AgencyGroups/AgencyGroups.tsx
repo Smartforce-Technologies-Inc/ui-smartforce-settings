@@ -232,6 +232,10 @@ export const AgencyGroups = ({
             onClick={onView}
             options={[
               {
+                label: 'See group information',
+                onClick: onView
+              },
+              {
                 label: 'Restore group',
                 filter: (group: Group) => group.status === 'Inactive',
                 onClick: onRestore
