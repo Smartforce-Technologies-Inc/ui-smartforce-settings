@@ -7,6 +7,20 @@
   padding: 20px 13px;
   box-sizing: border-box;
 
+  &:hover {
+    cursor: pointer;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgba(204, 204, 204, 0.3);
+    }
+  }
+
+  &:active {
+    background-color: rgba(204, 204, 204, 0.5);
+  }
+
   &.withMenu {
     grid-template-columns: 42px minmax(0, 1fr) auto;
   }
@@ -30,6 +44,16 @@
 
 :global(.nightMode) {
   .memberListItem {
+    @media (hover: hover) {
+      &:hover {
+        background-color: rgba(128, 128, 128, 0.3);
+      }
+    }
+
+    &:active {
+      background-color: rgba(128, 128, 128, 0.5);
+    }
+
     .textNeutral {
       color: $sf-grey-400;
     }

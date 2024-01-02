@@ -153,12 +153,12 @@ export const AgencyShifts = ({
             onClick={onInfo}
             options={[
               {
-                label: 'Edit shift',
-                onClick: onEdit
-              },
-              {
                 label: 'See shift information',
                 onClick: onInfo
+              },
+              {
+                label: 'Edit shift',
+                onClick: onEdit
               },
               {
                 label: 'View history',

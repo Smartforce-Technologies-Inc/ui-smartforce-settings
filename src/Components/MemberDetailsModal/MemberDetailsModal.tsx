@@ -1,17 +1,16 @@
 import React from 'react';
 import styles from './MemberDetailsModal.module.scss';
 import { SFChip, SFText } from 'sfui';
-import {
-  PanelModal,
-  PanelModalAnchor
-} from '../../../../Components/PanelModal/PanelModal';
-import { Avatar } from '../../../../Components/Avatar/Avatar';
-import { Member, MemberGroup } from '../../../../Models';
-import { isRoleOwner } from '../../../../Helpers';
+import { PanelModal, PanelModalAnchor } from '../PanelModal/PanelModal';
+import { Avatar } from '../Avatar/Avatar';
+import { Member, MemberGroup } from '../../Models';
+import { isRoleOwner } from '../../Helpers';
+import { Loader } from '../Loader/Loader';
 
 export interface MemberDetailsModalProps {
   isOpen: boolean;
   member?: Member;
+  isLoading?: boolean;
   onBack: () => void;
   onClose: () => void;
 }
@@ -19,6 +18,7 @@ export interface MemberDetailsModalProps {
 export const MemberDetailsModal = ({
   isOpen,
   member,
+  isLoading,
   onBack,
   onClose
 }: MemberDetailsModalProps): React.ReactElement<MemberDetailsModalProps> => {
@@ -38,7 +38,8 @@ export const MemberDetailsModal = ({
         onClose();
       }}
     >
-      {member && (
+      {isLoading && <Loader />}
+      {!isLoading && member && (
         <div className={styles.memberDetails}>
           <Avatar size="large" name={member.name} url={member.avatar_url} />
 

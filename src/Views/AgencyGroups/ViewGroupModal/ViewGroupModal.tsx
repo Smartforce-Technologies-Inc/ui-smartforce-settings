@@ -205,6 +205,8 @@ export const ViewGroupModal = ({
             <GroupInfoMembers
               isActive={isActive}
               members={group.members}
+              onError={onError}
+              onClose={onClose}
               onAdd={() => setIsAddMembersOpen(true)}
               onRemove={onMemberRemove}
             />
