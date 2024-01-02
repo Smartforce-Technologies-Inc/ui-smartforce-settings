@@ -63,7 +63,7 @@ export const ShiftInfoModal = ({
     shift?.participants ?? []
   );
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [isSaving, setIsSaving] = React.useState<boolean>(false);
+  const [isModalLoading, setIsModalLoading] = React.useState<boolean>(false);
 
   const onMemberRemove = async (member: ShiftMember) => {
     setIsLoading(true);
@@ -87,7 +87,7 @@ export const ShiftInfoModal = ({
     const newMembers = members.map((m: SFPeopleOption) => ({
       id: m.asyncObject.id
     }));
-    setIsSaving(true);
+    setIsModalLoading(true);
 
     try {
       if (shift) {
@@ -97,25 +97,25 @@ export const ShiftInfoModal = ({
           newMembers
         );
         setParticipants([...participants, ...addedMembers]);
-        setIsSaving(false);
+        setIsModalLoading(false);
         setIsAddMembersOpen(false);
       }
     } catch (e: any) {
-      setIsSaving(false);
+      setIsModalLoading(false);
       onError(e);
     }
   };
 
   const onSeeMemberInformation = async (item: ShiftMember) => {
-    setIsSaving(true);
+    setIsModalLoading(true);
     setIsDetailsModalOpen(true);
 
     try {
       const response = await getMemberById(settingsBaseUrl, item.id);
-      setIsSaving(false);
+      setIsModalLoading(false);
       setDetailsModalValue(response);
     } catch (e: any) {
-      setIsSaving(false);
+      setIsModalLoading(false);
       onError(e);
     }
   };
@@ -139,7 +139,7 @@ export const ShiftInfoModal = ({
     >
       <AddMembersModal
         isOpen={isAddMembersOpen}
-        isSaving={isSaving}
+        isSaving={isModalLoading}
         onAdd={onAddMembers}
         onBack={() => setIsAddMembersOpen(false)}
         onClose={() => {
@@ -158,7 +158,7 @@ export const ShiftInfoModal = ({
             <MemberDetailsModal
               member={detailsModalValue}
               isOpen={isDetailsModalOpen}
-              isLoading={isSaving}
+              isLoading={isModalLoading}
               onClose={() => {
                 onClose();
                 setIsDetailsModalOpen(false);
