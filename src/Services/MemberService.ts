@@ -1,5 +1,6 @@
 import { getUserSession } from './AuthService';
 import { Member, MemberResponse, GetMemberType } from '../Models';
+import { apiGet } from '../Helpers';
 
 const PAGE_SIZE: number = 10;
 
@@ -234,4 +235,10 @@ export const removeInvitations = async (
       });
     }
   });
+};
+
+export const getMemberById = (baseUrl: string, id: string): Promise<Member> => {
+  const url: string = `${baseUrl}/users/${id}`;
+
+  return apiGet<Member>(url, getUserSession().access_token);
 };
