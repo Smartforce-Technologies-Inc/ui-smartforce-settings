@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import styles from './ShiftInfoModal.module.scss';
 import { Avatar, PanelModal } from '../../../Components';
 import { Divider } from '../../../Components/Divider/Divider';
-import { SettingsError, Shift, ShiftMember } from '../../../Models';
+import { Member, SettingsError, Shift, ShiftMember } from '../../../Models';
 import { SFPeopleOption, SFSpinner, SFText } from 'sfui';
 import {
   formatArrayToString,
@@ -13,9 +13,14 @@ import { ShiftInfoModalItem } from './ShiftInfoModalItem/ShiftInfoModalItem';
 import { ProgressBar } from './ProgressBar/ProgressBar';
 import { ListManagment } from '../../../Components/ListManagment/ListManagment';
 import { AddMembersModal } from './AddMembersModal/AddMembersModal';
-import { addShiftMembers, removeShiftMember } from '../../../Services';
+import {
+  addShiftMembers,
+  getMemberById,
+  removeShiftMember
+} from '../../../Services';
 import { ApiContext } from '../../../Context';
 import { AvatarListItem } from '../../../Components/AvatarListItem/AvatarListItem';
+import { MemberDetailsModal } from '../../../Components/MemberDetailsModal/MemberDetailsModal';
 
 const filterShiftMembers = (
   list: ShiftMember[],
@@ -48,8 +53,12 @@ export const ShiftInfoModal = ({
   ...props
 }: ShiftInfoModalProps): React.ReactElement<ShiftInfoModalProps> => {
   const apiBaseUrl = React.useContext(ApiContext).shifts;
+  const settingsBaseUrl = React.useContext(ApiContext).settings;
   const [isAddMembersOpen, setIsAddMembersOpen] =
     React.useState<boolean>(false);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] =
+    React.useState<boolean>(false);
+  const [detailsModalValue, setDetailsModalValue] = React.useState<Member>();
   const [participants, setParticipants] = React.useState<ShiftMember[]>(
     shift?.participants ?? []
   );
@@ -97,6 +106,20 @@ export const ShiftInfoModal = ({
     }
   };
 
+  const onSeeMemberInformation = async (item: ShiftMember) => {
+    setIsSaving(true);
+    setIsDetailsModalOpen(true);
+
+    try {
+      const response = await getMemberById(settingsBaseUrl, item.id);
+      setIsSaving(false);
+      setDetailsModalValue(response);
+    } catch (e: any) {
+      setIsSaving(false);
+      onError(e);
+    }
+  };
+
   React.useEffect(() => {
     if (shift) {
       setParticipants(shift.participants);
@@ -132,6 +155,16 @@ export const ShiftInfoModal = ({
         {props.isLoading && <SFSpinner />}
         {!props.isLoading && shift && (
           <Fragment>
+            <MemberDetailsModal
+              member={detailsModalValue}
+              isOpen={isDetailsModalOpen}
+              isLoading={isSaving}
+              onClose={() => {
+                onClose();
+                setIsDetailsModalOpen(false);
+              }}
+              onBack={() => setIsDetailsModalOpen(false)}
+            />
             <Avatar acronym={shift?.acronym} size="large" />
             <div className={styles.header}>
               <SFText type="component-title">{shift?.name}</SFText>
@@ -180,6 +213,7 @@ export const ShiftInfoModal = ({
               isLoading={isLoading}
               filter={filterShiftMembers}
               onCreate={() => setIsAddMembersOpen(true)}
+              onClick={onSeeMemberInformation}
               options={[
                 {
                   label: 'Remove from shift',
