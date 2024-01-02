@@ -9,15 +9,21 @@ import { SFCollapse } from 'sfui';
 export interface MemberListProps {
   isActive: boolean;
   members: GroupMember[];
+  onClick?: (id: string) => void;
   onRemove: (member: GroupMember) => void;
 }
 
 export const MemberList = ({
   isActive,
   members,
+  onClick,
   onRemove
 }: MemberListProps): React.ReactElement<MemberListProps> => {
   const user = useContext(UserContext).user as User;
+
+  const onMemberClick = (memberId: string): void => {
+    onClick && onClick(memberId);
+  };
 
   return (
     <TransitionGroup component="div">
@@ -28,6 +34,7 @@ export const MemberList = ({
             isActive={isActive}
             member={member}
             onRemove={() => onRemove(member)}
+            onClick={() => onMemberClick(member.id)}
             user={user}
           />
 
