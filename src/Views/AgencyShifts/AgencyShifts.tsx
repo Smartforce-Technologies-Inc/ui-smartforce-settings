@@ -1,13 +1,19 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { SettingsError, Shift, ShiftListItem } from '../../Models';
+import {
+  SettingsError,
+  Shift,
+  ShiftHistory,
+  ShiftListItem
+} from '../../Models';
 import { SettingsContentRender } from '../SettingsContentRender';
 import { ListManagment } from '../../Components/ListManagment/ListManagment';
 import { ApiContext } from '../../Context';
-import { getShift, getShifts } from '../../Services';
+import { getShift, getShiftHistory, getShifts } from '../../Services';
 import { ShiftFormModal } from './ShiftFormModal/ShiftFormModal';
 import { ShiftInfoModal } from './ShiftInfoModal/ShiftInfoModal';
 import { AgencyShiftItem } from './AgencyShiftItem/AgencyShiftItem';
 import { SFChip } from 'sfui';
+import { ShiftHistoryModal } from './ShiftHistoryModal/ShiftHistoryModal';
 
 function sortShifts(groups: ShiftListItem[]): ShiftListItem[] {
   return groups.sort((a: ShiftListItem, b: ShiftListItem): number =>
@@ -45,6 +51,11 @@ export const AgencyShifts = ({
   const [isLoadingShift, setIsLoadingShift] = useState<boolean>(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
+  const [isShiftHistoryModalOpen, setIsShiftHistoryModalOpen] =
+    useState<boolean>(false);
+  const [isLoadingShiftHistory, setIsLoadingShiftHistory] =
+    useState<boolean>(false);
+  const [shiftHistory, setShiftHistory] = useState<ShiftHistory[]>([]);
   const [modalValue, setModalValue] = useState<Shift>();
 
   useEffect(() => {
@@ -115,10 +126,34 @@ export const AgencyShifts = ({
     }
   };
 
+  const onHistory = async (shiftId: string) => {
+    setIsShiftHistoryModalOpen(true);
+    setIsLoadingShiftHistory(true);
+
+    try {
+      const response = await getShiftHistory(apiBaseUrl, shiftId);
+      setShiftHistory(response);
+      setIsLoadingShiftHistory(false);
+    } catch (e: any) {
+      setIsLoadingShiftHistory(false);
+      onError(e);
+    }
+  };
+
   return (
     <SettingsContentRender
       renderContent={() => (
         <Fragment>
+          <ShiftHistoryModal
+            isOpen={isShiftHistoryModalOpen}
+            isLoading={isLoadingShiftHistory}
+            history={shiftHistory}
+            onClose={() => {
+              setIsShiftHistoryModalOpen(false);
+              onClose();
+            }}
+            onBack={() => setIsShiftHistoryModalOpen(false)}
+          />
           <ShiftFormModal
             shift={selected}
             isOpen={isCreateModalOpen}
@@ -162,11 +197,7 @@ export const AgencyShifts = ({
               },
               {
                 label: 'View history',
-                disabled: true,
-                onClick: () => {},
-                chip: (
-                  <SFChip size="small" sfColor="default" label="Coming Soon" />
-                )
+                onClick: (item: ShiftListItem) => onHistory(item.id)
               },
               {
                 label: 'Delete',
