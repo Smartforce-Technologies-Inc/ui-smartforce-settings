@@ -19,13 +19,15 @@ export interface MemberPickerProps {
   label: string;
   value: SFPeopleOption | undefined;
   onChange: (value: SFPeopleOption) => void;
+  filterOptions?: (option: any) => boolean;
 }
 
 export const MemberPicker = ({
   baseUrl,
   label,
   value,
-  onChange
+  onChange,
+  filterOptions
 }: MemberPickerProps): React.ReactElement<MemberPickerProps> => {
   const fetchInit: RequestInit = useMemo(
     () => ({
@@ -51,6 +53,7 @@ export const MemberPicker = ({
       value={value ?? { name: '' }}
       onChange={onChange}
       getOptionSelected={getOptionSelected}
+      filterOptions={filterOptions}
     />
   );
 };

@@ -19,6 +19,7 @@ export interface MultipleMemberProps {
   baseUrl: string;
   label: string;
   value: SFPeopleOption[];
+  filterOptions?: (option: any) => boolean;
   onChange: (value: SFPeopleOption[]) => void;
 }
 
@@ -27,6 +28,7 @@ export const MultipleMemberPicker = ({
   baseUrl,
   label,
   value,
+  filterOptions,
   onChange
 }: MultipleMemberProps): React.ReactElement<MultipleMemberProps> => {
   const fetchInit: RequestInit = useMemo(
@@ -54,6 +56,7 @@ export const MultipleMemberPicker = ({
       value={value}
       onChange={onChange}
       getOptionSelected={getOptionSelected}
+      filterOptions={filterOptions}
     />
   );
 };
