@@ -95,3 +95,9 @@ export const getAppSubscription = (
     (subscription: Subscription) => subscription.product === appName
   );
 };
+
+export function getPaidSubscription(
+  subscriptions: Subscription[]
+): Subscription | undefined {
+  return subscriptions.find((s) => s.free === false);
+}

@@ -1,19 +1,9 @@
 import React from 'react';
 import styles from './AgencyMembersForm.module.scss';
 import { ChipFieldValueType, SFChipListInput } from 'sfui';
-import {
-  SubscriptionContext,
-  UserContext,
-  CustomerContext
-} from '../../../../../Context';
+import { SubscriptionContext, UserContext } from '../../../../../Context';
 import { RemainingSeats } from './RemainingSeats/RemainingSeats';
-import { isEmailValid } from '../../../../../Helpers';
-import {
-  COLORADO_STATE,
-  PLAN_ANALYTICS,
-  PLAN_ENGAGE
-} from '../../../../../Constants';
-import { Subscription } from '../../../../../Models';
+import { getPaidSubscription, isEmailValid } from '../../../../../Helpers';
 
 export interface AgencyMembersFormProps {
   members: ChipFieldValueType[];
@@ -25,24 +15,8 @@ export const AgencyMembersForm = ({
   onChange
 }: AgencyMembersFormProps): React.ReactElement<AgencyMembersFormProps> => {
   const { user } = React.useContext(UserContext);
-  const { customer } = React.useContext(CustomerContext);
   const { subscriptions } = React.useContext(SubscriptionContext);
-  const { total_seats_billed, total_seats_used } = subscriptions[0];
-
-  /* 
-    TEMPORAL HOT FIX: CC-3224
-    Conditional for plan and state name added in CC subscription.
-    We are assuming that in PROD only CC subscription exists for now.
-  */
-  const ccSubscription = subscriptions.find(
-    (s: Subscription) => s.product === 'cc'
-  );
-  const showAlert =
-    !ccSubscription ||
-    (ccSubscription &&
-      (ccSubscription.plan === PLAN_ANALYTICS ||
-        (ccSubscription.plan === PLAN_ENGAGE &&
-          customer?.state_name !== COLORADO_STATE)));
+  const paidSubscription = getPaidSubscription(subscriptions);
 
   return (
     <div className={styles.agencyMembersForm}>
@@ -51,10 +25,10 @@ export const AgencyMembersForm = ({
           members.length === 0 ? styles.emptyList : ''
         }`}
       >
-        {showAlert && (
+        {paidSubscription && (
           <RemainingSeats
-            seatsBilled={total_seats_billed}
-            seatsUsed={total_seats_used}
+            seatsBilled={paidSubscription.total_seats_billed}
+            seatsUsed={paidSubscription.total_seats_used}
             membersAmmount={members.length}
           />
         )}
