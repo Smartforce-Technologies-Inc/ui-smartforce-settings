@@ -131,8 +131,10 @@ export const AgencyShifts = ({
     setIsLoadingShiftHistory(true);
 
     try {
+      const shiftResponse = await getShift(apiBaseUrl, shiftId);
       const response = await getShiftHistory(apiBaseUrl, shiftId);
       setShiftHistory(response);
+      setSelected(shiftResponse);
       setIsLoadingShiftHistory(false);
     } catch (e: any) {
       setIsLoadingShiftHistory(false);
@@ -148,6 +150,7 @@ export const AgencyShifts = ({
             isOpen={isShiftHistoryModalOpen}
             isLoading={isLoadingShiftHistory}
             history={shiftHistory}
+            shift={selected}
             onClose={() => {
               setIsShiftHistoryModalOpen(false);
               onClose();
