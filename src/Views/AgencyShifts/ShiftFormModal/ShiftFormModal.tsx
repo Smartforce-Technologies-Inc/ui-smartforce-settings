@@ -11,6 +11,7 @@ import {
   Shift,
   ShiftArea,
   ShiftFormValue,
+  ShiftHistoryChange,
   ShiftMember,
   ShiftRequest
 } from '../../../Models';
@@ -188,6 +189,77 @@ function getShiftRequestValue(value: ShiftFormValue): ShiftRequest {
   };
 }
 
+function getShiftHistoryChanges(
+  value: ShiftFormValue,
+  shift: ShiftFormValue
+): ShiftHistoryChange {
+  const recurrenceDaysChanged = value.recurrence.days.filter(
+    (d) => !shift.recurrence.days.includes(d)
+  );
+  const areasChanged = value.areas
+    .filter((a) => shift.areas.includes(a))
+    .map((a) => a.asyncObject.id);
+  const participantsChanged = value.participants
+    .filter((p) => shift.participants.includes(p))
+    .map((p) => ({
+      id: p.asyncObject.id,
+      name: p.name,
+      avatar_thumbnail_url: p.avatarUrl
+    }));
+  return {
+    name: value.name === shift.name ? undefined : value.name,
+    acronym: value.acronym === shift.acronym ? undefined : value.acronym,
+    start: shift.start.date?.isSame(value.start.date)
+      ? undefined
+      : {
+          datetime: getDateRequestValue(
+            value.start.date as moment.Moment,
+            value.start.time
+          ),
+          utc: '',
+          timezone: ''
+        },
+    end: shift.end.date?.isSame(value.end.date)
+      ? undefined
+      : {
+          datetime: getDateRequestValue(
+            value.end.date as moment.Moment,
+            value.end.time
+          ),
+          utc: '',
+          timezone: ''
+        },
+    recurrence:
+      recurrenceDaysChanged.length > 0
+        ? {
+            ...shift.recurrence,
+            frequency: shift.recurrence.frequency.toLowerCase(),
+            days: sortRecurrenceDays(value.recurrence.days)
+          }
+        : undefined,
+    areas:
+      areasChanged.length > 0 ? [...shift.areas, ...areasChanged] : undefined,
+    participants:
+      participantsChanged.length > 0
+        ? [
+            ...shift.participants.map((p) => ({
+              id: p.asyncObject.id,
+              name: p.name,
+              avatar_thumbnail_url: p.avatarUrl
+            })),
+            ...participantsChanged
+          ]
+        : undefined,
+    supervisor:
+      value.supervisor &&
+      value.supervisor.asyncObject.id !== shift.supervisor?.asyncObject.id
+        ? { id: value.supervisor.asyncObject.id, name: value.supervisor.name }
+        : undefined,
+    min_staff:
+      value.min_staff !== shift.min_staff ? Number(value.min_staff) : undefined
+  };
+}
+
 export interface ShiftFormModalProps {
   shift?: Shift;
   isOpen: boolean;
@@ -218,7 +290,11 @@ export const ShiftFormModal = ({
       if (!shift) {
         await addShift(apiBaseUrl, getShiftRequestValue(value));
       } else {
-        await editShift(apiBaseUrl, shift.id, getShiftRequestValue(value));
+        await editShift(
+          apiBaseUrl,
+          shift.id,
+          getShiftHistoryChanges(value, getShiftValue(shift))
+        );
       }
       setIsSaving(false);
       props.onSave();
@@ -238,7 +314,6 @@ export const ShiftFormModal = ({
       }
     }
   }, [isOpen, shift]);
-
   return (
     <PanelModal
       anchor={anchor}
