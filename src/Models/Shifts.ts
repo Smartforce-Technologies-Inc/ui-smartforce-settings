@@ -107,16 +107,16 @@ export type ShiftHistoryType =
   | 'remove_backups';
 
 export interface ShiftHistoryChange {
-  name: string;
-  acronym: string;
-  start: ShiftHistoryDate;
-  end: ShiftHistoryDate;
-  recurrence: ShiftRecurrence;
-  min_staff: number;
-  supervisor: ShiftMember;
-  participants: ShiftMember[];
-  backups: ShiftMember[];
-  areas: ShiftArea[];
+  name?: string;
+  acronym?: string;
+  start?: ShiftHistoryDate;
+  end?: ShiftHistoryDate;
+  recurrence?: ShiftRecurrence;
+  min_staff?: number;
+  supervisor?: ShiftMember;
+  participants?: ShiftMember[];
+  backups?: ShiftMember[];
+  areas?: ShiftArea[];
 }
 
 export interface ShiftHistory {
