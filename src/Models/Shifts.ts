@@ -106,7 +106,7 @@ export type ShiftHistoryType =
   | 'remove_participants'
   | 'remove_backups';
 
-export interface ShiftHistoryChange {
+export interface ShiftEditRequest {
   name?: string;
   acronym?: string;
   start?: ShiftHistoryDate;
@@ -125,5 +125,5 @@ export interface ShiftHistory {
   type: ShiftHistoryType;
   created_at: string;
   created_by_user: ShiftMember;
-  changes: ShiftHistoryChange;
+  changes: ShiftEditRequest;
 }
