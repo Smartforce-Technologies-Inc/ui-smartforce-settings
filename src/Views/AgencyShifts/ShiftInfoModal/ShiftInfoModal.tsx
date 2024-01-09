@@ -138,6 +138,7 @@ export const ShiftInfoModal = ({
       }}
     >
       <AddMembersModal
+        participants={shift?.participants}
         isOpen={isAddMembersOpen}
         isSaving={isModalLoading}
         onAdd={onAddMembers}

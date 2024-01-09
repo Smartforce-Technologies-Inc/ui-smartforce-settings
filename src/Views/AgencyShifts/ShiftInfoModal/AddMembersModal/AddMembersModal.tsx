@@ -6,8 +6,10 @@ import {
 import { SFPeopleOption } from 'sfui';
 import { MultipleMemberPicker } from '../../../../Components/MultipleMemberPicker/MultipleMemberPicker';
 import { ApiContext } from '../../../../Context';
+import { ShiftMember } from '../../../../Models';
 
 export interface AddMembersModalProps {
+  participants?: ShiftMember[];
   isOpen: boolean;
   isSaving: boolean;
   onAdd: (members: SFPeopleOption[]) => void;
@@ -16,6 +18,7 @@ export interface AddMembersModalProps {
 }
 
 export const AddMembersModal = ({
+  participants = [],
   isOpen,
   isSaving,
   onAdd,
@@ -61,6 +64,7 @@ export const AddMembersModal = ({
         label="Members"
         value={members as SFPeopleOption[]}
         onChange={(newMembers: SFPeopleOption[]) => setMembers(newMembers)}
+        filterOptions={(o) => !participants.find((p) => p.id === o.id)}
       />
     </PanelModal>
   );
