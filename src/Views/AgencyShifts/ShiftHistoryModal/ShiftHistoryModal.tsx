@@ -107,7 +107,7 @@ const getUpdateSubtitle = (
     }
   } else {
     subTitle =
-      'Changed \n' + getFullSubtitle(historyChanges, shiftStart, shiftEnd);
+      'Edited Shift \n' + getFullSubtitle(historyChanges, shiftStart, shiftEnd);
   }
 
   return subTitle;
