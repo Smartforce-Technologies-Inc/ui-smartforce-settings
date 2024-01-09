@@ -106,17 +106,28 @@ function isSameOptionList(a: SFPeopleOption[], b: SFPeopleOption[]): boolean {
   }
 }
 
+function isSameDate(a: DateTimeValue, b: DateTimeValue): boolean {
+  return (
+    getDateRequestValue(a.date as moment.Moment, a.time) ===
+    getDateRequestValue(b.date as moment.Moment, b.time)
+  );
+}
+
 function isSameShift(a: ShiftFormValue, b: ShiftFormValue): boolean {
   const {
     participants: aMembers,
     supervisor: aSupervisor,
     areas: aAreas,
+    start: aStart,
+    end: aEnd,
     ...aProps
   } = a;
   const {
     participants: bMembers,
     supervisor: bSupervisor,
     areas: bAreas,
+    start: bStart,
+    end: bEnd,
     ...bProps
   } = b;
   if (!isEqualObject(aProps, bProps)) return false;
@@ -124,16 +135,14 @@ function isSameShift(a: ShiftFormValue, b: ShiftFormValue): boolean {
     return (
       isSameOption(aSupervisor, bSupervisor) &&
       isSameOptionList(aMembers, bMembers) &&
-      isSameOptionList(aAreas, bAreas)
+      isSameOptionList(aAreas, bAreas) &&
+      isSameDate(aStart, bStart) &&
+      isSameDate(aEnd, bEnd)
     );
 }
 
 function isFormInvalid(value: ShiftFormValue, shift?: Shift): boolean {
-  if (shift && isSameShift(value, getShiftValue(shift))) {
-    return true;
-  }
-
-  return (
+  if (
     !value.name ||
     !value.acronym ||
     isDateTimeInvalid(value.start) ||
@@ -141,7 +150,15 @@ function isFormInvalid(value: ShiftFormValue, shift?: Shift): boolean {
     value.recurrence.days.length === 0 ||
     !value.min_staff ||
     value.min_staff.length === 0
-  );
+  ) {
+    return true;
+  }
+
+  if (shift && isSameShift(value, getShiftValue(shift))) {
+    return true;
+  }
+
+  return false;
 }
 
 function getOptionListValue(list: SFPeopleOption[]): ShiftMember[] {
@@ -195,12 +212,14 @@ const getEditedDatetime = (
   datetime: DateTimeValue,
   shiftDate: moment.Moment | null
 ): ShiftHistoryDate | undefined => {
-  return !shiftDate?.isSame(datetime.date)
+  const dateValue = getDateRequestValue(
+    datetime.date as moment.Moment,
+    datetime.time
+  );
+
+  return !shiftDate?.isSame(dateValue)
     ? {
-        datetime: getDateRequestValue(
-          datetime.date as moment.Moment,
-          datetime.time
-        ),
+        datetime: dateValue,
         utc: '',
         timezone: ''
       }
@@ -340,6 +359,7 @@ export const ShiftFormModal = ({
       }
     }
   }, [isOpen, shift]);
+
   return (
     <PanelModal
       anchor={anchor}
