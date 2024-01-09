@@ -79,7 +79,9 @@ const getUpdateSubtitle = (
       subTitle = 'Changed acronym: ' + historyChanges.acronym;
     }
     if (historyChanges.areas) {
-      subTitle = 'Changed areas: ' + formatArrayToString(historyChanges.areas);
+      subTitle =
+        'Changed areas: ' +
+        formatArrayToString(historyChanges.areas.map((a) => a.name));
     }
     if (historyChanges.end || historyChanges.start) {
       subTitle = `Changed time: ${formatDateString(
