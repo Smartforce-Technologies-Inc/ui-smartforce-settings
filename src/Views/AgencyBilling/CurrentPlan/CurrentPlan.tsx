@@ -9,13 +9,18 @@ import {
   isFreeCustomer,
   isPlanAnalytics
 } from '../../../Helpers';
-import { SettingsError, Subscription } from '../../../Models';
+import {
+  ApplicationProduct,
+  SettingsError,
+  Subscription
+} from '../../../Models';
 import { cancelSubscription, resumeSubscription } from '../../../Services';
 import { ApiContext } from '../../../Context';
 
 export interface CurrentPlanProps {
   canUpdate: boolean;
   currentSubscription: Subscription;
+  product: ApplicationProduct;
   onError: (e: SettingsError) => void;
   onUpgrade: () => void;
 }
@@ -23,6 +28,7 @@ export interface CurrentPlanProps {
 export const CurrentPlan = ({
   canUpdate,
   currentSubscription,
+  product,
   onError,
   onUpgrade
 }: CurrentPlanProps): React.ReactElement<CurrentPlanProps> => {
@@ -150,7 +156,8 @@ export const CurrentPlan = ({
                 </SFButton>
               )}
 
-              {!isPlanAnalytics(currentSubscription.plan) &&
+              {product !== 'shift' &&
+                !isPlanAnalytics(currentSubscription.plan) &&
                 currentSubscription.product !== 'shift' &&
                 currentSubscription.status === 'Active' && (
                   <SFButton onClick={onUpgrade}>Upgrade Plan</SFButton>

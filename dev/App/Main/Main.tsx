@@ -67,6 +67,7 @@ export const Main = (): React.ReactElement<{}> => {
       {isLoading && <SFSpinner />}
       {!isLoading && (
         <SFSettings
+          product="cc"
           className={styles.settings}
           enviroment="local"
           stripeApiKey={

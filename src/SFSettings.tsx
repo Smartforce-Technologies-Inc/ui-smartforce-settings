@@ -55,6 +55,7 @@ export interface SFSettingsProps {
   stripeApiKey: string;
   selectedSectionName?: string;
   enviroment: AppEnv;
+  product: ApplicationProduct;
   onError: (e: SettingsError) => void;
   onHome: () => void;
   onUpgrade: (product: string) => void;
@@ -80,6 +81,7 @@ export const SFSettings = ({
   stripeApiKey,
   selectedSectionName,
   enviroment,
+  product,
   onError,
   onUpgrade,
   onHome
@@ -206,6 +208,7 @@ export const SFSettings = ({
         description: 'Only the agency owner can manage the billing plan.',
         component: (
           <AgencyBilling
+            product={product}
             canUpdate={checkPermissions(
               AGENCY_SUBSCRIPTION_UPDATE,
               user.role.permissions
