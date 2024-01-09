@@ -11,9 +11,11 @@ import {
   Shift,
   ShiftArea,
   ShiftFormValue,
-  ShiftHistoryChange,
+  ShiftEditRequest,
   ShiftMember,
-  ShiftRequest
+  ShiftRequest,
+  ShiftHistoryDate,
+  ShiftRecurrence
 } from '../../../Models';
 import { ShiftForm } from './ShiftForm/ShiftForm';
 import { isEqualObject, upperFirstChar } from '../../../Helpers';
@@ -189,72 +191,96 @@ function getShiftRequestValue(value: ShiftFormValue): ShiftRequest {
   };
 }
 
-function getShiftHistoryChanges(
-  value: ShiftFormValue,
-  shift: ShiftFormValue
-): ShiftHistoryChange {
-  const recurrenceDaysChanged = value.recurrence.days.filter(
-    (d) => !shift.recurrence.days.includes(d)
+const getEditedDatetime = (
+  datetime: DateTimeValue,
+  shiftDate: moment.Moment | null
+): ShiftHistoryDate | undefined => {
+  return !shiftDate?.isSame(datetime.date)
+    ? {
+        datetime: getDateRequestValue(
+          datetime.date as moment.Moment,
+          datetime.time
+        ),
+        utc: '',
+        timezone: ''
+      }
+    : undefined;
+};
+
+const getEditedRecurrence = (
+  recurrence: ShiftRecurrence,
+  newDays: string[]
+): ShiftRecurrence | undefined => {
+  const recurrenceDaysChanged = newDays.filter(
+    (d) => !recurrence.days.includes(d)
   );
-  const areasChanged = value.areas
-    .filter((a) => shift.areas.includes(a))
-    .map((a) => a.asyncObject.id);
-  const participantsChanged = value.participants
-    .filter((p) => shift.participants.includes(p))
+
+  return recurrenceDaysChanged.length > 0
+    ? {
+        ...recurrence,
+        frequency: recurrence.frequency.toLowerCase(),
+        days: sortRecurrenceDays(newDays)
+      }
+    : undefined;
+};
+
+const getEditedParticipants = (
+  shiftParticipants: SFPeopleOption[],
+  formParticipants: SFPeopleOption[]
+) => {
+  const participantsChanged = formParticipants
+    .filter((p) => shiftParticipants.includes(p))
     .map((p) => ({
       id: p.asyncObject.id,
       name: p.name,
       avatar_thumbnail_url: p.avatarUrl
     }));
+
+  return participantsChanged.length > 0
+    ? [
+        ...shiftParticipants.map((p) => ({
+          id: p.asyncObject.id,
+          name: p.name,
+          avatar_thumbnail_url: p.avatarUrl
+        })),
+        ...participantsChanged
+      ]
+    : undefined;
+};
+
+const getEditedSupervisor = (
+  shiftSupervisor?: SFPeopleOption,
+  formSupervisor?: SFPeopleOption
+): ShiftMember | undefined => {
+  const hasSupervisorChanged: boolean =
+    formSupervisor?.asyncObject.id !== shiftSupervisor?.asyncObject.id;
+
+  return hasSupervisorChanged
+    ? {
+        id: (formSupervisor as SFPeopleOption).asyncObject.id,
+        name: (formSupervisor as SFPeopleOption).name
+      }
+    : undefined;
+};
+
+function getEditedShift(
+  value: ShiftFormValue,
+  shift: ShiftFormValue
+): ShiftEditRequest {
+  const areasChanged = value.areas
+    .filter((a) => shift.areas.includes(a))
+    .map((a) => a.asyncObject.id);
+
   return {
     name: value.name === shift.name ? undefined : value.name,
     acronym: value.acronym === shift.acronym ? undefined : value.acronym,
-    start: shift.start.date?.isSame(value.start.date)
-      ? undefined
-      : {
-          datetime: getDateRequestValue(
-            value.start.date as moment.Moment,
-            value.start.time
-          ),
-          utc: '',
-          timezone: ''
-        },
-    end: shift.end.date?.isSame(value.end.date)
-      ? undefined
-      : {
-          datetime: getDateRequestValue(
-            value.end.date as moment.Moment,
-            value.end.time
-          ),
-          utc: '',
-          timezone: ''
-        },
-    recurrence:
-      recurrenceDaysChanged.length > 0
-        ? {
-            ...shift.recurrence,
-            frequency: shift.recurrence.frequency.toLowerCase(),
-            days: sortRecurrenceDays(value.recurrence.days)
-          }
-        : undefined,
+    start: getEditedDatetime(value.start, shift.start.date),
+    end: getEditedDatetime(value.end, shift.end.date),
+    recurrence: getEditedRecurrence(shift.recurrence, value.recurrence.days),
     areas:
       areasChanged.length > 0 ? [...shift.areas, ...areasChanged] : undefined,
-    participants:
-      participantsChanged.length > 0
-        ? [
-            ...shift.participants.map((p) => ({
-              id: p.asyncObject.id,
-              name: p.name,
-              avatar_thumbnail_url: p.avatarUrl
-            })),
-            ...participantsChanged
-          ]
-        : undefined,
-    supervisor:
-      value.supervisor &&
-      value.supervisor.asyncObject.id !== shift.supervisor?.asyncObject.id
-        ? { id: value.supervisor.asyncObject.id, name: value.supervisor.name }
-        : undefined,
+    participants: getEditedParticipants(shift.participants, value.participants),
+    supervisor: getEditedSupervisor(shift.supervisor, value.supervisor),
     min_staff:
       value.min_staff !== shift.min_staff ? Number(value.min_staff) : undefined
   };
@@ -293,7 +319,7 @@ export const ShiftFormModal = ({
         await editShift(
           apiBaseUrl,
           shift.id,
-          getShiftHistoryChanges(value, getShiftValue(shift))
+          getEditedShift(value, getShiftValue(shift))
         );
       }
       setIsSaving(false);
