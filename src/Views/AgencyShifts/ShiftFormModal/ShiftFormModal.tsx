@@ -270,14 +270,13 @@ const getEditedParticipants = (
 const getEditedSupervisor = (
   shiftSupervisor?: SFPeopleOption,
   formSupervisor?: SFPeopleOption
-): ShiftMember | undefined => {
+): ShiftMember | undefined | null => {
   const hasSupervisorChanged: boolean =
     !!formSupervisor &&
     formSupervisor?.asyncObject.id !== shiftSupervisor?.asyncObject.id;
 
   if (!formSupervisor) {
-    //TODO check this
-    return { id: '', name: '' };
+    return null;
   }
 
   if (!hasSupervisorChanged) {
@@ -380,8 +379,6 @@ export const ShiftFormModal = ({
       }
     }
   }, [isOpen, shift]);
-
-  console.log('form value', value);
 
   return (
     <PanelModal

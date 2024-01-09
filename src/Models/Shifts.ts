@@ -113,7 +113,7 @@ export interface ShiftEditRequest {
   end?: ShiftHistoryDate;
   recurrence?: ShiftRecurrence;
   min_staff?: number;
-  supervisor?: ShiftMember;
+  supervisor?: ShiftMember | null;
   participants?: ShiftMember[];
   backups?: ShiftMember[];
   areas?: ShiftArea[];
