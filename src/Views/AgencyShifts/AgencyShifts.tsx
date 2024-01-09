@@ -56,6 +56,7 @@ export const AgencyShifts = ({
   const [isLoadingShiftHistory, setIsLoadingShiftHistory] =
     useState<boolean>(false);
   const [shiftHistory, setShiftHistory] = useState<ShiftHistory[]>([]);
+  const [shiftItem, setShiftItem] = useState<ShiftListItem>();
   const [modalValue, setModalValue] = useState<Shift>();
 
   useEffect(() => {
@@ -126,13 +127,14 @@ export const AgencyShifts = ({
     }
   };
 
-  const onHistory = async (shiftId: string) => {
+  const onHistory = async (shiftItem: ShiftListItem) => {
     setIsShiftHistoryModalOpen(true);
     setIsLoadingShiftHistory(true);
 
     try {
-      const response = await getShiftHistory(apiBaseUrl, shiftId);
+      const response = await getShiftHistory(apiBaseUrl, shiftItem.id);
       setShiftHistory(response);
+      setShiftItem(shiftItem);
       setIsLoadingShiftHistory(false);
     } catch (e: any) {
       setIsLoadingShiftHistory(false);
@@ -148,6 +150,8 @@ export const AgencyShifts = ({
             isOpen={isShiftHistoryModalOpen}
             isLoading={isLoadingShiftHistory}
             history={shiftHistory}
+            shiftStart={shiftItem?.start}
+            shiftEnd={shiftItem?.end}
             onClose={() => {
               setIsShiftHistoryModalOpen(false);
               onClose();
@@ -197,7 +201,7 @@ export const AgencyShifts = ({
               },
               {
                 label: 'View history',
-                onClick: (item: ShiftListItem) => onHistory(item.id)
+                onClick: (item: ShiftListItem) => onHistory(item)
               },
               {
                 label: 'Delete',

@@ -106,18 +106,20 @@ export type ShiftHistoryType =
   | 'remove_participants'
   | 'remove_backups';
 
-export interface ShiftHistoryChange {
-  name: string;
-  acronym: string;
-  start: ShiftHistoryDate;
-  end: ShiftHistoryDate;
-  recurrence: ShiftRecurrence;
-  min_staff: number;
-  supervisor: ShiftMember;
-  participants: ShiftMember[];
-  backups: ShiftMember[];
-  areas: ShiftArea[];
+export interface ShiftEditRequest {
+  name?: string;
+  acronym?: string;
+  start?: ShiftHistoryDate;
+  end?: ShiftHistoryDate;
+  recurrence?: ShiftRecurrence;
+  min_staff?: number;
+  supervisor?: ShiftMember | null;
+  participants?: ShiftMember[];
+  backups?: ShiftMember[];
+  areas?: ShiftArea[];
 }
+
+export type ShiftHistoryChange = ShiftEditRequest;
 
 export interface ShiftHistory {
   id: string;
@@ -125,5 +127,5 @@ export interface ShiftHistory {
   type: ShiftHistoryType;
   created_at: string;
   created_by_user: ShiftMember;
-  changes: ShiftHistoryChange;
+  changes: ShiftEditRequest;
 }

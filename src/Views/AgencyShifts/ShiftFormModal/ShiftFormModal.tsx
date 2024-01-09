@@ -11,8 +11,11 @@ import {
   Shift,
   ShiftArea,
   ShiftFormValue,
+  ShiftEditRequest,
   ShiftMember,
-  ShiftRequest
+  ShiftRequest,
+  ShiftHistoryDate,
+  ShiftRecurrence
 } from '../../../Models';
 import { ShiftForm } from './ShiftForm/ShiftForm';
 import { isEqualObject, upperFirstChar } from '../../../Helpers';
@@ -103,17 +106,28 @@ function isSameOptionList(a: SFPeopleOption[], b: SFPeopleOption[]): boolean {
   }
 }
 
+function isSameDate(a: DateTimeValue, b: DateTimeValue): boolean {
+  return (
+    getDateRequestValue(a.date as moment.Moment, a.time) ===
+    getDateRequestValue(b.date as moment.Moment, b.time)
+  );
+}
+
 function isSameShift(a: ShiftFormValue, b: ShiftFormValue): boolean {
   const {
     participants: aMembers,
     supervisor: aSupervisor,
     areas: aAreas,
+    start: aStart,
+    end: aEnd,
     ...aProps
   } = a;
   const {
     participants: bMembers,
     supervisor: bSupervisor,
     areas: bAreas,
+    start: bStart,
+    end: bEnd,
     ...bProps
   } = b;
   if (!isEqualObject(aProps, bProps)) return false;
@@ -121,16 +135,14 @@ function isSameShift(a: ShiftFormValue, b: ShiftFormValue): boolean {
     return (
       isSameOption(aSupervisor, bSupervisor) &&
       isSameOptionList(aMembers, bMembers) &&
-      isSameOptionList(aAreas, bAreas)
+      isSameOptionList(aAreas, bAreas) &&
+      isSameDate(aStart, bStart) &&
+      isSameDate(aEnd, bEnd)
     );
 }
 
 function isFormInvalid(value: ShiftFormValue, shift?: Shift): boolean {
-  if (shift && isSameShift(value, getShiftValue(shift))) {
-    return true;
-  }
-
-  return (
+  if (
     !value.name ||
     !value.acronym ||
     isDateTimeInvalid(value.start) ||
@@ -138,7 +150,15 @@ function isFormInvalid(value: ShiftFormValue, shift?: Shift): boolean {
     value.recurrence.days.length === 0 ||
     !value.min_staff ||
     value.min_staff.length === 0
-  );
+  ) {
+    return true;
+  }
+
+  if (shift && isSameShift(value, getShiftValue(shift))) {
+    return true;
+  }
+
+  return false;
 }
 
 function getOptionListValue(list: SFPeopleOption[]): ShiftMember[] {
@@ -188,6 +208,96 @@ function getShiftRequestValue(value: ShiftFormValue): ShiftRequest {
   };
 }
 
+const getEditedDatetime = (
+  datetime: DateTimeValue,
+  shiftDate: moment.Moment | null
+): ShiftHistoryDate | undefined => {
+  const dateValue = getDateRequestValue(
+    datetime.date as moment.Moment,
+    datetime.time
+  );
+
+  return !shiftDate?.isSame(dateValue)
+    ? {
+        datetime: dateValue,
+        utc: '',
+        timezone: ''
+      }
+    : undefined;
+};
+
+const getEditedRecurrence = (
+  recurrence: ShiftRecurrence,
+  newDays: string[]
+): ShiftRecurrence | undefined => {
+  const recurrenceDaysChanged = newDays.filter(
+    (d) => !recurrence.days.includes(d)
+  );
+
+  return newDays.length !== recurrence.days.length ||
+    recurrenceDaysChanged.length > 0
+    ? {
+        ...recurrence,
+        frequency: recurrence.frequency.toLowerCase(),
+        days: sortRecurrenceDays(newDays)
+      }
+    : undefined;
+};
+
+const getEditedSupervisor = (
+  shiftSupervisor?: SFPeopleOption,
+  formSupervisor?: SFPeopleOption
+): ShiftMember | undefined | null => {
+  const hasSupervisorChanged: boolean =
+    shiftSupervisor !== formSupervisor &&
+    formSupervisor?.asyncObject.id !== shiftSupervisor?.asyncObject.id;
+
+  if (!hasSupervisorChanged) {
+    return undefined;
+  } else if (!formSupervisor) {
+    return null;
+  } else {
+    return {
+      id: (formSupervisor as SFPeopleOption).asyncObject.id,
+      name: (formSupervisor as SFPeopleOption).name
+    };
+  }
+};
+
+const getEditedArea = (
+  areas: SFPeopleOption[],
+  shiftAreas: SFPeopleOption[]
+): ShiftArea[] | undefined => {
+  const areasChanged = areas
+    .filter((a) => shiftAreas.includes(a))
+    .map((a) => a.asyncObject.id);
+
+  if (areas.length === shiftAreas.length && areasChanged.length === 0) {
+    return undefined;
+  } else if (areas.length === 0) {
+    return [];
+  } else {
+    return areas.map((a) => ({ id: a.asyncObject.id, name: a.name }));
+  }
+};
+
+function getEditedShift(
+  value: ShiftFormValue,
+  shift: ShiftFormValue
+): ShiftEditRequest {
+  return {
+    name: value.name === shift.name ? undefined : value.name,
+    acronym: value.acronym === shift.acronym ? undefined : value.acronym,
+    start: getEditedDatetime(value.start, shift.start.date),
+    end: getEditedDatetime(value.end, shift.end.date),
+    recurrence: getEditedRecurrence(shift.recurrence, value.recurrence.days),
+    areas: getEditedArea(value.areas, shift.areas),
+    supervisor: getEditedSupervisor(shift.supervisor, value.supervisor),
+    min_staff:
+      value.min_staff !== shift.min_staff ? Number(value.min_staff) : undefined
+  };
+}
+
 export interface ShiftFormModalProps {
   shift?: Shift;
   isOpen: boolean;
@@ -218,7 +328,10 @@ export const ShiftFormModal = ({
       if (!shift) {
         await addShift(apiBaseUrl, getShiftRequestValue(value));
       } else {
-        await editShift(apiBaseUrl, shift.id, getShiftRequestValue(value));
+        const editedShiftValue = getEditedShift(value, getShiftValue(shift));
+
+        if (Object.entries(editedShiftValue).length > 0)
+          await editShift(apiBaseUrl, shift.id, editedShiftValue);
       }
       setIsSaving(false);
       props.onSave();
