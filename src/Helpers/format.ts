@@ -47,7 +47,7 @@ export function getRecurrenceString(recurrence: ShiftRecurrence): string {
     const isLast: boolean = index === recurrence.days.length - 1;
 
     if (recurrence.days.length > 1 && isLast) {
-      msg += ` and `;
+      msg += `and `;
     }
 
     msg += DAYS_DICT[day];
