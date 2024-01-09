@@ -20,6 +20,7 @@ import { SF_APPS } from '../../Constants/Apps';
 export interface AgencyBillingProps {
   canUpdate: boolean;
   stripeApiKey: string;
+  product: ApplicationProduct;
   onClose: () => void;
   onError: (e: SettingsError) => void;
   onUpgrade: (product: string) => void;
@@ -29,6 +30,7 @@ export interface AgencyBillingProps {
 export const AgencyBilling = ({
   canUpdate,
   stripeApiKey,
+  product,
   onClose,
   onError,
   onUpgrade,
@@ -89,6 +91,7 @@ export const AgencyBilling = ({
                     <CurrentPlan
                       canUpdate={canUpdate}
                       currentSubscription={subscription}
+                      product={product}
                       onError={onError}
                       onUpgrade={() => onUpgrade(subscription.product)}
                     />
