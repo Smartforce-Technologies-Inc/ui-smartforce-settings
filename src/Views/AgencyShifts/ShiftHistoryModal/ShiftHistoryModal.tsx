@@ -2,10 +2,10 @@ import React from 'react';
 import { Loader, PanelModal } from '../../../Components';
 import {
   ShiftHistory,
-  ShiftEditRequest,
   ShiftMember,
   User,
-  ShiftDate
+  ShiftDate,
+  ShiftHistoryChange
 } from '../../../Models';
 import { SFTimeline, SFTimelineItem } from 'sfui';
 import {
@@ -17,7 +17,7 @@ import { UserContext } from '../../../Context';
 import { HistoryTimeLineItem } from '../../../Components/HistoryTimeLineItem/HistoryTimeLineItem';
 
 const getFullSubtitle = (
-  historyChanges: ShiftEditRequest,
+  historyChanges: ShiftHistoryChange,
   shiftStart: ShiftDate,
   shiftEnd: ShiftDate
 ): string => {
@@ -68,7 +68,7 @@ const getFullSubtitle = (
 };
 
 const getUpdateSubtitle = (
-  historyChanges: ShiftEditRequest,
+  historyChanges: ShiftHistoryChange,
   shiftStart: ShiftDate,
   shiftEnd: ShiftDate
 ): string => {
@@ -121,7 +121,7 @@ const getHistoryItemValue = (
   const userName: string = `${history.created_by_user.name}${
     activeUser.id === history.created_by_user.id ? ' (You)' : ''
   }`;
-  const historyChanges: ShiftEditRequest = history.changes;
+  const historyChanges: ShiftHistoryChange = history.changes;
 
   switch (history.type) {
     case 'create':
