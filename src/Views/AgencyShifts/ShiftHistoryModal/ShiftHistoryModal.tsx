@@ -1,11 +1,11 @@
 import React from 'react';
 import { Loader, PanelModal } from '../../../Components';
 import {
-  Shift,
   ShiftHistory,
   ShiftEditRequest,
   ShiftMember,
-  User
+  User,
+  ShiftDate
 } from '../../../Models';
 import { SFTimeline, SFTimelineItem } from 'sfui';
 import {
@@ -18,7 +18,8 @@ import { HistoryTimeLineItem } from '../../../Components/HistoryTimeLineItem/His
 
 const getFullSubtitle = (
   historyChanges: ShiftEditRequest,
-  shift: Shift
+  shiftStart: ShiftDate,
+  shiftEnd: ShiftDate
 ): string => {
   let fullSubTitle: string = '';
   if (historyChanges.name) {
@@ -34,10 +35,10 @@ const getFullSubtitle = (
   }
   if (historyChanges.start || historyChanges.end) {
     fullSubTitle += `Time: ${formatDateString(
-      historyChanges.start?.datetime ?? shift.start.datetime,
+      historyChanges.start?.datetime ?? shiftStart.datetime,
       'HH:mm'
     )} to ${formatDateString(
-      historyChanges.end?.datetime ?? shift.end.datetime,
+      historyChanges.end?.datetime ?? shiftEnd.datetime,
       'HH:mm'
     )}\n`;
   }
@@ -68,7 +69,8 @@ const getFullSubtitle = (
 
 const getUpdateSubtitle = (
   historyChanges: ShiftEditRequest,
-  shift: Shift
+  shiftStart: ShiftDate,
+  shiftEnd: ShiftDate
 ): string => {
   let subTitle: string = '';
 
@@ -81,10 +83,10 @@ const getUpdateSubtitle = (
     }
     if (historyChanges.end || historyChanges.start) {
       subTitle = `Changed time: ${formatDateString(
-        historyChanges.start?.datetime ?? shift.start.datetime,
+        historyChanges.start?.datetime ?? shiftStart.datetime,
         'HH:mm'
       )} to ${formatDateString(
-        historyChanges.end?.datetime ?? shift.end.datetime,
+        historyChanges.end?.datetime ?? shiftEnd.datetime,
         'HH:mm'
       )}`;
     }
@@ -102,7 +104,8 @@ const getUpdateSubtitle = (
         'Changed repeat: ' + getRecurrenceString(historyChanges.recurrence);
     }
   } else {
-    subTitle = 'Changed \n' + getFullSubtitle(historyChanges, shift);
+    subTitle =
+      'Changed \n' + getFullSubtitle(historyChanges, shiftStart, shiftEnd);
   }
 
   return subTitle;
@@ -111,7 +114,8 @@ const getUpdateSubtitle = (
 const getHistoryItemValue = (
   history: ShiftHistory,
   activeUser: User,
-  shift: Shift
+  shiftStart: ShiftDate,
+  shiftEnd: ShiftDate
 ): SFTimelineItem => {
   let subTitle: string = '';
   const userName: string = `${history.created_by_user.name}${
@@ -121,7 +125,9 @@ const getHistoryItemValue = (
 
   switch (history.type) {
     case 'create':
-      subTitle = 'Created shift \n' + getFullSubtitle(historyChanges, shift);
+      subTitle =
+        'Created shift \n' +
+        getFullSubtitle(historyChanges, shiftStart, shiftEnd);
       break;
     case 'restore':
       subTitle = `Restored shift`;
@@ -147,7 +153,7 @@ const getHistoryItemValue = (
       )}`;
       break;
     case 'update':
-      subTitle = getUpdateSubtitle(historyChanges, shift);
+      subTitle = getUpdateSubtitle(historyChanges, shiftStart, shiftEnd);
       break;
     default:
       subTitle = 'Deleted shift';
@@ -170,7 +176,8 @@ export interface ShiftHistoryModalProps {
   isOpen: boolean;
   isLoading: boolean;
   history?: ShiftHistory[];
-  shift?: Shift;
+  shiftStart?: ShiftDate;
+  shiftEnd?: ShiftDate;
   onClose: () => void;
   onBack: () => void;
 }
@@ -195,12 +202,18 @@ export const ShiftHistoryModal = (
       {props.isLoading && <Loader />}
       {!props.isLoading &&
         props.history &&
-        props.shift &&
+        props.shiftEnd &&
+        props.shiftStart &&
         props.history.length > 0 && (
           <SFTimeline
             selectable={false}
             items={props.history.map((h) =>
-              getHistoryItemValue(h, user, props.shift as Shift)
+              getHistoryItemValue(
+                h,
+                user,
+                props.shiftStart as ShiftDate,
+                props.shiftEnd as ShiftDate
+              )
             )}
           />
         )}
