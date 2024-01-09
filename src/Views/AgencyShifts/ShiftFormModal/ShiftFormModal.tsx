@@ -272,32 +272,54 @@ const getEditedSupervisor = (
   formSupervisor?: SFPeopleOption
 ): ShiftMember | undefined => {
   const hasSupervisorChanged: boolean =
+    !!formSupervisor &&
     formSupervisor?.asyncObject.id !== shiftSupervisor?.asyncObject.id;
 
-  return hasSupervisorChanged
-    ? {
-        id: (formSupervisor as SFPeopleOption).asyncObject.id,
-        name: (formSupervisor as SFPeopleOption).name
-      }
-    : undefined;
+  if (!formSupervisor) {
+    //TODO check this
+    return { id: '', name: '' };
+  }
+
+  if (!hasSupervisorChanged) {
+    return undefined;
+  }
+
+  return {
+    id: (formSupervisor as SFPeopleOption).asyncObject.id,
+    name: (formSupervisor as SFPeopleOption).name
+  };
+};
+
+const getEditedArea = (
+  areas: SFPeopleOption[],
+  shiftAreas: SFPeopleOption[]
+): ShiftArea[] | undefined => {
+  const areasChanged = areas
+    .filter((a) => shiftAreas.includes(a))
+    .map((a) => a.asyncObject.id);
+
+  if (areas.length === 0) {
+    return [];
+  }
+
+  if (areasChanged.length === 0) {
+    return undefined;
+  }
+
+  return areas.map((a) => ({ id: a.asyncObject.id, name: a.name }));
 };
 
 function getEditedShift(
   value: ShiftFormValue,
   shift: ShiftFormValue
 ): ShiftEditRequest {
-  const areasChanged = value.areas
-    .filter((a) => shift.areas.includes(a))
-    .map((a) => a.asyncObject.id);
-
   return {
     name: value.name === shift.name ? undefined : value.name,
     acronym: value.acronym === shift.acronym ? undefined : value.acronym,
     start: getEditedDatetime(value.start, shift.start.date),
     end: getEditedDatetime(value.end, shift.end.date),
     recurrence: getEditedRecurrence(shift.recurrence, value.recurrence.days),
-    areas:
-      areasChanged.length > 0 ? [...shift.areas, ...areasChanged] : undefined,
+    areas: getEditedArea(value.areas, shift.areas),
     participants: getEditedParticipants(shift.participants, value.participants),
     supervisor: getEditedSupervisor(shift.supervisor, value.supervisor),
     min_staff:
@@ -335,11 +357,10 @@ export const ShiftFormModal = ({
       if (!shift) {
         await addShift(apiBaseUrl, getShiftRequestValue(value));
       } else {
-        await editShift(
-          apiBaseUrl,
-          shift.id,
-          getEditedShift(value, getShiftValue(shift))
-        );
+        const editedShiftValue = getEditedShift(value, getShiftValue(shift));
+
+        if (Object.entries(editedShiftValue).length > 0)
+          await editShift(apiBaseUrl, shift.id, editedShiftValue);
       }
       setIsSaving(false);
       props.onSave();
@@ -359,6 +380,8 @@ export const ShiftFormModal = ({
       }
     }
   }, [isOpen, shift]);
+
+  console.log('form value', value);
 
   return (
     <PanelModal
