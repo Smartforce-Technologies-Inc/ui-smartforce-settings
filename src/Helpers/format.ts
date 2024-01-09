@@ -52,7 +52,7 @@ export function getRecurrenceString(recurrence: ShiftRecurrence): string {
 
     msg += DAYS_DICT[day];
 
-    if (!isLast && recurrence.days.length - 2 !== index) msg += ', ';
+    if (!isLast) msg += ', ';
   });
 
   return msg;
