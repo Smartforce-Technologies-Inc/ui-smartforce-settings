@@ -4,7 +4,7 @@ import {
   AgencyEventType,
   Shift,
   ShiftHistory,
-  ShiftHistoryChange,
+  ShiftEditRequest,
   ShiftListItem,
   ShiftMember,
   ShiftRequest
@@ -45,10 +45,10 @@ export function addShift(baseUrl: string, shift: ShiftRequest): Promise<Shift> {
 export function editShift(
   baseUrl: string,
   id: string,
-  shift: ShiftHistoryChange
+  shift: ShiftEditRequest
 ): Promise<Shift> {
   const url: string = `${baseUrl}/shifts/${id}`;
-  return apiPatch<ShiftHistoryChange, Shift>(
+  return apiPatch<ShiftEditRequest, Shift>(
     url,
     shift,
     getUserSession().access_token
