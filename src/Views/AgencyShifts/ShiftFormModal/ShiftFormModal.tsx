@@ -234,7 +234,8 @@ const getEditedRecurrence = (
     (d) => !recurrence.days.includes(d)
   );
 
-  return recurrenceDaysChanged.length > 0
+  return newDays.length !== recurrence.days.length ||
+    recurrenceDaysChanged.length > 0
     ? {
         ...recurrence,
         frequency: recurrence.frequency.toLowerCase(),
@@ -243,50 +244,24 @@ const getEditedRecurrence = (
     : undefined;
 };
 
-const getEditedParticipants = (
-  shiftParticipants: SFPeopleOption[],
-  formParticipants: SFPeopleOption[]
-) => {
-  const participantsChanged = formParticipants
-    .filter((p) => shiftParticipants.includes(p))
-    .map((p) => ({
-      id: p.asyncObject.id,
-      name: p.name,
-      avatar_thumbnail_url: p.avatarUrl
-    }));
-
-  return participantsChanged.length > 0
-    ? [
-        ...shiftParticipants.map((p) => ({
-          id: p.asyncObject.id,
-          name: p.name,
-          avatar_thumbnail_url: p.avatarUrl
-        })),
-        ...participantsChanged
-      ]
-    : undefined;
-};
-
 const getEditedSupervisor = (
   shiftSupervisor?: SFPeopleOption,
   formSupervisor?: SFPeopleOption
 ): ShiftMember | undefined | null => {
   const hasSupervisorChanged: boolean =
-    !!formSupervisor &&
+    shiftSupervisor !== formSupervisor &&
     formSupervisor?.asyncObject.id !== shiftSupervisor?.asyncObject.id;
-
-  if (!formSupervisor) {
-    return null;
-  }
 
   if (!hasSupervisorChanged) {
     return undefined;
+  } else if (!formSupervisor) {
+    return null;
+  } else {
+    return {
+      id: (formSupervisor as SFPeopleOption).asyncObject.id,
+      name: (formSupervisor as SFPeopleOption).name
+    };
   }
-
-  return {
-    id: (formSupervisor as SFPeopleOption).asyncObject.id,
-    name: (formSupervisor as SFPeopleOption).name
-  };
 };
 
 const getEditedArea = (
@@ -297,15 +272,13 @@ const getEditedArea = (
     .filter((a) => shiftAreas.includes(a))
     .map((a) => a.asyncObject.id);
 
-  if (areas.length === 0) {
-    return [];
-  }
-
-  if (areasChanged.length === 0) {
+  if (areas.length === shiftAreas.length && areasChanged.length === 0) {
     return undefined;
+  } else if (areas.length === 0) {
+    return [];
+  } else {
+    return areas.map((a) => ({ id: a.asyncObject.id, name: a.name }));
   }
-
-  return areas.map((a) => ({ id: a.asyncObject.id, name: a.name }));
 };
 
 function getEditedShift(
@@ -319,7 +292,6 @@ function getEditedShift(
     end: getEditedDatetime(value.end, shift.end.date),
     recurrence: getEditedRecurrence(shift.recurrence, value.recurrence.days),
     areas: getEditedArea(value.areas, shift.areas),
-    participants: getEditedParticipants(shift.participants, value.participants),
     supervisor: getEditedSupervisor(shift.supervisor, value.supervisor),
     min_staff:
       value.min_staff !== shift.min_staff ? Number(value.min_staff) : undefined
