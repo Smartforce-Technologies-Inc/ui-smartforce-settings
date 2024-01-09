@@ -119,6 +119,8 @@ export interface ShiftEditRequest {
   areas?: ShiftArea[];
 }
 
+export type ShiftHistoryChange = ShiftEditRequest;
+
 export interface ShiftHistory {
   id: string;
   shift_id: string;
