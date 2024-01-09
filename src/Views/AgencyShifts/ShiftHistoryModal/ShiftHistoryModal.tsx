@@ -3,7 +3,7 @@ import { Loader, PanelModal } from '../../../Components';
 import {
   Shift,
   ShiftHistory,
-  ShiftHistoryChange,
+  ShiftEditRequest,
   ShiftMember,
   User
 } from '../../../Models';
@@ -16,17 +16,10 @@ import {
 import { UserContext } from '../../../Context';
 import { HistoryTimeLineItem } from '../../../Components/HistoryTimeLineItem/HistoryTimeLineItem';
 
-const getHistoryItemValue = (
-  history: ShiftHistory,
-  activeUser: User,
+const getFullSubtitle = (
+  historyChanges: ShiftEditRequest,
   shift: Shift
-): SFTimelineItem => {
-  let subTitle: string = '';
-  const userName: string = `${history.created_by_user.name}${
-    activeUser.id === history.created_by_user.id ? ' (You)' : ''
-  }`;
-  const historyChanges: ShiftHistoryChange = history.changes;
-
+): string => {
   let fullSubTitle: string = '';
   if (historyChanges.name) {
     fullSubTitle += `Title: ${historyChanges.name}\n`;
@@ -70,9 +63,65 @@ const getHistoryItemValue = (
     fullSubTitle += `Supervisor: ${historyChanges.supervisor.name}`;
   }
 
+  return fullSubTitle;
+};
+
+const getUpdateSubtitle = (
+  historyChanges: ShiftEditRequest,
+  shift: Shift
+): string => {
+  let subTitle: string = '';
+
+  if (Object.values(historyChanges).length === 1) {
+    if (historyChanges.acronym) {
+      subTitle = 'Changed acronym: ' + historyChanges.acronym;
+    }
+    if (historyChanges.areas) {
+      subTitle = 'Changed areas: ' + formatArrayToString(historyChanges.areas);
+    }
+    if (historyChanges.end || historyChanges.start) {
+      subTitle = `Changed time: ${formatDateString(
+        historyChanges.start?.datetime ?? shift.start.datetime,
+        'HH:mm'
+      )} to ${formatDateString(
+        historyChanges.end?.datetime ?? shift.end.datetime,
+        'HH:mm'
+      )}`;
+    }
+    if (historyChanges.min_staff) {
+      subTitle = 'Changed minimum staffing: ' + historyChanges.min_staff;
+    }
+    if (historyChanges.name) {
+      subTitle = 'Changed name: ' + historyChanges.name;
+    }
+    if (historyChanges.supervisor) {
+      subTitle = 'Changed supervisor: ' + historyChanges.supervisor.name;
+    }
+    if (historyChanges.recurrence) {
+      subTitle =
+        'Changed repeat: ' + getRecurrenceString(historyChanges.recurrence);
+    }
+  } else {
+    subTitle = 'Changed \n' + getFullSubtitle(historyChanges, shift);
+  }
+
+  return subTitle;
+};
+
+const getHistoryItemValue = (
+  history: ShiftHistory,
+  activeUser: User,
+  shift: Shift
+): SFTimelineItem => {
+  let subTitle: string = '';
+  const userName: string = `${history.created_by_user.name}${
+    activeUser.id === history.created_by_user.id ? ' (You)' : ''
+  }`;
+  const historyChanges: ShiftEditRequest = history.changes;
+
   switch (history.type) {
     case 'create':
-      subTitle = 'Created shift \n' + fullSubTitle;
+      subTitle = 'Created shift \n' + getFullSubtitle(historyChanges, shift);
       break;
     case 'restore':
       subTitle = `Restored shift`;
@@ -98,39 +147,7 @@ const getHistoryItemValue = (
       )}`;
       break;
     case 'update':
-      if (Object.values(historyChanges).length === 1) {
-        if (historyChanges.acronym) {
-          subTitle = 'Changed acronym: ' + historyChanges.acronym;
-        }
-        if (historyChanges.areas) {
-          subTitle =
-            'Changed areas: ' + formatArrayToString(historyChanges.areas);
-        }
-        if (historyChanges.end || historyChanges.start) {
-          subTitle = `Changed time: ${formatDateString(
-            historyChanges.start?.datetime ?? shift.start.datetime,
-            'HH:mm'
-          )} to ${formatDateString(
-            historyChanges.end?.datetime ?? shift.end.datetime,
-            'HH:mm'
-          )}`;
-        }
-        if (historyChanges.min_staff) {
-          subTitle = 'Changed minimum staffing: ' + historyChanges.min_staff;
-        }
-        if (historyChanges.name) {
-          subTitle = 'Changed name: ' + historyChanges.name;
-        }
-        if (historyChanges.supervisor) {
-          subTitle = 'Changed supervisor: ' + historyChanges.supervisor.name;
-        }
-        if (historyChanges.recurrence) {
-          subTitle =
-            'Changed repeat: ' + getRecurrenceString(historyChanges.recurrence);
-        }
-      } else {
-        subTitle = 'Changed \n' + fullSubTitle;
-      }
+      subTitle = getUpdateSubtitle(historyChanges, shift);
       break;
     default:
       subTitle = 'Deleted shift';
