@@ -219,9 +219,7 @@ const getEditedDatetime = (
 
   return !shiftDate?.isSame(dateValue)
     ? {
-        datetime: dateValue,
-        utc: '',
-        timezone: ''
+        datetime: dateValue
       }
     : undefined;
 };

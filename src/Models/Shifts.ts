@@ -8,11 +8,11 @@ export interface ShiftArea {
 
 export interface ShiftDate {
   datetime: string;
-  timezone: string;
+  timezone?: string;
 }
 
 export interface ShiftHistoryDate extends ShiftDate {
-  utc: string;
+  utc?: string;
 }
 
 export interface ShiftRecurrence {

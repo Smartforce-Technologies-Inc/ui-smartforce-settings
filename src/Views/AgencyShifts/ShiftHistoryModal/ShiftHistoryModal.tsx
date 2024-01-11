@@ -73,8 +73,18 @@ const getUpdateSubtitle = (
   shiftEnd: ShiftDate
 ): string => {
   let subTitle: string = '';
+  const historyChangesCount: number = Object.values(historyChanges).length;
+  const historyChangesKeys: string[] = Object.keys(historyChanges);
 
-  if (Object.values(historyChanges).length === 1) {
+  // This condition checks if the changes are in the start and end time because they should be in one line
+  // not as part of multiple changes
+
+  if (
+    historyChangesCount === 1 ||
+    (historyChangesCount === 2 &&
+      historyChangesKeys.includes('start') &&
+      historyChangesKeys.includes('end'))
+  ) {
     if (historyChanges.acronym) {
       subTitle = 'Changed acronym: ' + historyChanges.acronym;
     }
