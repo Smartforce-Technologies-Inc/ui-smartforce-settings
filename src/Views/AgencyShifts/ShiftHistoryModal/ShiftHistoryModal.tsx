@@ -76,6 +76,9 @@ const getUpdateSubtitle = (
   const historyChangesCount: number = Object.values(historyChanges).length;
   const historyChangesKeys: string[] = Object.keys(historyChanges);
 
+  // This condition checks if the changes are in the start and end time because they should be in one line
+  // not as part of multiple changes
+
   if (
     historyChangesCount === 1 ||
     (historyChangesCount === 2 &&
