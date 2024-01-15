@@ -1,13 +1,14 @@
 import React, { Fragment } from 'react';
 import styles from './ShiftInfoModal.module.scss';
+import moment from 'moment';
 import { Avatar, PanelModal } from '../../../Components';
 import { Divider } from '../../../Components/Divider/Divider';
 import { Member, SettingsError, Shift, ShiftMember } from '../../../Models';
 import { SFPeopleOption, SFSpinner, SFText } from 'sfui';
 import {
   formatArrayToString,
-  formatDateString,
-  getRecurrenceString
+  getRecurrenceString,
+  getTimeRangeString
 } from '../../../Helpers';
 import { ShiftInfoModalItem } from './ShiftInfoModalItem/ShiftInfoModalItem';
 import { ProgressBar } from './ProgressBar/ProgressBar';
@@ -178,14 +179,14 @@ export const ShiftInfoModal = ({
               />
               <ShiftInfoModalItem
                 icon="Clock"
-                text={`${formatDateString(
+                text={`${getTimeRangeString(
                   shift.start.datetime,
-                  'HH:mm'
-                )} to ${formatDateString(shift.end.datetime, 'HH:mm')}`}
+                  shift.end.datetime
+                )}`}
               />
               <ShiftInfoModalItem
                 icon="Callendar"
-                text={`From ${formatDateString(shift.start.datetime, 'L')}`}
+                text={`From ${moment(shift.start.datetime).format('L')}`}
               />
               {shift.areas && shift.areas.length > 0 && (
                 <ShiftInfoModalItem
