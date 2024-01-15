@@ -1,19 +1,21 @@
 import React from 'react';
+import moment from 'moment-timezone';
 import { Loader, PanelModal } from '../../../Components';
 import {
   ShiftHistory,
   ShiftMember,
   User,
   ShiftDate,
-  ShiftHistoryChange
+  ShiftHistoryChange,
+  Customer
 } from '../../../Models';
 import { SFTimeline, SFTimelineItem } from 'sfui';
 import {
   formatArrayToString,
-  formatDateString,
-  getRecurrenceString
+  getRecurrenceString,
+  getTimeRangeString
 } from '../../../Helpers';
-import { UserContext } from '../../../Context';
+import { CustomerContext, UserContext } from '../../../Context';
 import { HistoryTimeLineItem } from '../../../Components/HistoryTimeLineItem/HistoryTimeLineItem';
 
 const getFullSubtitle = (
@@ -34,12 +36,9 @@ const getFullSubtitle = (
     )}\n`;
   }
   if (historyChanges.start || historyChanges.end) {
-    fullSubTitle += `Time: ${formatDateString(
+    fullSubTitle += `Time: ${getTimeRangeString(
       historyChanges.start?.datetime ?? shiftStart.datetime,
-      'HH:mm'
-    )} to ${formatDateString(
-      historyChanges.end?.datetime ?? shiftEnd.datetime,
-      'HH:mm'
+      historyChanges.end?.datetime ?? shiftEnd.datetime
     )}\n`;
   }
   if (historyChanges.areas && historyChanges.areas.length > 0) {
@@ -94,12 +93,9 @@ const getUpdateSubtitle = (
         formatArrayToString(historyChanges.areas.map((a) => a.name));
     }
     if (historyChanges.end || historyChanges.start) {
-      subTitle = `Changed time: ${formatDateString(
+      subTitle = `Changed time: ${getTimeRangeString(
         historyChanges.start?.datetime ?? shiftStart.datetime,
-        'HH:mm'
-      )} to ${formatDateString(
-        historyChanges.end?.datetime ?? shiftEnd.datetime,
-        'HH:mm'
+        historyChanges.end?.datetime ?? shiftEnd.datetime
       )}`;
     }
     if (historyChanges.min_staff) {
@@ -127,7 +123,8 @@ const getHistoryItemValue = (
   history: ShiftHistory,
   activeUser: User,
   shiftStart: ShiftDate,
-  shiftEnd: ShiftDate
+  shiftEnd: ShiftDate,
+  timezone: string
 ): SFTimelineItem => {
   let subTitle: string = '';
   const userName: string = `${history.created_by_user.name}${
@@ -173,7 +170,7 @@ const getHistoryItemValue = (
   }
 
   return {
-    title: formatDateString(history.created_at, 'MM/DD/YYYY'),
+    title: moment(history.created_at).tz(timezone).format('MM/DD/YYYY'),
     children: (
       <HistoryTimeLineItem
         userName={userName}
@@ -198,6 +195,8 @@ export const ShiftHistoryModal = (
   props: ShiftHistoryModalProps
 ): React.ReactElement<ShiftHistoryModalProps> => {
   const user = React.useContext(UserContext).user as User;
+  const customer = React.useContext(CustomerContext).customer as Customer;
+  const timezone = customer.timezone;
 
   return (
     <PanelModal
@@ -224,7 +223,8 @@ export const ShiftHistoryModal = (
                 h,
                 user,
                 props.shiftStart as ShiftDate,
-                props.shiftEnd as ShiftDate
+                props.shiftEnd as ShiftDate,
+                timezone
               )
             )}
           />
