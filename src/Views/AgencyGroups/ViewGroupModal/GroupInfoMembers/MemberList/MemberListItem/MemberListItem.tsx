@@ -9,6 +9,7 @@ export interface MemberListItemProps {
   isActive: boolean;
   user: User;
   member: GroupMember;
+  onClick?: () => void;
   onRemove: () => void;
 }
 
@@ -41,7 +42,7 @@ export const MemberListItem = ({
     >
       <Avatar name={member.name} url={member.avatar_thumbnail_url} />
 
-      <div className={styles.memberInfo}>
+      <div className={styles.memberInfo} onClick={props.onClick}>
         <SFText type="component-2">
           {member.name}
           {isUser && <span className={styles.textNeutral}>{' (You)'}</span>}

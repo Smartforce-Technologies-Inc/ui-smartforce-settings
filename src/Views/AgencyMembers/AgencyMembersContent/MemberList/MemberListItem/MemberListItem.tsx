@@ -101,6 +101,7 @@ export const MemberListItem = ({
           anchorEl={refAnchorEl ? refAnchorEl.current : null}
           onClose={() => setIsMenuOpen(false)}
         >
+          <SFMenuItem onClick={onClick}>See profile</SFMenuItem>
           {showResendInvitationItem && (
             <SFMenuItem onClick={onResendInvitation}>
               Resend invitation

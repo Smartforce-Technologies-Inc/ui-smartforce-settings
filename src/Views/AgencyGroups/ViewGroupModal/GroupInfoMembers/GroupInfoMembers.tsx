@@ -2,8 +2,11 @@ import React, { Fragment, useState } from 'react';
 import styles from './GroupInfoMembers.module.scss';
 import { SFButton, SFScrollable, SFSearch, SFText } from 'sfui';
 import { Divider } from '../../../../Components/Divider/Divider';
-import { GroupMember } from '../../../../Models';
+import { GroupMember, Member, SettingsError } from '../../../../Models';
 import { MemberList } from './MemberList/MemberList';
+import { ApiContext } from '../../../../Context';
+import { getMemberById } from '../../../../Services';
+import { MemberDetailsModal } from '../../../../Components/MemberDetailsModal/MemberDetailsModal';
 
 const MEMBERS_LIMIT = 10;
 
@@ -25,6 +28,8 @@ export interface GroupInfoMembersProps {
   isActive: boolean;
   members: GroupMember[];
   onAdd: () => void;
+  onClose: () => void;
+  onError: (e: SettingsError) => void;
   onRemove: (member: GroupMember) => void;
 }
 
@@ -32,10 +37,17 @@ export const GroupInfoMembers = ({
   isActive,
   members,
   onAdd,
+  onClose,
+  onError,
   onRemove
 }: GroupInfoMembersProps): React.ReactElement<GroupInfoMembersProps> => {
+  const settingsBaseUrl = React.useContext(ApiContext).settings;
   const [searchValue, setSearchValue] = useState<string>('');
   const [limit, setLimit] = useState<number>(MEMBERS_LIMIT);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] =
+    React.useState<boolean>(false);
+  const [detailsModalValue, setDetailsModalValue] = React.useState<Member>();
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const filteredMembers: GroupMember[] = getFilteredMembers(
     members,
@@ -44,6 +56,20 @@ export const GroupInfoMembers = ({
 
   const visibleMembers: GroupMember[] = filteredMembers.slice(0, limit);
   const refSearchValueLength = React.useRef<number>(searchValue.length);
+
+  const onSeeMemberInformation = async (memberId: string) => {
+    setIsLoading(true);
+    setIsDetailsModalOpen(true);
+
+    try {
+      const response = await getMemberById(settingsBaseUrl, memberId);
+      setIsLoading(false);
+      setDetailsModalValue(response);
+    } catch (e: any) {
+      setIsLoading(false);
+      onError(e);
+    }
+  };
 
   React.useEffect(() => {
     if (searchValue.length > 2 || refSearchValueLength.current > 2) {
@@ -57,6 +83,16 @@ export const GroupInfoMembers = ({
 
   return (
     <SFScrollable containerClassName={styles.groupInfoMembers}>
+      <MemberDetailsModal
+        isOpen={isDetailsModalOpen}
+        isLoading={isLoading}
+        member={detailsModalValue}
+        onBack={() => setIsDetailsModalOpen(false)}
+        onClose={() => {
+          setIsDetailsModalOpen(false);
+          onClose();
+        }}
+      />
       <div className={styles.addMember}>
         <SFText type="component-1">{members.length} group members</SFText>
         <SFButton
@@ -93,6 +129,7 @@ export const GroupInfoMembers = ({
         <Fragment>
           <MemberList
             isActive={isActive}
+            onClick={onSeeMemberInformation}
             members={visibleMembers}
             onRemove={onRemove}
           />

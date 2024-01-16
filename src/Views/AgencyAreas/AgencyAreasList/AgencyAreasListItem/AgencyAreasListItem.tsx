@@ -65,8 +65,9 @@ export const AgencyAreasListItem = ({
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
+          <SFMenuItem onClick={onClick}>See area information</SFMenuItem>
           <SFMenuItem onClick={onAreaEdit}>Edit Area</SFMenuItem>
-          <SFMenuItem onClick={onAreaDelete}>Delete Area</SFMenuItem>
+          <SFMenuItem onClick={onAreaDelete}>Delete</SFMenuItem>
         </SFMenu>
       </div>
     </div>

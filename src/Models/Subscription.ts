@@ -38,6 +38,7 @@ export interface Subscription {
   start_date: string;
   end_date: string;
   renew: boolean;
+  free: boolean;
 }
 
 export interface BillingDetailsValue {

@@ -2,7 +2,7 @@ import React, { Fragment, useCallback, useContext, useState } from 'react';
 import styles from './MemberList.module.scss';
 import { MemberListItem } from './MemberListItem/MemberListItem';
 import { SFSpinner } from 'sfui';
-import { MemberDetailsModal } from '../MemberDetailsModal/MemberDetailsModal';
+import { MemberDetailsModal } from '../../../../Components/MemberDetailsModal/MemberDetailsModal';
 import { ChangeRoleModal } from '../ChangeRoleModal/ChangeRoleModal';
 import { TransferModal } from './TransferModal/TransferModal';
 import { RemoveModal } from './RemoveModal/RemoveModal';

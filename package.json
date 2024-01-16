@@ -1,6 +1,6 @@
 {
   "name": "ui-smartforce-settings",
-  "version": "3.0.4",
+  "version": "3.1.0",
   "description": "Smartforce UI Settings library",
   "author": "The Smartforce Team",
   "license": "MIT",
@@ -56,6 +56,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "html-webpack-plugin": "^5.5.0",
     "moment": "^2.29.1",
+    "moment-timezone": "^0.5.43",
     "node-sass": "^7.0.3",
     "postcss": "^8.4.17",
     "react": "^17.0.2",
@@ -71,7 +72,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "sass": "^1.55.0",
     "sass-loader": "^13.2.0",
-    "sfui": "git+https://github.com/Smartforce-Technologies-Inc/sfui.git#v1.12.0",
+    "sfui": "git+https://github.com/Smartforce-Technologies-Inc/sfui.git#dev",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.4.1",
     "tslib": "^2.4.0",
@@ -87,8 +88,9 @@
     "@turf/helpers": "^6.5.0",
     "business-card-component": "git+https://github.com/CitizenContactApp/business-card-component.git#v1.2.0",
     "moment": "^2.29.1",
+    "moment-timezone": "^0.5.43",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "sfui": "git+https://github.com/Smartforce-Technologies-Inc/sfui.git#v1.12.0"
+    "sfui": "git+https://github.com/Smartforce-Technologies-Inc/sfui.git#dev"
   }
 }

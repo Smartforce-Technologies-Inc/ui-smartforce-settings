@@ -8,7 +8,11 @@ export interface ShiftArea {
 
 export interface ShiftDate {
   datetime: string;
-  timezone: string;
+  timezone?: string;
+}
+
+export interface ShiftHistoryDate extends ShiftDate {
+  utc?: string;
 }
 
 export interface ShiftRecurrence {
@@ -90,4 +94,38 @@ export interface ShiftRequest {
   participants: ShiftMember[];
   supervisor: ShiftMember | undefined | null;
   min_staff: string;
+}
+
+export type ShiftHistoryType =
+  | 'create'
+  | 'update'
+  | 'delete'
+  | 'restore'
+  | 'add_participants'
+  | 'add_backups'
+  | 'remove_participants'
+  | 'remove_backups';
+
+export interface ShiftEditRequest {
+  name?: string;
+  acronym?: string;
+  start?: ShiftHistoryDate;
+  end?: ShiftHistoryDate;
+  recurrence?: ShiftRecurrence;
+  min_staff?: number;
+  supervisor?: ShiftMember | null;
+  participants?: ShiftMember[];
+  backups?: ShiftMember[];
+  areas?: ShiftArea[];
+}
+
+export type ShiftHistoryChange = ShiftEditRequest;
+
+export interface ShiftHistory {
+  id: string;
+  shift_id: string;
+  type: ShiftHistoryType;
+  created_at: string;
+  created_by_user: ShiftMember;
+  changes: ShiftEditRequest;
 }

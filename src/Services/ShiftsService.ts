@@ -3,6 +3,8 @@ import {
   AgencyEvent,
   AgencyEventType,
   Shift,
+  ShiftHistory,
+  ShiftEditRequest,
   ShiftListItem,
   ShiftMember,
   ShiftRequest
@@ -22,6 +24,15 @@ export function getShift(baseUrl: string, id: string): Promise<Shift> {
   return apiGet<Shift>(url, getUserSession().access_token);
 }
 
+export function getShiftHistory(
+  baseUrl: string,
+  id: string
+): Promise<ShiftHistory[]> {
+  const url: string = `${baseUrl}/shifts/${id}/history`;
+
+  return apiGet<ShiftHistory[]>(url, getUserSession().access_token);
+}
+
 export function addShift(baseUrl: string, shift: ShiftRequest): Promise<Shift> {
   const url: string = `${baseUrl}/shifts`;
   return apiPost<ShiftRequest, Shift>(
@@ -34,10 +45,10 @@ export function addShift(baseUrl: string, shift: ShiftRequest): Promise<Shift> {
 export function editShift(
   baseUrl: string,
   id: string,
-  shift: ShiftRequest
+  shift: ShiftEditRequest
 ): Promise<Shift> {
   const url: string = `${baseUrl}/shifts/${id}`;
-  return apiPatch<ShiftRequest, Shift>(
+  return apiPatch<ShiftEditRequest, Shift>(
     url,
     shift,
     getUserSession().access_token
