@@ -8,12 +8,17 @@ import {
 import { SettingsContentRender } from '../SettingsContentRender';
 import { ListManagment } from '../../Components/ListManagment/ListManagment';
 import { ApiContext } from '../../Context';
-import { getShift, getShiftHistory, getShifts } from '../../Services';
+import {
+  deleteShift,
+  getShift,
+  getShiftHistory,
+  getShifts
+} from '../../Services';
 import { ShiftFormModal } from './ShiftFormModal/ShiftFormModal';
 import { ShiftInfoModal } from './ShiftInfoModal/ShiftInfoModal';
 import { AgencyShiftItem } from './AgencyShiftItem/AgencyShiftItem';
-import { SFChip } from 'sfui';
 import { ShiftHistoryModal } from './ShiftHistoryModal/ShiftHistoryModal';
+import { DeleteConfirmNameModal } from '../../Components/DeleteConfirmNameModal/DeleteConfirmNameModal';
 
 function sortShifts(groups: ShiftListItem[]): ShiftListItem[] {
   return groups.sort((a: ShiftListItem, b: ShiftListItem): number =>
@@ -48,13 +53,13 @@ export const AgencyShifts = ({
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [shifts, setShifts] = useState<ShiftListItem[]>([]);
   const [selected, setSelected] = useState<Shift | undefined>();
-  const [isLoadingShift, setIsLoadingShift] = useState<boolean>(false);
+  const [isLoadingModalItem, setIsLoadingModalItem] = useState<boolean>(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [isShiftHistoryModalOpen, setIsShiftHistoryModalOpen] =
     useState<boolean>(false);
-  const [isLoadingShiftHistory, setIsLoadingShiftHistory] =
-    useState<boolean>(false);
+
   const [shiftHistory, setShiftHistory] = useState<ShiftHistory[]>([]);
   const [shiftItem, setShiftItem] = useState<ShiftListItem>();
   const [modalValue, setModalValue] = useState<Shift>();
@@ -103,41 +108,61 @@ export const AgencyShifts = ({
 
   const onInfo = async (shiftPreview: ShiftListItem) => {
     try {
-      setIsLoadingShift(true);
+      setIsLoadingModalItem(true);
       setIsViewModalOpen(true);
       const shift = await getShift(apiBaseUrl, shiftPreview.id);
       setModalValue(shift);
-      setIsLoadingShift(false);
+      setIsLoadingModalItem(false);
     } catch (e: any) {
-      setIsLoadingShift(false);
+      setIsLoadingModalItem(false);
       onError(e);
     }
   };
 
   const onEdit = async (shiftPreview: ShiftListItem) => {
     try {
-      setIsLoadingShift(true);
+      setIsLoadingModalItem(true);
       setIsCreateModalOpen(true);
       const shift = await getShift(apiBaseUrl, shiftPreview.id);
       setSelected(shift);
-      setIsLoadingShift(false);
+      setIsLoadingModalItem(false);
     } catch (e: any) {
-      setIsLoadingShift(false);
+      setIsLoadingModalItem(false);
       onError(e);
     }
   };
 
   const onHistory = async (shiftItem: ShiftListItem) => {
     setIsShiftHistoryModalOpen(true);
-    setIsLoadingShiftHistory(true);
+    setIsLoadingModalItem(true);
 
     try {
       const response = await getShiftHistory(apiBaseUrl, shiftItem.id);
       setShiftHistory(response);
       setShiftItem(shiftItem);
-      setIsLoadingShiftHistory(false);
+      setIsLoadingModalItem(false);
     } catch (e: any) {
-      setIsLoadingShiftHistory(false);
+      setIsLoadingModalItem(false);
+      onError(e);
+    }
+  };
+
+  const onOpenDeleteModal = async (shiftItem: ShiftListItem) => {
+    setIsLoadingModalItem(false);
+    setIsDeleteModalOpen(true);
+    setShiftItem(shiftItem);
+  };
+
+  const onDelete = async () => {
+    try {
+      setIsLoadingModalItem(true);
+      await deleteShift(apiBaseUrl, shiftItem?.id as string);
+      setIsLoadingModalItem(false);
+      setIsDeleteModalOpen(false);
+      onUpdate();
+    } catch (e: any) {
+      setIsDeleteModalOpen(false);
+      setIsLoadingModalItem(false);
       onError(e);
     }
   };
@@ -148,7 +173,7 @@ export const AgencyShifts = ({
         <Fragment>
           <ShiftHistoryModal
             isOpen={isShiftHistoryModalOpen}
-            isLoading={isLoadingShiftHistory}
+            isLoading={isLoadingModalItem}
             history={shiftHistory}
             shiftStart={shiftItem?.start}
             shiftEnd={shiftItem?.end}
@@ -158,10 +183,11 @@ export const AgencyShifts = ({
             }}
             onBack={() => setIsShiftHistoryModalOpen(false)}
           />
+
           <ShiftFormModal
             shift={selected}
             isOpen={isCreateModalOpen}
-            isLoading={isLoadingShift}
+            isLoading={isLoadingModalItem}
             onBack={() => setIsCreateModalOpen(false)}
             onError={onError}
             onSave={onUpdate}
@@ -170,9 +196,10 @@ export const AgencyShifts = ({
               setIsCreateModalOpen(false);
             }}
           />
+
           <ShiftInfoModal
             isOpen={isViewModalOpen}
-            isLoading={isLoadingShift}
+            isLoading={isLoadingModalItem}
             onClose={() => {
               onClose();
               setIsViewModalOpen(false);
@@ -181,6 +208,16 @@ export const AgencyShifts = ({
             onError={onError}
             shift={modalValue}
           />
+
+          <DeleteConfirmNameModal
+            label="shift"
+            isOpen={isDeleteModalOpen}
+            name={shiftItem?.name as string}
+            isSaving={isLoadingModalItem}
+            onDelete={onDelete}
+            onClose={() => setIsDeleteModalOpen(false)}
+          />
+
           <ListManagment<ShiftListItem>
             actionButtonLabel="Create Shift"
             emptyMessage="There are no shifts created yet."
@@ -193,23 +230,23 @@ export const AgencyShifts = ({
             options={[
               {
                 label: 'See shift information',
+                filter: (shift: ShiftListItem) => shift.status === 'Active',
                 onClick: onInfo
               },
               {
                 label: 'Edit shift',
+                filter: (shift: ShiftListItem) => shift.status === 'Active',
                 onClick: onEdit
               },
               {
                 label: 'View history',
-                onClick: (item: ShiftListItem) => onHistory(item)
+                filter: (shift: ShiftListItem) => shift.status === 'Active',
+                onClick: onHistory
               },
               {
                 label: 'Delete',
-                disabled: true,
-                onClick: () => {},
-                chip: (
-                  <SFChip size="small" sfColor="default" label="Coming Soon" />
-                )
+                filter: (shift: ShiftListItem) => shift.status === 'Active',
+                onClick: onOpenDeleteModal
               }
             ]}
             renderItem={(item) => <AgencyShiftItem shift={item} />}
