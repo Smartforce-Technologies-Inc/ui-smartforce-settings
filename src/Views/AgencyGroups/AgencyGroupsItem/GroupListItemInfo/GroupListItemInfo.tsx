@@ -36,7 +36,10 @@ export const GroupListItemInfo = ({
             user={group.updated_by_user as GroupUser}
             date={group.updated_at as string}
           />
-          <InactiveDaysMessage date={group.updated_at as string} />
+          <InactiveDaysMessage
+            label="group"
+            date={group.updated_at as string}
+          />
         </Fragment>
       )}
 

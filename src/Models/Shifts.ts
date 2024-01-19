@@ -28,7 +28,7 @@ export interface ShiftMember {
   avatar_thumbnail_url?: string;
 }
 
-export type ShiftStatus = 'Active' | 'Paused';
+export type ShiftStatus = 'Active' | 'Inactive';
 
 export interface ShiftListItem {
   id: string;
