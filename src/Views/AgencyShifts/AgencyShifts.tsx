@@ -20,10 +20,19 @@ import { AgencyShiftItem } from './AgencyShiftItem/AgencyShiftItem';
 import { ShiftHistoryModal } from './ShiftHistoryModal/ShiftHistoryModal';
 import { DeleteConfirmNameModal } from '../../Components/DeleteConfirmNameModal/DeleteConfirmNameModal';
 
-function sortShifts(groups: ShiftListItem[]): ShiftListItem[] {
-  return groups.sort((a: ShiftListItem, b: ShiftListItem): number =>
-    a.name.localeCompare(b.name)
-  );
+function sortShifts(shifts: ShiftListItem[]): ShiftListItem[] {
+  return shifts.sort((a: ShiftListItem, b: ShiftListItem): number => {
+    if (a.status === 'Inactive' && b.status === 'Active') {
+      return -1;
+    } else if (a.status === 'Inactive' && b.status === 'Inactive') {
+      return (
+        new Date(a.updated_at as string).getTime() -
+        new Date(b.updated_at as string).getTime()
+      );
+    } else {
+      return a.name.localeCompare(b.name);
+    }
+  });
 }
 
 function getFilteredShifts(
