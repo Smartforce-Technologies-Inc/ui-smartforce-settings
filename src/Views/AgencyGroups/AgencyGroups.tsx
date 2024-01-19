@@ -1,11 +1,14 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { CreateGroupModal } from './CreateGroupModal/CreateGroupModal';
-import { Group, GroupMember, SettingsError } from '../../Models';
-import { getGroups, restoreGroup } from '../../Services/GroupService';
+import { Group, GroupMember, SettingsError, UserGroup } from '../../Models';
+import {
+  getGroups,
+  restoreGroup,
+  deleteGroup
+} from '../../Services/GroupService';
 import { SettingsContentRender } from '../SettingsContentRender';
 import { EditGroupModal } from './EditGroupModal/EditGroupModal';
 import { ViewGroupModal } from './ViewGroupModal/ViewGroupModal';
-import { DeleteGroupModal } from './DeleteGroupModal/DeleteGroupModal';
 import { GroupHistoryModal } from './GroupHistoryModal/GroupHistoryModal';
 import { UserContext } from '../../Context';
 import { SETTINGS_CUSTOM_EVENT } from '../../Constants/Events';
@@ -13,6 +16,7 @@ import { dispatchCustomEvent } from '../../Helpers';
 import { ApiContext } from '../../Context';
 import { ListManagment } from '../../Components/ListManagment/ListManagment';
 import { AgencyGroupsItem } from './AgencyGroupsItem/AgencyGroupsItem';
+import { DeleteConfirmNameModal } from '../../Components/DeleteConfirmNameModal/DeleteConfirmNameModal';
 
 function sortGroups(groups: Group[]): Group[] {
   return groups.sort((a: Group, b: Group): number => {
@@ -66,7 +70,7 @@ export const AgencyGroups = ({
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [groups, setGroups] = useState<Group[]>([]);
   const [selected, setSelected] = useState<Group | undefined>();
-  const [deleteGroup, setDeleteGroup] = useState<Group | undefined>();
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   useEffect(() => {
     let isSubscribed: boolean = true;
@@ -139,12 +143,6 @@ export const AgencyGroups = ({
     setIsEditModalOpen(true);
   };
 
-  const onDelete = (group: Group) => {
-    setDeleteGroup(group);
-    setSelected(undefined);
-    setIsDeleteModalOpen(true);
-  };
-
   const onUpdateGroup = (groupUpdated: Group) => {
     setGroups(updateGroupInList(groups, groupUpdated));
   };
@@ -152,6 +150,32 @@ export const AgencyGroups = ({
   const onViewHistory = (group: Group) => {
     setSelected(group);
     setIsViewHistoryModalOpen(true);
+  };
+
+  const onOpenDeleteModal = async (group: Group) => {
+    setSelected(group);
+    setIsDeleteModalOpen(true);
+  };
+
+  const onDelete = async () => {
+    try {
+      setIsDeleting(true);
+      await deleteGroup(apiBaseUrl, selected?.id as string);
+      // Update user groups
+      if (user?.groups) {
+        setUser({
+          ...user,
+          groups: user.groups.filter((g: UserGroup) => g.id !== selected?.id)
+        });
+      }
+      setIsDeleting(false);
+      setIsDeleteModalOpen(false);
+      onUpdate();
+    } catch (e: any) {
+      setIsDeleting(false);
+      setIsDeleteModalOpen(false);
+      onError(e);
+    }
   };
 
   return (
@@ -198,15 +222,14 @@ export const AgencyGroups = ({
             </Fragment>
           )}
 
-          {deleteGroup && (
-            <DeleteGroupModal
-              group={deleteGroup}
-              isOpen={isDeleteModalOpen}
-              onClose={() => setIsDeleteModalOpen(false)}
-              onDelete={onUpdate}
-              onError={onError}
-            />
-          )}
+          <DeleteConfirmNameModal
+            label="group"
+            isOpen={isDeleteModalOpen}
+            name={selected?.name as string}
+            isSaving={isDeleting}
+            onClose={() => setIsDeleteModalOpen(false)}
+            onDelete={onDelete}
+          />
 
           <ViewGroupModal
             selected={selected}
@@ -253,7 +276,7 @@ export const AgencyGroups = ({
               {
                 label: 'Delete',
                 filter: (group: Group) => group.status === 'Active',
-                onClick: onDelete
+                onClick: onOpenDeleteModal
               }
             ]}
             renderItem={(item: Group) => <AgencyGroupsItem group={item} />}
