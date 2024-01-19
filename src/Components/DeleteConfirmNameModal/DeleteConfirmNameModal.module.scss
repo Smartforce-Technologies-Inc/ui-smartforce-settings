@@ -1,0 +1,9 @@
+.deleteConfirmNameModal {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .name {
+    font-weight: 500;
+  }
+}
