@@ -28,6 +28,8 @@ export interface ShiftMember {
   avatar_thumbnail_url?: string;
 }
 
+export type ShiftStatus = 'Active' | 'Paused';
+
 export interface ShiftListItem {
   id: string;
   agency_id: string;
@@ -44,6 +46,7 @@ export interface ShiftListItem {
   updated_at: string;
   created_by_user: string;
   updated_by_user: string;
+  status: ShiftStatus;
 }
 
 export interface Shift {

@@ -16,7 +16,8 @@ export function getShifts(baseUrl: string): Promise<ShiftListItem[]> {
   return apiGet<{ data: ShiftListItem[] }>(
     url,
     getUserSession().access_token
-  ).then((resp) => resp.data);
+    // TODO remove map
+  ).then((resp) => resp.data.map((d) => ({ ...d, status: 'Active' })));
 }
 
 export function getShift(baseUrl: string, id: string): Promise<Shift> {
@@ -53,6 +54,15 @@ export function editShift(
     shift,
     getUserSession().access_token
   );
+}
+
+// TODO replace
+export function deleteShift(_baseUrl: string, _id: string): Promise<void> {
+  return new Promise((resolve, _reject) => {
+    setTimeout(() => resolve(), 1500);
+  });
+  // const url: string = `${baseUrl}/shifts/${id}`;
+  // return apiDelete(url, getUserSession().access_token);
 }
 
 export function getEventTypes(baseUrl: string): Promise<AgencyEventType[]> {
