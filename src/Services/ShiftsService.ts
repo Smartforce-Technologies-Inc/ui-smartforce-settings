@@ -56,13 +56,13 @@ export function editShift(
   );
 }
 
-// TODO replace
-export function deleteShift(_baseUrl: string, _id: string): Promise<void> {
-  return new Promise((resolve, _reject) => {
-    setTimeout(() => resolve(), 1500);
-  });
-  // const url: string = `${baseUrl}/shifts/${id}`;
-  // return apiDelete(url, getUserSession().access_token);
+export function deleteShift(baseUrl: string, id: string): Promise<Shift> {
+  const url: string = `${baseUrl}/shifts/${id}`;
+  return apiPatch<{ status: string }, Shift>(
+    url,
+    { status: 'Inactive' },
+    getUserSession().access_token
+  );
 }
 
 export function getEventTypes(baseUrl: string): Promise<AgencyEventType[]> {
