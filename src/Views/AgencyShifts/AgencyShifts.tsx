@@ -185,7 +185,7 @@ export const AgencyShifts = ({
       await restoreShift(apiBaseUrl, shift.id);
       onUpdate();
       dispatchCustomEvent(SETTINGS_CUSTOM_EVENT, {
-        message: `The group  “${shift.name}” was restored.`
+        message: `The shift  “${shift.name}” was restored.`
       });
     } catch (e: any) {
       onError(e);
