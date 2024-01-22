@@ -12,13 +12,16 @@ import {
   deleteShift,
   getShift,
   getShiftHistory,
-  getShifts
+  getShifts,
+  restoreShift
 } from '../../Services';
 import { ShiftFormModal } from './ShiftFormModal/ShiftFormModal';
 import { ShiftInfoModal } from './ShiftInfoModal/ShiftInfoModal';
 import { AgencyShiftItem } from './AgencyShiftItem/AgencyShiftItem';
 import { ShiftHistoryModal } from './ShiftHistoryModal/ShiftHistoryModal';
 import { DeleteConfirmNameModal } from '../../Components/DeleteConfirmNameModal/DeleteConfirmNameModal';
+import { dispatchCustomEvent } from '../../Helpers';
+import { SETTINGS_CUSTOM_EVENT } from '../../Constants';
 
 function sortShifts(shifts: ShiftListItem[]): ShiftListItem[] {
   return shifts.sort((a: ShiftListItem, b: ShiftListItem): number => {
@@ -176,6 +179,19 @@ export const AgencyShifts = ({
     }
   };
 
+  const onRestore = async (shift: ShiftListItem) => {
+    try {
+      setIsLoading(true);
+      await restoreShift(apiBaseUrl, shift.id);
+      onUpdate();
+      dispatchCustomEvent(SETTINGS_CUSTOM_EVENT, {
+        message: `The group  “${shift.name}” was restored.`
+      });
+    } catch (e: any) {
+      onError(e);
+    }
+  };
+
   return (
     <SettingsContentRender
       renderContent={() => (
@@ -237,6 +253,11 @@ export const AgencyShifts = ({
             onCreate={onCreate}
             onClick={onInfo}
             options={[
+              {
+                label: 'Restore shift',
+                filter: (shift: ShiftListItem) => shift.status === 'Inactive',
+                onClick: onRestore
+              },
               {
                 label: 'See shift information',
                 filter: (shift: ShiftListItem) => shift.status === 'Active',
