@@ -180,6 +180,7 @@ export const ViewGroupModal = ({
       <Fragment key={group?.id}>
         {isActive && (
           <AddMembersModal
+            members={group?.members}
             isOpen={isAddMembersOpen}
             isSaving={isAdding}
             onAdd={onAddMembers}

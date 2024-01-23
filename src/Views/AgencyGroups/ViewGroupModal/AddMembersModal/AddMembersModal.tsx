@@ -6,6 +6,7 @@ import {
 import { SFPeopleOption, SFPeoplePicker } from 'sfui';
 import { getUserSession } from '../../../../Services';
 import { ApiContext } from '../../../../Context';
+import { GroupMember } from '../../../../Models';
 
 const formatOption = (option: any): SFPeopleOption => {
   return {
@@ -16,14 +17,16 @@ const formatOption = (option: any): SFPeopleOption => {
 };
 
 export interface AddMembersModalProps {
+  members?: GroupMember[];
   isOpen: boolean;
   isSaving: boolean;
-  onAdd: (members: SFPeopleOption[]) => void;
+  onAdd: (value: SFPeopleOption[]) => void;
   onBack: () => void;
   onClose: () => void;
 }
 
 export const AddMembersModal = ({
+  members = [],
   isOpen,
   isSaving,
   onAdd,
@@ -31,12 +34,12 @@ export const AddMembersModal = ({
   onClose
 }: AddMembersModalProps): React.ReactElement<AddMembersModalProps> => {
   const apiBaseUrl = useContext(ApiContext).settings;
-  const [members, setMembers] = useState<SFPeopleOption[]>([]);
+  const [value, setValue] = useState<SFPeopleOption[]>([]);
   const [anchor, setAnchor] = useState<PanelModalAnchor>('right');
 
   useEffect(() => {
     if (!isOpen) {
-      setMembers([]);
+      setValue([]);
     }
   }, [isOpen]);
 
@@ -55,6 +58,8 @@ export const AddMembersModal = ({
     return o.asyncObject.id === v.asyncObject.id;
   };
 
+  const filterIds = members.map((m) => m.id);
+
   return (
     <PanelModal
       anchor={anchor}
@@ -70,8 +75,8 @@ export const AddMembersModal = ({
       actionButton={{
         label: 'Add Members',
         isLoading: isSaving,
-        disabled: members.length === 0,
-        onClick: () => onAdd(members)
+        disabled: value.length === 0,
+        onClick: () => onAdd(value)
       }}
       onBack={onBack}
       onClose={() => {
@@ -88,9 +93,10 @@ export const AddMembersModal = ({
         }
         formatOption={formatOption}
         fetchInit={fetchInit}
-        value={members as SFPeopleOption[]}
-        onChange={(newMembers: SFPeopleOption[]) => setMembers(newMembers)}
+        value={value}
+        onChange={(newMembers: SFPeopleOption[]) => setValue(newMembers)}
         getOptionSelected={getOptionSelected}
+        filterOptions={(o: any) => !filterIds.includes(o.id)}
       />
     </PanelModal>
   );
