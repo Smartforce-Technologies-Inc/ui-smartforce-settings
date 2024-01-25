@@ -3,6 +3,7 @@ import styles from './ShiftListItemInfo.module.scss';
 import { SFText } from 'sfui';
 import { ShiftListItem } from '../../../../Models';
 import { getRecurrenceString, getTimeRangeString } from '../../../../Helpers';
+import { InactiveDaysMessage } from '../../../../Components/InactiveDaysMessage/InactiveDaysMessage';
 
 export interface ShiftListItemInfoProps {
   shift: ShiftListItem;
@@ -24,22 +25,9 @@ export const ShiftListItemInfo = ({
         </SFText>
       </div>
 
-      {/* // TODO add when available */}
-      {/* {shift.status === 'Inactive' && (
-        <InactiveDaysMessage
-          className={styles.deleteMsg}
-          date={shift.updated_at as string}
-        />
-      )} 
-      
-      <div className={styles.status}>
-        <SFChip
-          sfColor={shift.status === 'Active' ? 'primary' : 'default'}
-          size="small"
-          variant="outlined"
-          label={shift.status}
-        />
-      </div> */}
+      {shift.status === 'Inactive' && (
+        <InactiveDaysMessage label="shift" date={shift.updated_at as string} />
+      )}
     </div>
   );
 };

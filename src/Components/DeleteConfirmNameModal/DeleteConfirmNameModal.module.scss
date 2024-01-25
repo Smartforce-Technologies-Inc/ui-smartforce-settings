@@ -1,9 +1,9 @@
-.deleteGroupModal {
+.deleteConfirmNameModal {
   display: flex;
   flex-direction: column;
   gap: 24px;
 
-  .textName {
+  .name {
     font-weight: 500;
   }
 }
