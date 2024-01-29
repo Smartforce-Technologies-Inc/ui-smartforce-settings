@@ -65,6 +65,7 @@ export const ShiftInfoModal = ({
   );
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isModalLoading, setIsModalLoading] = React.useState<boolean>(false);
+  const isActive: boolean = shift?.status === 'Active';
 
   const onMemberRemove = async (member: ShiftMember) => {
     setIsLoading(true);
@@ -211,6 +212,7 @@ export const ShiftInfoModal = ({
               actionButtonLabel="Add Members"
               emptyMessage="There are no members yet."
               label="Member"
+              disabled={!isActive}
               list={participants}
               isLoading={isLoading}
               filter={filterShiftMembers}

@@ -12,6 +12,7 @@ export { ListManagmentMenuOption };
 
 export interface ListManagmentProps<T> {
   actionButtonLabel: string;
+  disabled?: boolean;
   emptyMessage: string;
   label: string;
   list: T[];
@@ -51,6 +52,7 @@ export const ListManagment = <T,>(
         <SFButton
           fullWidth
           sfColor="blue"
+          disabled={props.disabled}
           variant="outlined"
           size="medium"
           onClick={props.onCreate}
@@ -100,13 +102,14 @@ export const ListManagment = <T,>(
                 {filteredList.length > 0 && (
                   <Fragment>
                     <List
+                      disabled={props.disabled}
                       list={visibleList}
                       options={props.options}
                       onClick={props.onClick}
                       renderItem={props.renderItem}
                     />
 
-                    {limit < filteredList.length && (
+                    {limit < filteredList.length && !props.disabled && (
                       <SFButton
                         fullWidth
                         sfColor="grey"
