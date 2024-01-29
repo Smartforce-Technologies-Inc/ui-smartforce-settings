@@ -254,14 +254,13 @@ export const AgencyShifts = ({
             onClick={onInfo}
             options={[
               {
+                label: 'See shift information',
+                onClick: onInfo
+              },
+              {
                 label: 'Restore shift',
                 filter: (shift: ShiftListItem) => shift.status === 'Inactive',
                 onClick: onRestore
-              },
-              {
-                label: 'See shift information',
-                filter: (shift: ShiftListItem) => shift.status === 'Active',
-                onClick: onInfo
               },
               {
                 label: 'Edit shift',
