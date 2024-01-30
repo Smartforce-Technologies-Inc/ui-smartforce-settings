@@ -10,7 +10,7 @@ export interface ListManagmentMenuOption<T> {
   chip?: React.ReactElement;
 }
 export interface ListItemProps<T> {
-  disabled?: boolean;
+  showItemMenu?: boolean;
   item: T;
   options: ListManagmentMenuOption<T>[];
   renderItem: (item: T) => React.ReactElement;
@@ -18,7 +18,7 @@ export interface ListItemProps<T> {
 }
 
 export const ListItem = <T,>({
-  disabled,
+  showItemMenu = true,
   item,
   options,
   renderItem,
@@ -50,7 +50,7 @@ export const ListItem = <T,>({
           e.preventDefault();
         }}
       >
-        {!disabled && (
+        {showItemMenu && (
           <SFIconButton
             rotate="left"
             sfIcon="Other"

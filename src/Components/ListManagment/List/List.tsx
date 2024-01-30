@@ -5,7 +5,7 @@ import { Divider } from '../../Divider/Divider';
 import { ListItem, ListManagmentMenuOption } from './ListItem/ListItem';
 
 export interface ListProps<T> {
-  disabled?: boolean;
+  showItemMenu?: boolean;
   list: T[];
   options: ListManagmentMenuOption<T>[];
   onClick?: (item: T) => void;
@@ -13,7 +13,7 @@ export interface ListProps<T> {
 }
 
 export const List = <T,>({
-  disabled,
+  showItemMenu = true,
   list,
   options,
   onClick,
@@ -24,7 +24,7 @@ export const List = <T,>({
       {list.map((item: T, index: number) => (
         <SFCollapse key={(item as { id: string }).id} timeout={480}>
           <ListItem
-            disabled={disabled}
+            showItemMenu={showItemMenu}
             item={item}
             options={options}
             renderItem={renderItem}
