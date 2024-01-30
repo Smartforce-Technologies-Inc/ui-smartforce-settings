@@ -43,6 +43,8 @@ export const App = () => {
           setIsLogged(false);
           setIsLoading(false);
         }
+      } else {
+        setIsLoading(false);
       }
     };
 
