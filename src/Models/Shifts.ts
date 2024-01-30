@@ -55,6 +55,7 @@ export interface Shift {
   name: string;
   acronym: string;
   areas?: ShiftArea[];
+  status: ShiftStatus;
   start: ShiftDate;
   end: ShiftDate;
   recurrence: ShiftRecurrence;
