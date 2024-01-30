@@ -31,7 +31,7 @@ export const DateTime = ({
       <SFDatePicker
         label={`${label} date`}
         required={required}
-        error={error}
+        error={!value.date?.isValid() || error}
         value={value.date}
         onChange={(date: moment.Moment) =>
           onChange({
