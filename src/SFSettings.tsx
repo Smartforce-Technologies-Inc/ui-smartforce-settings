@@ -318,30 +318,20 @@ export const SFSettings = ({
             component: <AgencyShifts onError={onError} onClose={onPanelDone} />
           }
         ]
-      }
-    ];
-  }
-
-  sectionCards = [
-    ...sectionCards,
-    {
-      title: 'Agency Tasks',
-      name: 'tasks',
-      items: [
-        {
-          cardTitle: '',
-          name: 'tasks',
-          viewTitle: '',
-          description: '',
-          component: <></>
-        }
-      ]
-    }
-  ];
-
-  if (!isRoleOfficer(user?.role.id) && hasShiftSubscription) {
-    sectionCards = [
-      ...sectionCards,
+      },
+      {
+        title: 'Agency Tasks',
+        name: 'tasks',
+        items: [
+          {
+            cardTitle: '',
+            name: 'tasks',
+            viewTitle: '',
+            description: '',
+            component: <></>
+          }
+        ]
+      },
       {
         title: 'Agency Events',
         name: 'events',
@@ -354,26 +344,22 @@ export const SFSettings = ({
             component: <AgencyEvents onError={onError} onClose={onPanelDone} />
           }
         ]
+      },
+      {
+        title: 'Agency Inventory',
+        name: 'inventory',
+        items: [
+          {
+            cardTitle: '',
+            name: 'inventory',
+            viewTitle: '',
+            description: '',
+            component: <></>
+          }
+        ]
       }
     ];
   }
-
-  sectionCards = [
-    ...sectionCards,
-    {
-      title: 'Agency Inventory',
-      name: 'inventory',
-      items: [
-        {
-          cardTitle: '',
-          name: 'inventory',
-          viewTitle: '',
-          description: '',
-          component: <></>
-        }
-      ]
-    }
-  ];
 
   if (
     user &&
