@@ -26,12 +26,14 @@ export const DateTime = ({
   value,
   onChange
 }: DateTimeProps): React.ReactElement<DateTimeProps> => {
+  const isDateInvalid: boolean = !!value.date && !value.date.isValid();
+
   return (
     <div className={styles.dateTime}>
       <SFDatePicker
         label={`${label} date`}
         required={required}
-        error={error}
+        error={isDateInvalid || error}
         value={value.date}
         onChange={(date: moment.Moment) =>
           onChange({

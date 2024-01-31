@@ -16,7 +16,7 @@ export function getShifts(baseUrl: string): Promise<ShiftListItem[]> {
   return apiGet<{ data: ShiftListItem[] }>(
     url,
     getUserSession().access_token
-  ).then((resp) => resp.data);
+  ).then((r) => r.data);
 }
 
 export function getShift(baseUrl: string, id: string): Promise<Shift> {
@@ -51,6 +51,24 @@ export function editShift(
   return apiPatch<ShiftEditRequest, Shift>(
     url,
     shift,
+    getUserSession().access_token
+  );
+}
+
+export function deleteShift(baseUrl: string, id: string): Promise<Shift> {
+  const url: string = `${baseUrl}/shifts/${id}`;
+  return apiPatch<{ status: string }, Shift>(
+    url,
+    { status: 'Inactive' },
+    getUserSession().access_token
+  );
+}
+
+export function restoreShift(baseUrl: string, id: string): Promise<Shift> {
+  const url: string = `${baseUrl}/shifts/${id}`;
+  return apiPatch<{ status: string }, Shift>(
+    url,
+    { status: 'Active' },
     getUserSession().access_token
   );
 }

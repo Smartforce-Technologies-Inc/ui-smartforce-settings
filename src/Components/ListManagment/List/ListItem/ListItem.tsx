@@ -10,6 +10,7 @@ export interface ListManagmentMenuOption<T> {
   chip?: React.ReactElement;
 }
 export interface ListItemProps<T> {
+  showItemMenu?: boolean;
   item: T;
   options: ListManagmentMenuOption<T>[];
   renderItem: (item: T) => React.ReactElement;
@@ -17,6 +18,7 @@ export interface ListItemProps<T> {
 }
 
 export const ListItem = <T,>({
+  showItemMenu = true,
   item,
   options,
   renderItem,
@@ -48,12 +50,14 @@ export const ListItem = <T,>({
           e.preventDefault();
         }}
       >
-        <SFIconButton
-          rotate="left"
-          sfIcon="Other"
-          sfSize="small"
-          onClick={onMenuOpen}
-        />
+        {showItemMenu && (
+          <SFIconButton
+            rotate="left"
+            sfIcon="Other"
+            sfSize="small"
+            onClick={onMenuOpen}
+          />
+        )}
 
         <SFMenu
           autoFocus={false}
