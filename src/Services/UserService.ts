@@ -1,4 +1,4 @@
-import { apiGet } from '../Helpers';
+import { apiGet, apiPatch } from '../Helpers';
 import { isUserInvitationAlreadyAccepted } from '../Helpers/errors';
 import { BusinessCardSettings, User, UserGroup } from '../Models';
 import { getUserSession } from './AuthService';
@@ -224,4 +224,13 @@ export async function saveBusinessCardSettings(
       });
     }
   });
+}
+
+export async function enableExtraJobs(
+  baseUrl: string,
+  enable: boolean
+): Promise<void> {
+  const url: string = `${baseUrl}/users/me/extra-jobs`;
+
+  return apiPatch(url, { enable: enable }, getUserSession().access_token);
 }
