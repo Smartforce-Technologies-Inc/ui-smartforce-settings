@@ -5,6 +5,11 @@ export interface Height {
   in?: number;
 }
 
+export interface UserExtraJobs {
+  enabled: boolean;
+  updated_at: string | null;
+}
+
 export interface UserGroup {
   id: string;
   name: string;
@@ -44,6 +49,7 @@ export interface User {
   role: UserRole;
   weight?: number;
   groups?: UserGroup[];
+  extra_jobs?: UserExtraJobs;
 }
 
 export interface BusinessCardSettings {
