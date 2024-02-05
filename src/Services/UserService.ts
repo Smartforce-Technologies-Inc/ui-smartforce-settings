@@ -226,7 +226,7 @@ export async function saveBusinessCardSettings(
   });
 }
 
-export async function enableExtraJobs(
+export async function toggleExtraJobs(
   baseUrl: string,
   enable: boolean
 ): Promise<void> {
