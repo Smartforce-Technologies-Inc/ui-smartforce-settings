@@ -6,16 +6,28 @@ import { Avatar } from '../Avatar/Avatar';
 export interface AvatarListItemProps {
   name: string;
   url?: string;
+  title?: string;
+  subTitle?: string;
 }
 
 export const AvatarListItem = ({
   name,
-  url
+  url,
+  title,
+  subTitle
 }: AvatarListItemProps): React.ReactElement<AvatarListItemProps> => {
   return (
     <div className={styles.avatarListItem}>
       <Avatar name={name} url={url} />
-      <SFText type="component-2">{name}</SFText>
+      <div className={styles.text}>
+        <SFText type="component-2">{name}</SFText>
+        <SFText type="component-2" sfColor="neutral">
+          {title}
+        </SFText>
+        <SFText type="component-2" sfColor="neutral">
+          {subTitle}
+        </SFText>
+      </div>
     </div>
   );
 };
