@@ -7,4 +7,5 @@ export * from './MemberService';
 export * from './ShiftsService';
 export * from './SubscriptionService';
 export * from './StripeService';
+export * from './TimezoneService';
 export * from './UserService';
