@@ -16,10 +16,12 @@ import {
   AreasContext,
   CustomerContext,
   SubscriptionContext,
-  UserContext
+  UserContext,
+  TimezonesContext
 } from '../../../src';
 import { SFSpinner } from 'sfui';
 import { BASE_URL } from '../App';
+import { getTimezones } from '../../../src/Services/TimezoneService';
 
 export const Main = (): React.ReactElement<{}> => {
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
@@ -27,6 +29,7 @@ export const Main = (): React.ReactElement<{}> => {
   const { setAreas } = React.useContext(AreasContext);
   const { setCustomer } = React.useContext(CustomerContext);
   const { setSubscriptions } = React.useContext(SubscriptionContext);
+  const { setTimezones } = React.useContext(TimezonesContext);
 
   const onSettingsError = (e: SettingsError) => console.error(e);
   const onHome = () => console.log('onHome');
@@ -37,6 +40,9 @@ export const Main = (): React.ReactElement<{}> => {
       setIsLoading(true);
       const userData: User = await getUser(BASE_URL);
       setUser(userData);
+
+      const timezones = await getTimezones(BASE_URL);
+      setTimezones(timezones);
 
       if (userData.agency_id) {
         const customerData: Customer = await getCustomer(BASE_URL);

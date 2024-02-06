@@ -4,6 +4,7 @@ import {
   SFAutocomplete,
   SFMenuOption,
   SFNumericField,
+  SFSelect,
   SFTextField
 } from 'sfui';
 import { LocationField } from '../../LocationField/LocationField';
@@ -15,7 +16,8 @@ import {
 } from '../../../Constants';
 import { Customer, LocationAddressType, State } from '../../../Models';
 import { isOriValid } from '../../../Helpers';
-import { StatesListConfigContext } from '../../../Context';
+import { StatesListConfigContext, TimezonesContext } from '../../../Context';
+import { Timezone } from '../../../Models/Timezone';
 
 const getStateOptions = (states: State[] | undefined): SFMenuOption[] => {
   if (states) {
@@ -46,6 +48,12 @@ export const AgencyForm = ({
   onBadgeChange
 }: AgencyFormProps): React.ReactElement<AgencyFormProps> => {
   const { statesList } = React.useContext(StatesListConfigContext);
+  const timezones = React.useContext(TimezonesContext).timezones as Timezone[];
+
+  const timezoneOptions = timezones.map((t) => ({
+    label: t.label,
+    value: t.name
+  }));
 
   const stateOptions = getStateOptions(statesList);
 
@@ -114,6 +122,25 @@ export const AgencyForm = ({
           onChange({
             ...value,
             ori: e.target.value
+          })
+        }
+      />
+
+      <SFSelect
+        label="Timezone"
+        required
+        disabled={!isNew}
+        value={value.timezone}
+        options={timezoneOptions}
+        onChange={(
+          e: React.ChangeEvent<{
+            name?: string | undefined;
+            value: unknown;
+          }>
+        ) =>
+          onChange({
+            ...value,
+            timezone: e.target.value as string
           })
         }
       />
