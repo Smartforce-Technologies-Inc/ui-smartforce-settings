@@ -4,5 +4,7 @@ import { getUserSession } from './AuthService';
 
 export const getTimezones = async (baseUrl: string): Promise<Timezone[]> => {
   const url: string = `${baseUrl}/timezones`;
-  return apiGet<Timezone[]>(url, getUserSession().access_token);
+  return apiGet<{ data: Timezone[] }>(url, getUserSession().access_token).then(
+    (r) => r.data
+  );
 };

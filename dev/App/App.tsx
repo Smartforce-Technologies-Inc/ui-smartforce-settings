@@ -15,6 +15,7 @@ import {
   SubscriptionProvider,
   ThemeTypeContext,
   UserProvider,
+  TimezonesProvider,
   getUser,
   isLogin,
   login,
@@ -68,21 +69,23 @@ export const App = () => {
       <SFThemeProvider theme={theme}>
         <SFStylesProvider injectFirst>
           <UserProvider>
-            <CustomerProvider>
-              <SubscriptionProvider>
-                <AreasProvider>
-                  <SFPaper className={styles.app}>
-                    {isLoading && <SFSpinner />}
-                    {!isLoading && (
-                      <React.Fragment>
-                        {!isLogged && <Login onLogin={onLogin} />}
-                        {isLogged && <Main />}
-                      </React.Fragment>
-                    )}
-                  </SFPaper>
-                </AreasProvider>
-              </SubscriptionProvider>
-            </CustomerProvider>
+            <TimezonesProvider>
+              <CustomerProvider>
+                <SubscriptionProvider>
+                  <AreasProvider>
+                    <SFPaper className={styles.app}>
+                      {isLoading && <SFSpinner />}
+                      {!isLoading && (
+                        <React.Fragment>
+                          {!isLogged && <Login onLogin={onLogin} />}
+                          {isLogged && <Main />}
+                        </React.Fragment>
+                      )}
+                    </SFPaper>
+                  </AreasProvider>
+                </SubscriptionProvider>
+              </CustomerProvider>
+            </TimezonesProvider>
           </UserProvider>
         </SFStylesProvider>
       </SFThemeProvider>
