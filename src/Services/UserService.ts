@@ -233,9 +233,9 @@ export async function saveBusinessCardSettings(
 
 export async function toggleExtraJobs(
   baseUrl: string,
-  enable: boolean
+  enabled: boolean
 ): Promise<UserExtraJobs> {
   const url: string = `${baseUrl}/users/me/extra-jobs`;
 
-  return apiPatch(url, { enable: enable }, getUserSession().access_token);
+  return apiPatch(url, { enabled }, getUserSession().access_token);
 }
