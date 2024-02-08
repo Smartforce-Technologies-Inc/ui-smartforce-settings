@@ -24,9 +24,11 @@
   }
 }
 
-[class*='MuiListItem-root'] {
-  display: flex;
-  gap: 12px;
+.menuPaper {
+  .listMenuItem {
+    display: flex;
+    gap: 12px;
+  }
 }
 
 :global(.nightMode) {

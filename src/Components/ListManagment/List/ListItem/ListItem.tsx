@@ -68,6 +68,7 @@ export const ListItem = <T,>({
           getContentAnchorEl={null}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          PaperProps={{ className: styles.menuPaper }}
         >
           {options
             .filter(
@@ -75,6 +76,7 @@ export const ListItem = <T,>({
             )
             .map((o: ListManagmentMenuOption<T>) => (
               <SFMenuItem
+                className={styles.listMenuItem}
                 key={o.label}
                 disabled={o.disabled}
                 onClick={() => onOptionClick(o)}
