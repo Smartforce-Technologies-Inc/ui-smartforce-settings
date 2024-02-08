@@ -2,23 +2,14 @@ import { getUserSession } from './AuthService';
 import { apiGet } from '../Helpers';
 import { Customer } from '../Models';
 
-/**
- * Save new Customer account
- * @param full_name
- * @param state_name
- * @param phone1
- * @param email
- * @param badge
- * @param ori
- * @returns
- */
 export const saveCustomer = async (
   baseUrl: string,
   full_name: string,
   state_name: string,
   phone1: string,
   email: string,
-  ori: string
+  ori: string,
+  timezone: string
 ): Promise<Customer> => {
   try {
     const url: string = `${baseUrl}/agencies/`;
@@ -34,7 +25,8 @@ export const saveCustomer = async (
         state_name,
         phone1,
         email,
-        ori
+        ori,
+        timezone
       })
     });
 
