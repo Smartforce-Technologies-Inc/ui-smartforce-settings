@@ -1,6 +1,11 @@
-import { apiGet } from '../Helpers';
+import { apiGet, apiPatch } from '../Helpers';
 import { isUserInvitationAlreadyAccepted } from '../Helpers/errors';
-import { BusinessCardSettings, User, UserGroup } from '../Models';
+import {
+  BusinessCardSettings,
+  User,
+  UserExtraJobs,
+  UserGroup
+} from '../Models';
 import { getUserSession } from './AuthService';
 
 const LS_INVITATION_KEY = 'Smartforce.UserInvitation';
@@ -224,4 +229,13 @@ export async function saveBusinessCardSettings(
       });
     }
   });
+}
+
+export async function toggleExtraJobs(
+  baseUrl: string,
+  enabled: boolean
+): Promise<UserExtraJobs> {
+  const url: string = `${baseUrl}/users/me/extra-jobs`;
+
+  return apiPatch(url, { enabled }, getUserSession().access_token);
 }

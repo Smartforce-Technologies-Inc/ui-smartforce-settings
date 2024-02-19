@@ -5,4 +5,5 @@ export * from './Media';
 export * from './StatesListConfig';
 export * from './Subscription';
 export * from './ThemeType';
+export * from './Timezones';
 export * from './User';
