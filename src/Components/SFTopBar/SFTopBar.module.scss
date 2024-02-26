@@ -1,0 +1,147 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.sfTopBar {
+  display: grid;
+  grid-template-rows: 58px;
+  grid-template-columns: 1fr;
+  grid-template-areas: 'topContent';
+  background-color: $sf-grey-50;
+
+  .topContent {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    grid-area: topContent;
+
+    .navPanelButton {
+      margin: 0 3px;
+    }
+
+    .siteTitle {
+      color: $sf-grey-600;
+      display: none;
+      margin: 0;
+    }
+
+    .actions {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+
+    .userAvatar {
+      margin: 0 8px 0 auto;
+    }
+  }
+
+  .bottomContent {
+    display: flex;
+    align-items: center;
+    grid-area: bottomContent;
+    gap: 10px;
+    background-color: $sf-background-light;
+    padding: 16px;
+
+    .siteTitle {
+      color: $sf-grey-600;
+      margin: 0;
+      color: $sf-grey-600;
+    }
+  }
+
+  .navLogo {
+    align-self: center;
+  }
+
+  &.showBottomContent {
+    grid-template-rows: 58px 60px;
+    grid-template-areas: 'topContent' 'bottomContent';
+  }
+}
+
+:global(.nightMode) {
+  .sfTopBar {
+    background-color: $sf-grey-900;
+
+    .topContent {
+      .siteTitle {
+        color: $sf-grey-400;
+      }
+    }
+
+    .bottomContent {
+      background-color: $sf-background-dark;
+
+      .siteTitle {
+        color: $sf-grey-400;
+      }
+    }
+  }
+
+  @media screen and (min-width: $sf-media-lg-width) {
+    .sfTopBar {
+      .topContent {
+        background-color: $sf-background-dark;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-sm-width) {
+  .sfTopBar {
+    grid-template-rows: 66px 76px;
+
+    .topContent {
+      .navPanelButton {
+        margin: 0 9px;
+      }
+
+      .userAvatar {
+        margin-right: 24px;
+      }
+    }
+
+    &.showBottomContent {
+      grid-template-rows: 66px 76px;
+      grid-template-areas: 'topContent' 'bottomContent';
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-md-width) {
+  .sfTopBar {
+    .bottomContent {
+      padding: 24px;
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-lg-width) {
+  .sfTopBar {
+    grid-template-rows: 1fr;
+
+    .topContent {
+      background-color: $sf-background-light;
+      padding: 0 48px;
+
+      .navLogo,
+      .navPanelButton {
+        display: none;
+      }
+
+      .siteTitle {
+        display: flex;
+      }
+
+      .userAvatar {
+        margin-right: 0;
+      }
+    }
+
+    .bottomContent {
+      display: none;
+    }
+  }
+}

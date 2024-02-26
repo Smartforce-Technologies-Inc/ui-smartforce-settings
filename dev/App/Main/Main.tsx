@@ -22,6 +22,8 @@ import {
 import { SFSpinner } from 'sfui';
 import { BASE_URL } from '../App';
 import { getTimezones } from '../../../src/Services/TimezoneService';
+import { logout } from '../../../src/Services/AuthService';
+import SFTopBar from '../../../src/Components/SFTopBar/SFTopBar';
 
 export const Main = (): React.ReactElement<{}> => {
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
@@ -68,22 +70,38 @@ export const Main = (): React.ReactElement<{}> => {
     init();
   }, []);
 
+  const onLogout = () => {
+    logout();
+    location.reload();
+  };
+
+  const onMenuButtonClick = () => console.log('Open menu');
+
   return (
     <React.Fragment>
       {isLoading && <SFSpinner />}
       {!isLoading && (
-        <SFSettings
-          product="cc"
-          className={styles.settings}
-          enviroment="local"
-          stripeApiKey={
-            'pk_test_51MEZItJHbTAgxqXa6dzvaI4SubteHn7zemB9uj6hXqltKSoEAPKvBRlMeHvn06fR03vqKFkegkmH0QWdkPrpbuGe00CkvRGgxb'
-          }
-          selectedSectionName="my-profile"
-          onError={onSettingsError}
-          onHome={onHome}
-          onUpgrade={onUpgrade}
-        />
+        <div className={styles.main}>
+          <SFTopBar
+            enviroment="local"
+            siteTitle="Settings"
+            isBottomTitleVisible={false}
+            onLogout={onLogout}
+            onMenuButtonClick={onMenuButtonClick}
+          />
+
+          <SFSettings
+            product="cc"
+            enviroment="local"
+            stripeApiKey={
+              'pk_test_51MEZItJHbTAgxqXa6dzvaI4SubteHn7zemB9uj6hXqltKSoEAPKvBRlMeHvn06fR03vqKFkegkmH0QWdkPrpbuGe00CkvRGgxb'
+            }
+            selectedSectionName="my-profile"
+            onError={onSettingsError}
+            onHome={onHome}
+            onUpgrade={onUpgrade}
+          />
+        </div>
       )}
     </React.Fragment>
   );
