@@ -1,3 +1,18 @@
-.settings {
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.main {
+  display: grid;
   width: 100%;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 12px;
+  background-color: $sf-background-light;
+  height: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+:global(.nightMode) {
+  .main {
+    background-color: $sf-background-dark;
+  }
 }

@@ -1,0 +1,27 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.UserMenuItem {
+  height: auto;
+  display: flex;
+  padding: 6px 24px;
+  box-sizing: border-box;
+
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .textContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+
+    .subtitle {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}

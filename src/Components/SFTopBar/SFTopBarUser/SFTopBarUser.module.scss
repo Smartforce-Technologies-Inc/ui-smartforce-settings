@@ -1,0 +1,64 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.qrIcon {
+  padding-right: 15px;
+}
+
+li.extraJobsItem {
+  padding-left: 13px;
+}
+
+.SFTopBarUser {
+  cursor: pointer;
+
+  .userName {
+    font-size: 14px;
+    line-height: 20px;
+    color: $sf-grey-600;
+    margin-right: 4px;
+  }
+
+  .userName,
+  .icon {
+    display: none !important;
+  }
+}
+
+.divider {
+  padding-top: 12px;
+  margin-bottom: 12px;
+}
+
+:global(.nightMode) {
+  .SFTopBarUser {
+    .userName {
+      color: $sf-grey-400;
+    }
+  }
+}
+
+@media screen and (min-width: ($sf-media-md-width+1)) {
+  .SFTopBarUser {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+}
+
+@media screen and (min-width: $sf-media-lg-width) {
+  .SFTopBarUser {
+    .userName,
+    .icon {
+      display: block !important;
+    }
+
+    .avatar {
+      height: 34px !important;
+      min-width: 34px !important;
+      max-width: 34px !important;
+      font-size: 11px;
+      line-height: 16px;
+    }
+  }
+}

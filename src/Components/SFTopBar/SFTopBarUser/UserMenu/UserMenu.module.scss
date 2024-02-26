@@ -1,0 +1,17 @@
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+
+.userMenu {
+  max-width: 277px;
+
+  > ul {
+    padding: 13px 0;
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (min-width: $sf-media-sm-width) {
+  .userMenu {
+    max-width: 292px;
+  }
+}
