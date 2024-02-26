@@ -21,7 +21,7 @@ export interface SFTopBarProps {
   onMenuButtonClick: () => void;
 }
 
-const SFTopBar = ({
+export const SFTopBar = ({
   className = '',
   enviroment,
   siteTitle,
@@ -76,5 +76,3 @@ const SFTopBar = ({
     </SFTopBarEnvContext.Provider>
   );
 };
-
-export default SFTopBar;
