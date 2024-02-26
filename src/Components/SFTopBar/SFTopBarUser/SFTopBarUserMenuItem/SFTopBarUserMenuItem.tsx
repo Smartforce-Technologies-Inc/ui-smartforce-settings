@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from './UserMenuItem.module.scss';
+import styles from './SFTopBarUserMenuItem.module.scss';
 
 import { SFMenuItem, SFText } from 'sfui';
 
-export interface UserMenuItemProps {
+export interface SFTopBarUserMenuItemProps {
   className?: string;
   title?: string;
   subTitle?: string;
@@ -11,14 +11,20 @@ export interface UserMenuItemProps {
   onClick?: () => void;
 }
 
-export const UserMenuItem = React.forwardRef(
+export const SFTopBarUserMenuItem = React.forwardRef(
   (
-    { className = '', title, subTitle, children, onClick }: UserMenuItemProps,
+    {
+      className = '',
+      title,
+      subTitle,
+      children,
+      onClick
+    }: SFTopBarUserMenuItemProps,
     ref
-  ): React.ReactElement<UserMenuItemProps> => {
+  ): React.ReactElement<SFTopBarUserMenuItemProps> => {
     return (
       <SFMenuItem
-        className={`${styles.UserMenuItem} ${className}`}
+        className={`${styles.SFTopBarUserMenuItem} ${className}`}
         onClick={onClick}
         innerRef={ref}
       >

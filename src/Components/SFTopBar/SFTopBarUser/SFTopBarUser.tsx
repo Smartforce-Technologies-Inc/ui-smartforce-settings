@@ -3,7 +3,7 @@ import styles from './SFTopBarUser.module.scss';
 import { SFIcon } from 'sfui';
 import { UserContext } from '../../../Context';
 import UserMenu from './UserMenu/UserMenu';
-import { UserMenuItem } from './UserMenuItem/UserMenuItem';
+import { SFTopBarUserMenuItem } from './SFTopBarUserMenuItem/SFTopBarUserMenuItem';
 import { Divider } from '../../Divider/Divider';
 import { User } from '../../../Models';
 import { Avatar } from '../../Avatar/Avatar';
@@ -68,19 +68,19 @@ export const SFTopBarUser = ({
         onClose={onMenuClose}
       >
         {user.agency_id && [
-          <UserMenuItem
+          <SFTopBarUserMenuItem
             key={user.email}
             title={user.name}
             subTitle={user.email}
             onClick={scanQRCode}
           >
             <SFIcon className={styles.qrIcon} icon="Name-Tag" />
-          </UserMenuItem>,
+          </SFTopBarUserMenuItem>,
           children,
           <Divider key="user-menu-divider" className={styles.divider} />
         ]}
 
-        <UserMenuItem
+        <SFTopBarUserMenuItem
           key={`${user.email}-logout`}
           title="Log out"
           onClick={logOut}

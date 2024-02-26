@@ -17,13 +17,13 @@ import {
   CustomerContext,
   SubscriptionContext,
   UserContext,
-  TimezonesContext
+  TimezonesContext,
+  SFTopBar
 } from '../../../src';
 import { SFSpinner } from 'sfui';
 import { BASE_URL } from '../App';
 import { getTimezones } from '../../../src/Services/TimezoneService';
 import { logout } from '../../../src/Services/AuthService';
-import SFTopBar from '../../../src/Components/SFTopBar/SFTopBar';
 
 export const Main = (): React.ReactElement<{}> => {
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
