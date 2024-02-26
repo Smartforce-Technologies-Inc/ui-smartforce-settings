@@ -42,19 +42,19 @@ export const SFTopBar = ({
       >
         <div className={styles.topContent}>
           {!isMinimal && (
-            <SFIconButton
-              sfSize="medium"
-              sfIcon="Menu-1"
-              className={styles.navPanelButton}
-              onClick={() => onMenuButtonClick()}
-            />
+            <div className={styles.menu}>
+              <SFIconButton
+                sfSize="medium"
+                sfIcon="Menu-1"
+                onClick={() => onMenuButtonClick()}
+              />
+              <SFLogo />
+            </div>
           )}
 
           {isTopTitleVisible && (
             <h3 className={styles.siteTitle}>{siteTitle}</h3>
           )}
-
-          {!isMinimal && <SFLogo className={styles.navLogo} />}
 
           <div className={styles.actions}>
             {actions}
@@ -62,7 +62,7 @@ export const SFTopBar = ({
             <SFTopBarApps />
           </div>
 
-          <div className={styles.userAvatar}>
+          <div className={styles.user}>
             <SFTopBarUser onLogout={onLogout}>{userMenuItems}</SFTopBarUser>
           </div>
         </div>

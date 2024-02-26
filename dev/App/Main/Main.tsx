@@ -18,9 +18,10 @@ import {
   SubscriptionContext,
   UserContext,
   TimezonesContext,
-  SFTopBar
+  SFTopBar,
+  LARGE_SCREEN
 } from '../../../src';
-import { SFSpinner } from 'sfui';
+import { SFSpinner, useSFMediaQuery } from 'sfui';
 import { BASE_URL } from '../App';
 import { getTimezones } from '../../../src/Services/TimezoneService';
 import { logout } from '../../../src/Services/AuthService';
@@ -32,6 +33,7 @@ export const Main = (): React.ReactElement<{}> => {
   const { setCustomer } = React.useContext(CustomerContext);
   const { setSubscriptions } = React.useContext(SubscriptionContext);
   const { setTimezones } = React.useContext(TimezonesContext);
+  const isBigScreen: boolean = useSFMediaQuery(LARGE_SCREEN);
 
   const onSettingsError = (e: SettingsError) => console.error(e);
   const onHome = () => console.log('onHome');
@@ -85,7 +87,7 @@ export const Main = (): React.ReactElement<{}> => {
           <SFTopBar
             enviroment="local"
             siteTitle="Settings"
-            isBottomTitleVisible={false}
+            isBottomTitleVisible={!isBigScreen}
             onLogout={onLogout}
             onMenuButtonClick={onMenuButtonClick}
           />

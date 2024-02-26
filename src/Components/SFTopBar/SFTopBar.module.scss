@@ -10,12 +10,15 @@
 
   .topContent {
     display: flex;
-    gap: 24px;
+    gap: 12px;
+    padding: 8px;
+    box-sizing: border-box;
     align-items: center;
     grid-area: topContent;
 
-    .navPanelButton {
-      margin: 0 3px;
+    .menu {
+      display: flex;
+      gap: 6px;
     }
 
     .siteTitle {
@@ -29,10 +32,7 @@
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
-    }
-
-    .userAvatar {
-      margin: 0 8px 0 auto;
+      gap: 12px;
     }
   }
 
@@ -49,10 +49,6 @@
       margin: 0;
       color: $sf-grey-600;
     }
-  }
-
-  .navLogo {
-    align-self: center;
   }
 
   &.showBottomContent {
@@ -94,12 +90,15 @@
     grid-template-rows: 66px 76px;
 
     .topContent {
-      .navPanelButton {
-        margin: 0 9px;
+      padding: 12px;
+      gap: 24px;
+
+      .menu {
+        gap: 12px;
       }
 
-      .userAvatar {
-        margin-right: 24px;
+      .actions {
+        gap: 24px;
       }
     }
 
@@ -125,18 +124,14 @@
     .topContent {
       background-color: $sf-background-light;
       padding: 0 48px;
+      gap: 24px;
 
-      .navLogo,
-      .navPanelButton {
+      .menu {
         display: none;
       }
 
       .siteTitle {
         display: flex;
-      }
-
-      .userAvatar {
-        margin-right: 0;
       }
     }
 
