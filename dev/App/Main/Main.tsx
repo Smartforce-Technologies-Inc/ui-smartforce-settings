@@ -86,6 +86,7 @@ export const Main = (): React.ReactElement<{}> => {
         <div className={styles.main}>
           <SFTopBar
             enviroment="local"
+            product="cc"
             siteTitle="Settings"
             isBottomTitleVisible={!isBigScreen}
             onLogout={onLogout}

@@ -20,7 +20,8 @@ export interface AppsPopoverContentProps {
 export const AppsPopoverContent = ({
   onClose
 }: AppsPopoverContentProps): React.ReactElement<AppsPopoverContentProps> => {
-  const enviroment = React.useContext(SFTopBarEnvContext);
+  const { enviroment, product } = React.useContext(SFTopBarEnvContext);
+
   const onClick = (product: ApplicationProduct) => {
     window.open(getAppMainUrl(enviroment, product), '_blank');
     onClose();
@@ -31,12 +32,14 @@ export const AppsPopoverContent = ({
       <AppLink
         icon={FaviconCC}
         label="CitizenContact"
+        selected={product === 'cc'}
         onClick={() => onClick('cc')}
       />
 
       <AppLink
         icon={FaviconShifts}
         label="Shifts"
+        selected={product === 'shift'}
         onClick={() => onClick('shift')}
       />
     </div>

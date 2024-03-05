@@ -4,13 +4,22 @@ import { SFIconButton } from 'sfui';
 import { SFTopBarUser } from './SFTopBarUser/SFTopBarUser';
 import { SFLogo } from '../SFLogo/SFLogo';
 import { SFTopBarApps } from './SFTopBarApps/SFTopBarApps';
-import { AppEnv } from '../../Models';
+import { AppEnv, ApplicationProduct } from '../../Models';
 
-export const SFTopBarEnvContext = createContext<AppEnv>('local');
+interface SFTopBarEnvContextProps {
+  enviroment: AppEnv;
+  product: ApplicationProduct;
+}
+
+export const SFTopBarEnvContext = createContext<SFTopBarEnvContextProps>({
+  enviroment: 'local',
+  product: 'cc'
+});
 
 export interface SFTopBarProps {
   className?: string;
   enviroment: AppEnv;
+  product: ApplicationProduct;
   siteTitle: string;
   isMinimal?: boolean;
   isTopTitleVisible?: boolean;
@@ -24,6 +33,7 @@ export interface SFTopBarProps {
 export const SFTopBar = ({
   className = '',
   enviroment,
+  product,
   siteTitle,
   isMinimal = false,
   isTopTitleVisible = true,
@@ -34,7 +44,7 @@ export const SFTopBar = ({
   onMenuButtonClick
 }: SFTopBarProps): React.ReactElement<SFTopBarProps> => {
   return (
-    <SFTopBarEnvContext.Provider value={enviroment}>
+    <SFTopBarEnvContext.Provider value={{ enviroment, product }}>
       <div
         className={`${styles.sfTopBar} ${
           isBottomTitleVisible ? styles.showBottomContent : ''

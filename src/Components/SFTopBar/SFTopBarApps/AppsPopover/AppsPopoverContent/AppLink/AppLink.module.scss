@@ -20,7 +20,8 @@
     }
   }
 
-  &:active {
+  &:active,
+  &.selected {
     background-color: rgba(204, 204, 204, 0.5);
   }
 }
@@ -33,7 +34,8 @@
       }
     }
 
-    &:active {
+    &:active,
+    &.selected {
       background-color: rgba(128, 128, 128, 0.2);
     }
   }
