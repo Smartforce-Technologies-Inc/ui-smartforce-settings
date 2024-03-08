@@ -17,11 +17,14 @@ import {
   CustomerContext,
   SubscriptionContext,
   UserContext,
-  TimezonesContext
+  TimezonesContext,
+  SFTopBar,
+  LARGE_SCREEN
 } from '../../../src';
-import { SFSpinner } from 'sfui';
+import { SFSpinner, useSFMediaQuery } from 'sfui';
 import { BASE_URL } from '../App';
 import { getTimezones } from '../../../src/Services/TimezoneService';
+import { logout } from '../../../src/Services/AuthService';
 
 export const Main = (): React.ReactElement<{}> => {
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
@@ -30,6 +33,7 @@ export const Main = (): React.ReactElement<{}> => {
   const { setCustomer } = React.useContext(CustomerContext);
   const { setSubscriptions } = React.useContext(SubscriptionContext);
   const { setTimezones } = React.useContext(TimezonesContext);
+  const isBigScreen: boolean = useSFMediaQuery(LARGE_SCREEN);
 
   const onSettingsError = (e: SettingsError) => console.error(e);
   const onHome = () => console.log('onHome');
@@ -68,22 +72,39 @@ export const Main = (): React.ReactElement<{}> => {
     init();
   }, []);
 
+  const onLogout = () => {
+    logout();
+    location.reload();
+  };
+
+  const onMenuButtonClick = () => console.log('Open menu');
+
   return (
     <React.Fragment>
       {isLoading && <SFSpinner />}
       {!isLoading && (
-        <SFSettings
-          product="cc"
-          className={styles.settings}
-          enviroment="local"
-          stripeApiKey={
-            'pk_test_51MEZItJHbTAgxqXa6dzvaI4SubteHn7zemB9uj6hXqltKSoEAPKvBRlMeHvn06fR03vqKFkegkmH0QWdkPrpbuGe00CkvRGgxb'
-          }
-          selectedSectionName="my-profile"
-          onError={onSettingsError}
-          onHome={onHome}
-          onUpgrade={onUpgrade}
-        />
+        <div className={styles.main}>
+          <SFTopBar
+            enviroment="local"
+            product="cc"
+            siteTitle="Settings"
+            isBottomTitleVisible={!isBigScreen}
+            onLogout={onLogout}
+            onMenuButtonClick={onMenuButtonClick}
+          />
+
+          <SFSettings
+            product="cc"
+            enviroment="local"
+            stripeApiKey={
+              'pk_test_51MEZItJHbTAgxqXa6dzvaI4SubteHn7zemB9uj6hXqltKSoEAPKvBRlMeHvn06fR03vqKFkegkmH0QWdkPrpbuGe00CkvRGgxb'
+            }
+            selectedSectionName="my-profile"
+            onError={onSettingsError}
+            onHome={onHome}
+            onUpgrade={onUpgrade}
+          />
+        </div>
       )}
     </React.Fragment>
   );

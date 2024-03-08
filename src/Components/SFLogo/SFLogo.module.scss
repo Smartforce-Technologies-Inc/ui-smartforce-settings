@@ -1,0 +1,77 @@
+@import '~sfui/dist/Styles/SFMedia/SFMedia.module.scss';
+@import '~sfui/dist/Styles/SFColors/SFColors.module.scss';
+
+.SFLogo {
+  .imgContainer {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: $sf-surface-light;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 21px;
+
+    .badge {
+      height: 100%;
+    }
+
+    .abbreviation {
+      text-align: center;
+      margin: 0;
+      color: $sf-blue-400;
+      text-transform: uppercase;
+    }
+  }
+
+  .customerInfo {
+    display: none;
+  }
+}
+
+@media screen and (min-width: $sf-media-lg-width) {
+  .SFLogo {
+    .imgContainer {
+      width: 66px;
+      height: 66px;
+      font-size: 24px;
+      line-height: 30px;
+      margin-bottom: 6px;
+    }
+
+    .customerInfo {
+      display: block;
+
+      .name {
+        margin: 0;
+        letter-spacing: -0.025em;
+      }
+
+      .state {
+        margin: 0;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $sf-media-xl-width) {
+  .SFLogo {
+    display: grid;
+    grid-template-columns: 66px 1fr;
+    gap: 12px;
+
+    .imgContainer {
+      margin-bottom: 0;
+    }
+
+    .customerInfo {
+      flex-direction: column;
+      display: flex;
+      align-self: center;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+.appLink {
+  width: 116px;
+  height: 116px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 2px;
+  cursor: pointer;
+
+  > img {
+    width: 64px;
+    height: 64px;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgba(204, 204, 204, 0.3);
+    }
+  }
+
+  &:active,
+  &.selected {
+    background-color: rgba(204, 204, 204, 0.5);
+  }
+}
+
+:global(.nightMode) {
+  .appLink {
+    @media (hover: hover) {
+      &:hover {
+        background: rgba(128, 128, 128, 0.3);
+      }
+    }
+
+    &:active,
+    &.selected {
+      background-color: rgba(128, 128, 128, 0.2);
+    }
+  }
+}

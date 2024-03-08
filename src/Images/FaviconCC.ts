@@ -1,0 +1,11 @@
+const FaviconCC = `<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="256" height="256" fill="white"/>
+<rect width="192" height="192" transform="translate(32 32)" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M188 92L188 68L164 68L164 92L188 92ZM200 116C206.627 116 212 110.627 212 104L212 56C212 49.3726 206.627 44 200 44L152 44C145.373 44 140 49.3726 140 56L140 104C140 110.627 145.373 116 152 116L200 116Z" fill="#001466"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M92 92L92 68L68 68L68 92L92 92ZM104 116C110.627 116 116 110.627 116 104L116 56C116 49.3726 110.627 44 104 44H56C49.3726 44 44 49.3726 44 56V104C44 110.627 49.3726 116 56 116L104 116Z" fill="#001466"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M92 188L92 164L68 164L68 188L92 188ZM104 212C110.627 212 116 206.627 116 200L116 152C116 145.373 110.627 140 104 140L56 140C49.3726 140 44 145.373 44 152L44 200C44 206.627 49.3726 212 56 212L104 212Z" fill="#001466"/>
+<ellipse cx="176" cy="176" rx="39" ry="39" transform="rotate(-180 176 176)" fill="#0066FF"/>
+</svg>
+`;
+
+export default FaviconCC;
